@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import "./premiumLotSelector.css";
+import "./PremiumLotSelector.css";
 import { Storecontext } from "../../Context/Storecontext";
 
 const lots = [
