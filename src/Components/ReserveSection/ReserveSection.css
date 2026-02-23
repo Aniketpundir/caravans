@@ -255,7 +255,6 @@
 @media (max-width: 992px) {
     .premium-card {
         padding: 20px;
-        margin-left: -10px;
     }
 
     .premium-grid {
@@ -264,5 +263,11 @@
 
     .form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    .premium-card {
+        margin-left: -12px;
     }
 }
