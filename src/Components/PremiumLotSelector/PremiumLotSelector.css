@@ -1,0 +1,119 @@
+.lot-section {
+    padding: 110px 0;
+    background: var(--gray-50);
+}
+
+/* Header */
+.lot-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 60px;
+}
+
+.lot-eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.lot-sub {
+    color: var(--gray-600);
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+/* Grid */
+.lot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+/* Card */
+.lot-card {
+    position: relative;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+.lot-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+}
+
+.lot-card.active {
+    border: 2px solid var(--primary);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Badge */
+.lot-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: var(--white);
+    padding: 6px 14px;
+    font-size: 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Content */
+.lot-size {
+    color: var(--gray-600);
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.lot-price {
+    margin: 18px 0;
+}
+
+.lot-price span {
+    font-size: 34px;
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--text-dark);
+}
+
+.lot-price small {
+    font-size: 14px;
+    color: var(--gray-600);
+}
+
+.lot-desc {
+    font-size: 14px;
+    color: var(--gray-600);
+    margin-bottom: 24px;
+}
+
+/* Button Style */
+.lot-select {
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: var(--gray-100);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.25s ease;
+}
+
+.lot-card.active .lot-select {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .lot-grid {
+        grid-template-columns: 1fr;
+    }
+}

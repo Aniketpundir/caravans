@@ -1,0 +1,142 @@
+.pricing {
+    background: linear-gradient(130deg, var(--primary-dark) 0%, var(--primary) 100%);
+    padding: 70px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.pricing::before {
+    content: '';
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.pricing__inner {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.pricing__left {
+    flex: 1;
+    min-width: 280px;
+}
+
+.pricing__title {
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 14px;
+}
+
+.pricing__sub {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 15px;
+    margin-bottom: 28px;
+    max-width: 400px;
+    line-height: 1.65;
+}
+
+.pricing__benefits {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pricing__benefit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15px;
+}
+
+.pricing__check {
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #FCD34D;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Card */
+.pricing__card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 40px 36px;
+    min-width: 260px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.pricing__from {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--gray-600);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.pricing__amount {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 4px;
+}
+
+.pricing__dollar {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 8px;
+    font-family: var(--font-display);
+}
+
+.pricing__number {
+    font-size: 72px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    font-family: var(--font-display);
+}
+
+.pricing__unit {
+    font-size: 13px;
+    color: var(--gray-600);
+    align-self: flex-end;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.pricing__note {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-bottom: 24px;
+}
+
+.pricing__cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
