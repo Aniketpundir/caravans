@@ -39,12 +39,6 @@ export default function Navbar() {
                     <li><a href="#features" onClick={closeMenu}>Features</a></li>
                     <li><a href="#pricing" onClick={closeMenu}>Pricing</a></li>
                     <li><a href="#location" onClick={closeMenu}>Location</a></li>
-
-                    <li className="mobile-cta">
-                        <Link to="/book-online" className="btn-primary" onClick={closeMenu}>
-                            Book Now
-                        </Link>
-                    </li>
                 </ul>
 
                 <Link to="/book-online" className="btn-primary navbar__cta">
