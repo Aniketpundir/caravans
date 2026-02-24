@@ -138,6 +138,7 @@
 @media (max-width: 900px) {
     .footer__grid {
         grid-template-columns: 1fr 1fr;
+        padding: 15px 30px;
     }
 }
 
@@ -145,6 +146,7 @@
     .footer__grid {
         grid-template-columns: 1fr;
         gap: 32px;
+        padding: 15px 30px !important;
     }
 
     .footer__bottom-inner {
