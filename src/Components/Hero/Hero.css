@@ -19,8 +19,8 @@
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transform: scale(1.15);
-    transition: opacity 1.2s ease, transform 6s ease;
+    transform: scale(1.08);
+    transition: opacity 1s ease, transform 6s ease;
 }
 
 .hero__slide.active {
@@ -37,8 +37,8 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(90deg,
-            rgba(0, 0, 0, 0.8) 0%,
-            rgba(0, 0, 0, 0.6) 40%,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.65) 45%,
             rgba(0, 0, 0, 0.4) 100%);
     z-index: 2;
 }
@@ -48,6 +48,7 @@
 /* ============================= */
 
 .hero__content {
+    margin-top: 3%;
     position: relative;
     z-index: 3;
     height: 100%;
@@ -56,42 +57,21 @@
 }
 
 .hero__text {
-    margin-top: 5%;
-    max-width: 650px;
-}
-
-/* ============================= */
-/* TEXT ANIMATION */
-/* ============================= */
-
-.animate {
-    animation: slideUp 1s ease forwards;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    max-width: 640px;
 }
 
 .hero__title {
     font-family: var(--font-display);
-    font-size: clamp(38px, 6vw, 64px);
+    font-size: clamp(36px, 6vw, 64px);
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .hero__subtitle {
     font-size: 18px;
     margin-bottom: 32px;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .hero__actions {
@@ -101,16 +81,27 @@
 }
 
 /* ============================= */
+/* TRUST STRIP */
+/* ============================= */
+
+.hero__trust {
+    margin-top: 22px;
+    font-size: 14px;
+    opacity: 0.9;
+    color: var(--transprent-white);
+}
+
+/* ============================= */
 /* DOTS */
 /* ============================= */
 
 .hero__dots {
     position: absolute;
-    bottom: 40px;
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 12px;
+    gap: 10px;
     z-index: 4;
 }
 
@@ -118,7 +109,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.4);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -133,13 +124,12 @@
 /* ============================= */
 
 @media (max-width: 768px) {
-
     .hero {
         height: 85vh;
     }
 
     .hero__title {
-        font-size: 30px;
+        font-size: 28px;
     }
 
     .hero__subtitle {
@@ -151,13 +141,7 @@
         align-items: stretch;
     }
 
-    .hero__actions .btn-primary,
-    .hero__actions .btn-outline {
-        width: 100%;
-        text-align: center;
-    }
-
     .hero__dots {
-        bottom: 20px;
+        bottom: 18px;
     }
 }
