@@ -14,6 +14,7 @@
     --primary-light: #7C3AED;
     --accent: #F59E0B;
     --white: #ffffff;
+    --transprent-white: rgba(255, 255, 255, 0.265);
     --gray-50: #F8F7FF;
     --gray-100: #f1f0f8;
     --gray-200: #e2e0f0;

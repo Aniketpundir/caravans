@@ -1,56 +1,98 @@
+/* ============================= */
+/* NAVBAR BASE */
+/* ============================= */
+
 .navbar {
-    position: sticky;
+    position: fixed;
+    width: 100%;
     top: 0;
-    z-index: 100;
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-100);
-    box-shadow: 0 2px 12px rgba(91, 33, 182, 0.07);
+    z-index: 1000;
+    transition: all 0.4s ease;
+    background: transparent;
+    padding: 0;
 }
+
+/* When Scrolled */
+.navbar--scrolled {
+    background: #ffffff;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================= */
+/* INNER */
+/* ============================= */
 
 .navbar__inner {
     display: flex;
     align-items: center;
-    gap: 32px;
-    height: 68px;
+    justify-content: space-between;
+    height: 75px;
 }
+
+/* ============================= */
+/* LOGO */
+/* ============================= */
 
 .navbar__logo {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     font-family: var(--font-display);
     font-size: 18px;
-    color: var(--primary);
-    font-weight: 600;
-    white-space: nowrap;
+    font-weight: 700;
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.navbar--scrolled .navbar__logo {
+    color: #111111;
 }
 
 .logo-icon {
     font-size: 22px;
 }
 
+/* ============================= */
+/* LINKS */
+/* ============================= */
+
 .navbar__links {
     display: flex;
-    gap: 28px;
+    gap: 30px;
     list-style: none;
-    margin-left: auto;
 }
 
 .navbar__links a {
     font-size: 15px;
     font-weight: 500;
-    color: var(--gray-600);
-    transition: color 0.2s;
+    color: #ffffff;
+    transition: all 0.3s ease;
 }
 
 .navbar__links a:hover {
-    color: var(--primary);
+    color: #d4a373;
+    /* Sand tone from images */
 }
 
-.navbar__cta {
-    margin-left: 8px;
-    white-space: nowrap;
+.navbar--scrolled .navbar__links a {
+    color: #333;
 }
+
+.navbar--scrolled .navbar__links a:hover {
+    color: #d4a373;
+}
+
+/* ============================= */
+/* CTA */
+/* ============================= */
+
+.navbar__cta {
+    margin-left: 20px;
+}
+
+/* ============================= */
+/* HAMBURGER */
+/* ============================= */
 
 .navbar__hamburger {
     display: none;
@@ -58,20 +100,40 @@
     gap: 5px;
     background: none;
     border: none;
-    padding: 4px;
-    margin-left: auto;
+    cursor: pointer;
 }
 
 .navbar__hamburger span {
-    display: block;
-    width: 24px;
+    width: 25px;
     height: 2px;
-    background: var(--primary);
-    border-radius: 2px;
-    transition: all 0.3s;
+    background: #ffffff;
+    transition: all 0.3s ease;
 }
 
+.navbar--scrolled .navbar__hamburger span {
+    background: #111;
+}
+
+/* X animation */
+
+.navbar__hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbar__hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar__hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
 @media (max-width: 768px) {
+
     .navbar__hamburger {
         display: flex;
     }
@@ -81,19 +143,39 @@
     }
 
     .navbar__links {
-        display: none;
         position: absolute;
-        top: 68px;
+        top: 75px;
         left: 0;
-        right: 0;
-        background: var(--white);
+        width: 100%;
+        background: #ffffff;
         flex-direction: column;
-        padding: 20px 24px;
-        border-bottom: 1px solid var(--gray-100);
-        gap: 16px;
+        padding: 25px;
+        gap: 20px;
+        transform: translateY(-20px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
 
     .navbar__links.open {
-        display: flex;
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .navbar__links a {
+        color: #222;
+        font-size: 16px;
+    }
+
+    .mobile-cta {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .mobile-cta .btn-primary {
+        width: 100%;
+        text-align: center;
     }
 }

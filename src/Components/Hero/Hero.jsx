@@ -1,41 +1,88 @@
 import './Hero.css';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import image1 from "../../assets/3.jpeg";
+import image2 from "../../assets/4.jpeg";
+import image3 from "../../assets/5.jpeg";
 
-const trustItems = [
-    { icon: '🔒', label: '24/7 Secure Access' },
-    { icon: '📹', label: 'CCTV Monitoring' },
-    { icon: '🏗️', label: 'Fully Fenced Perimeter' },
+const slides = [
+    {
+        title: "Secure Caravan Storage You Can Rely On",
+        subtitle: "Safe, secure & conveniently located caravan storage that won't break the bank.",
+        image: image1
+    },
+    {
+        title: "Premium Caravan Storage with Total Peace of Mind",
+        subtitle: "Affordable, monitored & easily accessible caravan storage designed for stress-free ownership.",
+        image: image2
+    },
+    {
+        title: "Store Your Caravan the Smart Way",
+        subtitle: "Protected, budget-friendly & ideally located storage built for modern caravan owners.",
+        image: image3
+    }
 ];
 
 export default function Hero() {
+    const [current, setCurrent] = useState(0);
+    const [paused, setPaused] = useState(false);
+
+    useEffect(() => {
+        if (paused) return;
+
+        const interval = setInterval(() => {
+            setCurrent((prev) => (prev + 1) % slides.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [paused]);
+
     return (
-        <section id="home" className="hero" aria-label="Hero section">
+        <section
+            className="hero"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+        >
+            {slides.map((slide, index) => (
+                <div
+                    key={index}
+                    className={`hero__slide ${index === current ? "active" : ""}`}
+                    style={{ backgroundImage: `url(${slide.image})` }}
+                />
+            ))}
+
             <div className="hero__overlay" />
-            <div className="hero__bg-pattern" aria-hidden="true" />
 
             <div className="container hero__content">
                 <div className="hero__text">
-                    <h1 className="hero__title">
-                        Secure Caravan<br />Storage in<br />
-                        <span className="hero__title-accent">Central Coast</span>
+                    <h1 key={current} className="hero__title animate">
+                        {slides[current].title}
                     </h1>
-                    <p className="hero__tagline">Safe. Accessible. Affordable.</p>
+
+                    <p key={current + "-sub"} className="hero__subtitle animate">
+                        {slides[current].subtitle}
+                    </p>
+
                     <div className="hero__actions">
-                        <Link to="/book-online" className="btn-primary hero__btn">Book Storage Now</Link>
-                        <Link to="/book-online" className="btn-outline hero__btn">Get a Quote</Link>
+                        <Link to="/book-online" className="btn-primary">
+                            Book Storage Now
+                        </Link>
+                        <Link to="/book-online" className="btn-outline">
+                            Get a Quote
+                        </Link>
                     </div>
                 </div>
             </div>
 
-            <div className="hero__trust" aria-label="Trust indicators">
-                <div className="container hero__trust-inner">
-                    {trustItems.map((item) => (
-                        <div className="hero__trust-item" key={item.label}>
-                            <span className="hero__trust-icon" aria-hidden="true">{item.icon}</span>
-                            <span>{item.label}</span>
-                        </div>
-                    ))}
-                </div>
+            {/* Dots */}
+            <div className="hero__dots">
+                {slides.map((_, index) => (
+                    <span
+                        key={index}
+                        className={index === current ? "active" : ""}
+                        onClick={() => setCurrent(index)}
+                    />
+                ))}
             </div>
         </section>
     );
