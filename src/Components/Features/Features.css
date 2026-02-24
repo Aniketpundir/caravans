@@ -1,6 +1,6 @@
 .features {
     padding: 80px 0 90px;
-    background: var(--white);
+    background: #113c811e;
 }
 
 .features__header {
@@ -44,7 +44,7 @@
 }
 
 .feature-card__desc {
-    color: var(--gray-600);
+    color: var(--gray-800);
     font-size: 15px;
     line-height: 1.65;
 }

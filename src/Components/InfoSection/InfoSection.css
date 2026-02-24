@@ -6,12 +6,12 @@
     padding: 100px 0;
     background: var(--off-white);
     overflow: hidden;
-    background-color: #e9f8f9;
+    background-color: var(--white);
 }
 
 /* Reverse section gets white background */
 .info.reverse {
-    background-color: #e9f8f9;
+    background-color: var(--white);
 }
 
 .info__grid {
@@ -46,9 +46,7 @@
     opacity: 0;
     transform: translateX(40px);
     transition: all 0.8s ease;
-
     background: #113c8177;
-    /* Blue glass background */
     backdrop-filter: blur(10px);
     padding: 50px;
     border-radius: var(--radius-md);

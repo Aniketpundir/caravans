@@ -25,9 +25,8 @@ export default function Navbar() {
     return (
         <header className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
             <nav className="container navbar__inner">
-
                 <a href="#home" className="navbar__logo">
-                    <CaravanStorageLogo size={80} />
+                    <CaravanStorageLogo size={100} />
                 </a>
 
                 <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>

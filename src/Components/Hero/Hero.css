@@ -12,11 +12,11 @@
     height: 100%;
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
     transform: scale(1.05);
     transition: transform 6s ease;
     overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .hero:hover .hero__bg {

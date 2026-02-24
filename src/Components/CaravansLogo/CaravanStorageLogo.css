@@ -20,7 +20,6 @@
     place-items: center;
     color: #ffffff;
     text-transform: uppercase;
-    padding: 16%;
     box-sizing: border-box;
     clip-path: inset(0 100% 0 0);
     animation: csc-revealCycle var(--cycle-dur) ease-in-out infinite;
@@ -30,8 +29,6 @@
     width: 100%;
     text-align: center;
     display: flex;
-    padding: -30px !important;
-    margin: -30px !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -39,7 +36,7 @@
 }
 
 .csc-line1 {
-    font-size: 0.27em;
+    font-size: 0.47em;
     font-weight: 900;
     white-space: nowrap;
     width: 0;
@@ -49,7 +46,7 @@
 
 .csc-line2 {
     margin-top: 6%;
-    font-size: 0.20em;
+    font-size: 0.40em;
     font-weight: 500;
     letter-spacing: 1px;
     white-space: nowrap;
