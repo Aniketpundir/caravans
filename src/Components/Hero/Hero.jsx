@@ -32,7 +32,7 @@ export default function Hero() {
 
         const interval = setInterval(() => {
             setCurrent((prev) => (prev + 1) % slides.length);
-        }, 5000);
+        }, 4000);
 
         return () => clearInterval(interval);
     }, [paused]);

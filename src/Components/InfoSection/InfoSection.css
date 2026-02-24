@@ -1,0 +1,132 @@
+/* ============================ */
+/* SECTION BASE */
+/* ============================ */
+
+.info {
+    padding-top: 80px;
+    padding-bottom: 20px;
+    background: #f3f4f6;
+    overflow: hidden;
+}
+
+.info__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+/* ============================ */
+/* IMAGE */
+/* ============================ */
+
+.info__image {
+    opacity: 0;
+    transform: translateX(40px);
+    transition:
+        transform 0.9s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.9s ease;
+}
+
+.info__image img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+}
+
+/* ============================ */
+/* CONTENT */
+/* ============================ */
+
+.info__content {
+    background: #e7eaee;
+    padding: 55px;
+    border-radius: 4px;
+
+    opacity: 0;
+    transform: translateX(40px);
+    transition:
+        transform 0.9s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.9s ease;
+
+    transition-delay: 0.15s;
+    /* slight delay like reference */
+}
+
+.info__content h2 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: #2b3a55;
+}
+
+.info__content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* ============================ */
+/* SHOW STATE */
+/* ============================ */
+
+.info.show .info__image,
+.info.show .info__content {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ============================ */
+/* REVERSE */
+/* ============================ */
+
+.info.reverse .info__image {
+    transform: translateX(-40px);
+    order: 2;
+}
+
+.info.reverse .info__content {
+    transform: translateX(-40px);
+    order: 1;
+}
+
+.info.reverse.show .info__image,
+.info.reverse.show .info__content {
+    transform: translateX(0);
+}
+
+/* ============================ */
+/* RESPONSIVE */
+/* ============================ */
+
+@media (max-width: 992px) {
+    .info__grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .info__image,
+    .info__content {
+        transform: translateY(40px);
+    }
+
+    .info.show .info__image,
+    .info.show .info__content {
+        transform: translateY(0);
+    }
+
+    .info__content {
+        padding: 30px;
+    }
+
+    .info.reverse .info__image {
+        transform: translateX(-40px);
+        order: 1;
+    }
+
+    .info.reverse .info__content {
+        transform: translateX(-40px);
+        order: 1;
+    }
+}
