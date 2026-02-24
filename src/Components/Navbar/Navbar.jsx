@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -8,17 +8,15 @@ export default function Navbar() {
 
     const closeMenu = () => setMenuOpen(false);
 
-    // Scroll detection
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 80);
+            setScrolled(window.scrollY > 60);
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Prevent body scroll when mobile menu open
     useEffect(() => {
         document.body.style.overflow = menuOpen ? "hidden" : "auto";
     }, [menuOpen]);
@@ -29,25 +27,27 @@ export default function Navbar() {
 
                 <a href="#home" className="navbar__logo">
                     <span className="logo-icon">🚐</span>
-                    <span className="logo-text">
+                    <span>
                         Caravan <strong>Storage</strong>
                     </span>
                 </a>
 
-                <ul className={`navbar__links ${menuOpen ? 'open' : ''}`}>
+                <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
                     <li><a href="#home" onClick={closeMenu}>Home</a></li>
                     <li><a href="#features" onClick={closeMenu}>Features</a></li>
                     <li><a href="#pricing" onClick={closeMenu}>Pricing</a></li>
                     <li><a href="#location" onClick={closeMenu}>Location</a></li>
                 </ul>
 
+                {/* Desktop CTA */}
                 <Link to="/book-online" className="btn-primary navbar__cta">
-                    Book Now
+                    Check Availability
                 </Link>
 
                 <button
-                    className={`navbar__hamburger ${menuOpen ? 'open' : ''}`}
+                    className={`navbar__hamburger ${menuOpen ? "open" : ""}`}
                     onClick={() => setMenuOpen(prev => !prev)}
+                    aria-label="Toggle Menu"
                 >
                     <span></span>
                     <span></span>

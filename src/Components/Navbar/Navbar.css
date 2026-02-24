@@ -7,15 +7,14 @@
     width: 100%;
     top: 0;
     z-index: 1000;
-    transition: all 0.4s ease;
-    background: transparent;
+    transition: all 0.3s ease;
     padding: 0;
+    backdrop-filter: blur(8px);
 }
 
-/* When Scrolled */
 .navbar--scrolled {
     background: #ffffff;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
 /* ============================= */
@@ -45,7 +44,7 @@
 }
 
 .navbar--scrolled .navbar__logo {
-    color: #111111;
+    color: var(--text-dark);
 }
 
 .logo-icon {
@@ -58,28 +57,36 @@
 
 .navbar__links {
     display: flex;
-    gap: 30px;
+    gap: 32px;
     list-style: none;
+    align-items: center;
 }
 
 .navbar__links a {
     font-size: 15px;
     font-weight: 500;
     color: #ffffff;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
+    position: relative;
 }
 
-.navbar__links a:hover {
-    color: #d4a373;
-    /* Sand tone from images */
+.navbar__links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.25s ease;
+}
+
+.navbar__links a:hover::after {
+    width: 100%;
 }
 
 .navbar--scrolled .navbar__links a {
-    color: #333;
-}
-
-.navbar--scrolled .navbar__links a:hover {
-    color: #d4a373;
+    color: var(--text-dark);
 }
 
 /* ============================= */
@@ -104,17 +111,15 @@
 }
 
 .navbar__hamburger span {
-    width: 25px;
+    width: 26px;
     height: 2px;
     background: #ffffff;
     transition: all 0.3s ease;
 }
 
 .navbar--scrolled .navbar__hamburger span {
-    background: #111;
+    background: var(--text-dark);
 }
-
-/* X animation */
 
 .navbar__hamburger.open span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
@@ -149,13 +154,13 @@
         width: 100%;
         background: #ffffff;
         flex-direction: column;
-        padding: 25px;
-        gap: 20px;
-        transform: translateY(-20px);
+        padding: 30px 24px;
+        gap: 22px;
+        transform: translateY(-15px);
         opacity: 0;
         pointer-events: none;
         transition: all 0.3s ease;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
     }
 
     .navbar__links.open {
@@ -165,12 +170,12 @@
     }
 
     .navbar__links a {
-        color: #222;
+        color: var(--text-dark);
         font-size: 16px;
     }
 
     .mobile-cta {
-        margin-top: 10px;
+        margin-top: 15px;
         width: 100%;
     }
 

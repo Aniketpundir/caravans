@@ -1,20 +1,20 @@
-import "./Features.css";
+import './Features.css';
 
 const features = [
     {
-        icon: "📹",
-        title: "24/7 CCTV Monitoring",
-        desc: "Fully fenced and continuously monitored facility to keep your caravan safe at all times.",
+        icon: '🛡️',
+        title: '24h Security',
+        desc: 'State-of-the-art CCTV and 24/7 monitoring systems with pin-coded keypad entry.',
     },
     {
-        icon: "🚐",
-        title: "Easy Vehicle Access",
-        desc: "Wide entry points and spacious layout designed for caravans and motorhomes of all sizes.",
+        icon: '🚪',
+        title: 'Easy Drop Off',
+        desc: 'Ultra-wide roller doors and complex designed to accommodate large vehicles with ease.',
     },
     {
-        icon: "🔐",
-        title: "Secure Gated Entry",
-        desc: "Controlled access system ensuring only authorised vehicles can enter the facility.",
+        icon: '👷',
+        title: 'On-site Management',
+        desc: 'Dedicated professional staff on-site, ready to assist with your storage needs.',
     },
 ];
 
@@ -23,21 +23,17 @@ export default function Features() {
         <section id="features" className="features" aria-labelledby="features-heading">
             <div className="container">
                 <header className="features__header">
-                    <h2 id="features-heading" className="section-title">
-                        Secure & Accessible Storage Facility
-                    </h2>
+                    <h2 id="features-heading" className="section-title">Premium Storage Features</h2>
                     <p className="section-sub">
-                        Designed for safety, convenience and reliable access for caravan
-                        owners across Central Coast NSW.
+                        Our facility is designed with your caravan's safety and accessibility in mind,
+                        using the latest in security technology.
                     </p>
                 </header>
 
-                <div className="features__grid" role="list">
+                <div data-aos="fade-down" className="features__grid" role="list">
                     {features.map((f) => (
                         <article className="feature-card" key={f.title} role="listitem">
-                            <div className="feature-card__icon" aria-hidden="true">
-                                {f.icon}
-                            </div>
+                            <div className="feature-card__icon" aria-hidden="true">{f.icon}</div>
                             <h3 className="feature-card__title">{f.title}</h3>
                             <p className="feature-card__desc">{f.desc}</p>
                         </article>

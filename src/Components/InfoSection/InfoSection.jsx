@@ -18,7 +18,7 @@ export default function InfoSection({
                     observer.disconnect();
                 }
             },
-            { threshold: 0.35 }
+            { threshold: 0.25 }
         );
 
         if (ref.current) observer.observe(ref.current);
@@ -32,7 +32,7 @@ export default function InfoSection({
             <div className="container info__grid">
 
                 <div className="info__image">
-                    <img src={image} alt={title} />
+                    <img src={image} alt={title} loading="lazy" />
                 </div>
 
                 <div className="info__content">
