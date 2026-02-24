@@ -1,6 +1,6 @@
 import "./Hero.css";
 import { Link } from "react-router-dom";
-import image1 from "../../assets/3.jpeg";
+import image1 from "../../assets/5.jpeg";
 
 export default function Hero() {
     return (
@@ -16,12 +16,11 @@ export default function Hero() {
                 <div className="hero__text">
 
                     <h1 className="hero__title">
-                        Secure Caravan & RV Storage on the Central Coast
+                        All you are looking for caravan storage on central coast?
                     </h1>
 
                     <p className="hero__subtitle">
-                        Safe outdoor storage with 24/7 CCTV monitoring and easy access from
-                        the Pacific Motorway. Flexible month-to-month terms.
+                        Safe, secure and conveniently located caravan storage that won't break the bank
                     </p>
 
                     <div className="hero__actions">

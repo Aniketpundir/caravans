@@ -1,7 +1,3 @@
-/* ============================= */
-/* NAVBAR BASE */
-/* ============================= */
-
 .navbar {
     position: fixed;
     width: 100%;
@@ -13,13 +9,10 @@
 }
 
 .navbar--scrolled {
-    background: #ffffff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    background: #113c8177;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
-
-/* ============================= */
-/* INNER */
-/* ============================= */
 
 .navbar__inner {
     display: flex;
@@ -27,10 +20,6 @@
     justify-content: space-between;
     height: 75px;
 }
-
-/* ============================= */
-/* LOGO */
-/* ============================= */
 
 .navbar__logo {
     display: flex;
@@ -50,10 +39,6 @@
 .logo-icon {
     font-size: 22px;
 }
-
-/* ============================= */
-/* LINKS */
-/* ============================= */
 
 .navbar__links {
     display: flex;
@@ -86,20 +71,12 @@
 }
 
 .navbar--scrolled .navbar__links a {
-    color: var(--text-dark);
+    color: #ffffff;
 }
-
-/* ============================= */
-/* CTA */
-/* ============================= */
 
 .navbar__cta {
     margin-left: 20px;
 }
-
-/* ============================= */
-/* HAMBURGER */
-/* ============================= */
 
 .navbar__hamburger {
     display: none;
@@ -132,10 +109,6 @@
 .navbar__hamburger.open span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
 }
-
-/* ============================= */
-/* MOBILE */
-/* ============================= */
 
 @media (max-width: 768px) {
 

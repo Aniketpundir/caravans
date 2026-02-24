@@ -1,0 +1,153 @@
+.csc-logo-shell {
+    margin-top: 0px;
+    --scan-w: 6px;
+    --cycle-dur: 10s;
+    position: relative;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+.csc-red-circle {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #113c81;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding: 16%;
+    box-sizing: border-box;
+    clip-path: inset(0 100% 0 0);
+    animation: csc-revealCycle var(--cycle-dur) ease-in-out infinite;
+}
+
+.csc-text-wrap {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    padding: -30px !important;
+    margin: -30px !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.csc-line1 {
+    font-size: 0.27em;
+    font-weight: 900;
+    white-space: nowrap;
+    width: 0;
+    overflow: hidden;
+    animation: csc-typeCycle1 var(--cycle-dur) steps(18, end) infinite;
+}
+
+.csc-line2 {
+    margin-top: 6%;
+    font-size: 0.20em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    width: 0;
+    overflow: hidden;
+    animation: csc-typeCycle2 var(--cycle-dur) steps(14, end) infinite;
+}
+
+.csc-scan-line {
+    position: absolute;
+    left: calc(-1 * var(--scan-w));
+    top: 0;
+    width: var(--scan-w);
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 212, 0, 0.7);
+    animation: csc-scanCycle var(--cycle-dur) ease-in-out infinite;
+    z-index: 3;
+}
+
+@keyframes csc-scanCycle {
+    0% {
+        left: calc(-1 * var(--scan-w));
+        opacity: 1;
+    }
+
+    11% {
+        left: 100%;
+        opacity: 1;
+    }
+
+    12%,
+    88% {
+        left: 100%;
+        opacity: 0;
+    }
+
+    89% {
+        left: 100%;
+        opacity: 1;
+    }
+
+    100% {
+        left: calc(-1 * var(--scan-w));
+        opacity: 1;
+    }
+}
+
+@keyframes csc-revealCycle {
+    0% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    11% {
+        clip-path: inset(0 0 0 0);
+    }
+
+    88% {
+        clip-path: inset(0 0 0 0);
+    }
+
+    100% {
+        clip-path: inset(0 100% 0 0);
+    }
+}
+
+@keyframes csc-typeCycle1 {
+
+    0%,
+    5% {
+        width: 0;
+    }
+
+    20%,
+    80% {
+        width: 100%;
+    }
+
+    90%,
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes csc-typeCycle2 {
+
+    0%,
+    8% {
+        width: 0;
+    }
+
+    28%,
+    80% {
+        width: 100%;
+    }
+
+    94%,
+    100% {
+        width: 0;
+    }
+}

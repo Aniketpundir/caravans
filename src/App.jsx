@@ -5,6 +5,7 @@ import Layout from './Components/Layout/Layout'
 import Home from './Pages/Home/Home'
 import PremiumLotSelector from './Components/PremiumLotSelector/PremiumLotSelector'
 import ReserveSection from "./Components/ReserveSection/ReserveSection"
+import CaravanStorageLogo from "./Components/CaravansLogo/CaravanStorageLogo"
 import StoreContextProvider from './Context/Storecontext'
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
       <StoreContextProvider>
         <Router>
           <Routes>
+            <Route path='/logo' element={<CaravanStorageLogo size={80} />} />
             <Route path='/' element={<Layout />}>
               <Route index element={<Home />} />
               <Route path='/book-online' element={<PremiumLotSelector />} />

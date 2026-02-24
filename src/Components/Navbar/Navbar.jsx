@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import CaravanStorageLogo from "../CaravansLogo/CaravanStorageLogo"
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -26,10 +27,7 @@ export default function Navbar() {
             <nav className="container navbar__inner">
 
                 <a href="#home" className="navbar__logo">
-                    <span className="logo-icon">🚐</span>
-                    <span>
-                        Caravan <strong>Storage</strong>
-                    </span>
+                    <CaravanStorageLogo size={80} />
                 </a>
 
                 <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>

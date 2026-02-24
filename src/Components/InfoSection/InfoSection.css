@@ -6,10 +6,12 @@
     padding: 100px 0;
     background: var(--off-white);
     overflow: hidden;
+    background-color: #e9f8f9;
 }
 
-.info:nth-child(even) {
-    background: var(--white);
+/* Reverse section gets white background */
+.info.reverse {
+    background-color: #e9f8f9;
 }
 
 .info__grid {
@@ -44,6 +46,13 @@
     opacity: 0;
     transform: translateX(40px);
     transition: all 0.8s ease;
+
+    background: #113c8177;
+    /* Blue glass background */
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .info__content h2 {
@@ -51,13 +60,13 @@
     font-size: clamp(28px, 4vw, 38px);
     font-weight: 800;
     margin-bottom: 18px;
-    color: var(--text-dark);
+    color: #ffffff;
 }
 
 .info__content p {
     font-size: 17px;
     line-height: 1.7;
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.9);
     max-width: 520px;
 }
 
@@ -118,5 +127,9 @@
     .info.reverse .info__image,
     .info.reverse .info__content {
         order: unset;
+    }
+
+    .info__content {
+        padding: 30px;
     }
 }

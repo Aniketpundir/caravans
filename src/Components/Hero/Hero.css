@@ -1,10 +1,6 @@
-/* ========================================= */
-/* HERO SECTION */
-/* ========================================= */
-
 .hero {
     position: relative;
-    height: 95vh;
+    height: 90vh;
     min-height: 720px;
     overflow: hidden;
     color: var(--white);
@@ -12,27 +8,20 @@
     align-items: center;
 }
 
-/* ========================================= */
-/* BACKGROUND IMAGE */
-/* ========================================= */
-
 .hero__bg {
+    height: 100%;
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
     transform: scale(1.05);
     transition: transform 6s ease;
+    overflow: hidden;
 }
 
-/* Subtle slow zoom for premium feel */
 .hero:hover .hero__bg {
     transform: scale(1.08);
 }
-
-/* ========================================= */
-/* OVERLAY */
-/* ========================================= */
 
 .hero__overlay {
     position: absolute;
@@ -43,10 +32,6 @@
             rgba(0, 0, 0, 0.25) 100%);
 }
 
-/* ========================================= */
-/* CONTENT */
-/* ========================================= */
-
 .hero__content {
     position: relative;
     z-index: 3;
@@ -54,12 +39,8 @@
 }
 
 .hero__text {
-    max-width: 650px;
+    max-width: 800px;
 }
-
-/* ========================================= */
-/* BADGE */
-/* ========================================= */
 
 .hero__badge {
     display: inline-block;
@@ -73,10 +54,6 @@
     backdrop-filter: blur(6px);
 }
 
-/* ========================================= */
-/* TITLE */
-/* ========================================= */
-
 .hero__title {
     font-family: var(--font-display);
     font-size: clamp(40px, 6vw, 64px);
@@ -85,10 +62,6 @@
     margin-bottom: 22px;
 }
 
-/* ========================================= */
-/* SUBTITLE */
-/* ========================================= */
-
 .hero__subtitle {
     font-size: 18px;
     line-height: 1.6;
@@ -96,10 +69,6 @@
     opacity: 0.95;
     max-width: 520px;
 }
-
-/* ========================================= */
-/* ACTION BUTTONS */
-/* ========================================= */
 
 .hero__actions {
     display: flex;
@@ -127,10 +96,6 @@
     color: var(--text-dark);
 }
 
-/* ========================================= */
-/* TRUST POINTS */
-/* ========================================= */
-
 .hero__trust {
     margin-top: 34px;
     display: flex;
@@ -146,10 +111,6 @@
     align-items: center;
     gap: 6px;
 }
-
-/* ========================================= */
-/* RESPONSIVE */
-/* ========================================= */
 
 @media (max-width: 1024px) {
     .hero {
