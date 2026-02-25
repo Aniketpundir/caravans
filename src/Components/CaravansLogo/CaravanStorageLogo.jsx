@@ -10,7 +10,7 @@ export default function CaravanStorageLogo({ size = 48 }) {
       <div className="csc-scan-line" />
       <div className="csc-red-circle">
         <div className="csc-text-wrap">
-          <div className="csc-line1">Caravans Storage</div>
+          <div className="csc-line1">Caravan Storage</div>
           <div className="csc-line2">Central Coast</div>
         </div>
       </div>
