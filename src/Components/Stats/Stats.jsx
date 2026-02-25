@@ -13,7 +13,7 @@ const stats = [
 export default function Stats() {
 
     const { ref, inView } = useInView({
-        triggerOnce: true,
+        triggerOnce: false,
         threshold: 0.3,
     });
 
@@ -24,7 +24,7 @@ export default function Stats() {
                 <div className="stats-top__left">
                     <span className="stats-eyebrow">EASY ACCESS</span>
                     <h2 className="stats-heading">
-                        Very conveniently <br /> located..
+                        Very conveniently <br /> located to
                     </h2>
                 </div>
 

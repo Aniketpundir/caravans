@@ -1,13 +1,9 @@
-/* ========================= */
-/* CTA SECTION */
-/* ========================= */
-
 .cta {
     padding: 60px 0;
 }
 
 .cta__inner {
-    background: #6bb8ff;
+    background: #113c81;
     /* teal color */
     border-radius: 28px;
     padding: 50px 60px;
@@ -76,7 +72,7 @@
 @media (max-width: 640px) {
 
     .cta {
-        padding: 40px 0;
+        padding: 20px 0;
     }
 
     .cta__inner {
