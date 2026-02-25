@@ -1,43 +1,35 @@
-import './Features.css';
+import "./Features.css";
+import { FaShieldAlt, FaTruck, FaSun, FaMoneyBillWave, FaWarehouse, FaKey } from "react-icons/fa";
 
 const features = [
-    {
-        icon: '🛡️',
-        title: '24h Security',
-        desc: 'State-of-the-art CCTV monitoring, secure gated entry with keypad access, and a fully fenced perimeter ensure your caravan remains protected at all times.',
-    },
-    {
-        icon: '🚪',
-        title: 'Easy Drop Off',
-        desc: 'Wide driveways and spacious access areas make parking and retrieving your caravan simple, safe, and stress-free.',
-    },
-    {
-        icon: '👷',
-        title: 'On-site Management',
-        desc: 'Professional on-site staff oversee daily operations, ensuring your storage experience is secure, smooth, and fully supported.',
-    },
+    { icon: <FaShieldAlt />, title: "Fully Fenced 24 Hr Security" },
+    { icon: <FaWarehouse />, title: "Outdoor Storage for Caravans" },
+    { icon: <FaSun />, title: "Area Fully Lit" },
+    { icon: <FaTruck />, title: "Drop Off & Pick Up" },
+    { icon: <FaKey />, title: "Short & Long Term Storage Available" },
+    { icon: <FaMoneyBillWave />, title: "All Caravan Sizes Catered For" },
 ];
 
 export default function Features() {
     return (
-        <section id="features" className="features" aria-labelledby="features-heading">
+        <section className="features">
             <div className="container">
+
                 <header className="features__header">
-                    <h2 id="features-heading" className="section-title">What We Do</h2>
-                    <p className="section-sub">
-                        Designed to deliver maximum security, effortless access, and complete peace of mind for every caravan owner.
-                    </p>
+                    <h2 className="features__title">
+                        <span>Why Choose</span> Us <br /> Caravan Storage
+                    </h2>
                 </header>
 
-                <div data-aos="fade-down" className="features__grid" role="list">
-                    {features.map((f) => (
-                        <article className="feature-card" key={f.title} role="listitem">
-                            <div className="feature-card__icon" aria-hidden="true">{f.icon}</div>
-                            <h3 className="feature-card__title">{f.title}</h3>
-                            <p className="feature-card__desc">{f.desc}</p>
-                        </article>
+                <div className="features__grid">
+                    {features.map((item, index) => (
+                        <div className={`feature-tile ${index % 2 === 0 ? "light" : "dark"}`} key={index}>
+                            <div className="tile-icon">{item.icon}</div>
+                            <h3>{item.title}</h3>
+                        </div>
                     ))}
                 </div>
+
             </div>
         </section>
     );

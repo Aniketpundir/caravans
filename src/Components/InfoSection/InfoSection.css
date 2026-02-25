@@ -14,6 +14,7 @@
     opacity: 0;
     transform: translateX(40px);
     transition: all 0.8s ease;
+    background-size: inherit;
 }
 
 .info__image img {
@@ -28,7 +29,7 @@
     height: 100%;
     transform: translateX(40px);
     transition: all 0.8s ease;
-    background: #E8E8E8;
+    background: var(--primary);
     backdrop-filter: blur(10px);
     padding: 60px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -36,16 +37,18 @@
 
 .info__content h2 {
     font-family: var(--font-display);
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 800;
     margin-bottom: 18px;
-    color: var(--primary);
+    color: #fff;
+    text-align: center;
 }
 
 .info__content p {
+    text-align: center;
     font-size: 17px;
     line-height: 1.7;
-    color: #000;
+    color: #fff;
     max-width: 520px;
 }
 
