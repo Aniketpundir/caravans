@@ -1,7 +1,7 @@
 import "./Stats.css";
 
 const stats = [
-    { value: "230", label: "Caravan Spaces Available" },
+    { value: "230+", label: "Caravan Spaces Available" },
     { value: "365", label: "Days per year accessible" },
     { value: "70+", label: "Happy Customers" },
     { value: "24/7", label: "Hours per day accessible" },
