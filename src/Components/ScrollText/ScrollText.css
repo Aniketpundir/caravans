@@ -4,13 +4,12 @@
     justify-items: center;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 .scroll-text-content {
-    /* margin-top: 5px; */
     background-color: #6bb8ff;
-    padding: 10px 10px;
+    padding: 10px 8px;
     font-size: 22px;
     color: #ffffff;
 }
