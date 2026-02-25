@@ -5,7 +5,6 @@ export const Storecontext = createContext(null);
 const StoreContextProvider = (props) => {
 
     const [size, setSize] = useState("");
-    console.log(size)
 
     const contextValue = {
         size,
