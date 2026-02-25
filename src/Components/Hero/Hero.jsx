@@ -22,12 +22,6 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* <div className="hero__scroll">
-                <div className="scroll__text">
-                    Safe • Secure • Conveniently Located • Affordable • 24/7 Access • Fully Fenced • Monitored Facility
-                </div>
-            </div> */}
-
             <div
                 className="hero__bg"
                 style={{ backgroundImage: `url(${image1})` }}

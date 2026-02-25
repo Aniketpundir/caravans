@@ -9,7 +9,7 @@
 
 .scroll-text-content {
     /* margin-top: 5px; */
-    background-color: #113c81;
+    background-color: #6bb8ff;
     padding: 10px 10px;
     font-size: 22px;
     color: #ffffff;
@@ -18,7 +18,10 @@
 .scroll-quote {
     background-color: #113c81;
     color: #ffffff;
-    padding: 15px 25px;
-    border-radius: 9px;
     cursor: pointer;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
 }
