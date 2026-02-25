@@ -6,11 +6,6 @@ export default function Hero() {
     return (
         <section className="hero">
 
-            <div
-                className="hero__bg"
-                style={{ backgroundImage: `url(${image1})` }}
-            />
-
             <div className="container hero__content">
                 <div className="hero__text">
 
@@ -27,12 +22,16 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Scrolling Line */}
-            <div className="hero__scroll">
+            {/* <div className="hero__scroll">
                 <div className="scroll__text">
-                    Safe • Secure • Conveniently Located • Affordable • 24/7 Access • Fully Fenced • Monitored Facility •
+                    Safe • Secure • Conveniently Located • Affordable • 24/7 Access • Fully Fenced • Monitored Facility
                 </div>
-            </div>
+            </div> */}
+
+            <div
+                className="hero__bg"
+                style={{ backgroundImage: `url(${image1})` }}
+            />
 
         </section>
     );
