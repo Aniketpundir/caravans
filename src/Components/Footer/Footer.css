@@ -1,6 +1,6 @@
 .footer {
-    background: #0f0a1e;
-    color: rgba(255, 255, 255, 0.72);
+    background: #6bb8ff;
+    color: white;
     font-size: 14px;
 }
 
@@ -17,7 +17,7 @@
     gap: 8px;
     font-family: var(--font-display);
     font-size: 18px;
-    color: var(--white);
+    color: #ffffff;
     margin-bottom: 14px;
 }
 
@@ -30,7 +30,7 @@
     font-family: var(--font-display);
     font-size: 14px;
     font-weight: 700;
-    color: var(--white);
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 16px;
@@ -45,13 +45,13 @@
 
 .footer__nav a,
 .footer__contact a {
-    color: rgba(255, 255, 255, 0.6);
+    color: #ffffff;
     transition: color 0.2s;
 }
 
 .footer__nav a:hover,
 .footer__contact a:hover {
-    color: var(--white);
+    border-bottom: var(--white);
 }
 
 .footer__contact {
@@ -74,18 +74,18 @@
 .footer__input {
     flex: 1;
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid black;
     border-right: none;
     border-radius: 8px 0 0 8px;
     padding: 10px 14px;
-    color: var(--white);
+    color: white;
     font-family: var(--font-body);
     font-size: 13px;
     outline: none;
 }
 
 .footer__input::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
 }
 
 .footer__input:focus {
@@ -107,7 +107,7 @@
 }
 
 .footer__bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid black;
     padding: 20px 0;
 }
 
@@ -118,7 +118,7 @@
     flex-wrap: wrap;
     gap: 12px;
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
 }
 
 .footer__bottom-inner nav {
@@ -127,7 +127,7 @@
 }
 
 .footer__bottom-inner a {
-    color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
     transition: color 0.2s;
 }
 

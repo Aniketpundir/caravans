@@ -4,17 +4,17 @@ const features = [
     {
         icon: '🛡️',
         title: '24h Security',
-        desc: 'State-of-the-art CCTV and 24/7 monitoring systems with pin-coded keypad entry.',
+        desc: 'State-of-the-art CCTV monitoring, secure gated entry with keypad access, and a fully fenced perimeter ensure your caravan remains protected at all times.',
     },
     {
         icon: '🚪',
         title: 'Easy Drop Off',
-        desc: 'Ultra-wide roller doors and complex designed to accommodate large vehicles with ease.',
+        desc: 'Wide driveways and spacious access areas make parking and retrieving your caravan simple, safe, and stress-free.',
     },
     {
         icon: '👷',
         title: 'On-site Management',
-        desc: 'Dedicated professional staff on-site, ready to assist with your storage needs.',
+        desc: 'Professional on-site staff oversee daily operations, ensuring your storage experience is secure, smooth, and fully supported.',
     },
 ];
 
@@ -23,10 +23,9 @@ export default function Features() {
         <section id="features" className="features" aria-labelledby="features-heading">
             <div className="container">
                 <header className="features__header">
-                    <h2 id="features-heading" className="section-title">Premium Storage Features</h2>
+                    <h2 id="features-heading" className="section-title">What We Do</h2>
                     <p className="section-sub">
-                        Our facility is designed with your caravan's safety and accessibility in mind,
-                        using the latest in security technology.
+                        Designed to deliver maximum security, effortless access, and complete peace of mind for every caravan owner.
                     </p>
                 </header>
 

@@ -1,4 +1,5 @@
 import './Footer.css';
+import logo from "../../assets/logo.png"
 
 const quickLinks = ['Home', 'Features', 'Pricing', 'Location'];
 
@@ -8,7 +9,7 @@ export default function Footer() {
             <div className="container footer__grid">
                 <section className="footer__brand" aria-label="Brand info">
                     <div className="footer__logo">
-                        <span>🚐</span> Caravan <strong>Storage</strong>
+                        <img src={logo} alt='caravans storage' />
                     </div>
                     <p className="footer__brand-desc">
                         Providing premium, high-security storage solutions for caravan enthusiasts across the Central Coast, NSW.

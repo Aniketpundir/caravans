@@ -1,9 +1,9 @@
 import React from 'react'
 import Hero from "../../Components/Hero/Hero"
+import ScrollText from "../../Components/ScrollText/ScrollText"
 import Features from "../../Components/Features/Features"
 import Pricing from "../../Components/Pricing/Pricing"
 import Stats from "../../Components/Stats/Stats"
-import Testimonial from "../../Components/Testimonial/Testimonial"
 import FindUs from "../../Components/FindUs/FindUs"
 import InfoSection from '../../Components/InfoSection/InfoSection'
 
@@ -12,6 +12,7 @@ const Home = () => {
     return (
         <>
             <Hero />
+            <ScrollText />
             <InfoSection
                 title="Family Owned & Operated"
                 description="Our Central Coast caravan storage facility is proudly family owned and operated. We provide secure, monitored storage with 24/7 access and fully fenced perimeter protection."
@@ -26,7 +27,6 @@ const Home = () => {
             <Features />
             <Pricing />
             <Stats />
-            <Testimonial />
             <FindUs />
         </>
     )
