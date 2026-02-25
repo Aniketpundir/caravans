@@ -15,10 +15,6 @@
     color: #0f172a;
 }
 
-.features__title span {
-    color: #1e3a8a;
-}
-
 /* Grid */
 .features__grid {
     display: grid;

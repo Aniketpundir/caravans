@@ -17,7 +17,7 @@ export default function Features() {
 
                 <header className="features__header">
                     <h2 className="features__title">
-                        <span>Why Choose</span> Us <br /> Caravan Storage
+                        Why Choose Us <br /> Caravan Storage
                     </h2>
                 </header>
 

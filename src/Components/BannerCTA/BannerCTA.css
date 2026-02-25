@@ -1,0 +1,101 @@
+/* ========================= */
+/* CTA SECTION */
+/* ========================= */
+
+.cta {
+    padding: 60px 0;
+}
+
+.cta__inner {
+    background: #3f9ca8;
+    /* teal color */
+    border-radius: 28px;
+    padding: 50px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* Content */
+.cta__title {
+    font-size: 44px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.cta__subtitle {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 700px;
+}
+
+/* Button */
+.cta__btn {
+    background: #ffffff;
+    color: #0f172a;
+    padding: 18px 36px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+    display: inline-block;
+}
+
+.cta__btn:hover {
+    transform: translateY(-3px);
+}
+
+/* ========================= */
+/* TABLET */
+/* ========================= */
+
+@media (max-width: 1024px) {
+
+    .cta__inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px;
+    }
+
+    .cta__title {
+        font-size: 34px;
+    }
+
+    .cta__subtitle {
+        font-size: 18px;
+    }
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width: 640px) {
+
+    .cta {
+        padding: 40px 0;
+    }
+
+    .cta__inner {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .cta__title {
+        font-size: 26px;
+    }
+
+    .cta__subtitle {
+        font-size: 16px;
+    }
+
+    .cta__btn {
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 16px;
+    }
+}

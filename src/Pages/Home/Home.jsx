@@ -2,7 +2,7 @@ import React from 'react'
 import Hero from "../../Components/Hero/Hero"
 import ScrollText from "../../Components/ScrollText/ScrollText"
 import Features from "../../Components/Features/Features"
-import Pricing from "../../Components/Pricing/Pricing"
+import BannerCTA from "../../Components/BannerCTA/BannerCTA"
 import Stats from "../../Components/Stats/Stats"
 import FindUs from "../../Components/FindUs/FindUs"
 import InfoSection from '../../Components/InfoSection/InfoSection'
@@ -20,7 +20,7 @@ const Home = () => {
                 image={image1}
             />
             <Features />
-            <Pricing />
+            <BannerCTA />
             <Stats />
             <FindUs />
         </>
