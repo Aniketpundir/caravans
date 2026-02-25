@@ -24,7 +24,7 @@ export default function Stats() {
                 <div className="stats-top__left">
                     <span className="stats-eyebrow">EASY ACCESS</span>
                     <h2 className="stats-heading">
-                        Very conveniently <br /> located to
+                        Very conveniently located
                     </h2>
                 </div>
 

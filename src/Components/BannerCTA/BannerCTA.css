@@ -1,10 +1,10 @@
 .cta {
+    margin-top: -5%;
     padding: 60px 0;
 }
 
 .cta__inner {
     background: #113c81;
-    /* teal color */
     border-radius: 28px;
     padding: 50px 60px;
     display: flex;
@@ -14,7 +14,6 @@
     text-transform: uppercase;
 }
 
-/* Content */
 .cta__title {
     font-size: 44px;
     font-weight: 700;
@@ -28,7 +27,6 @@
     max-width: 700px;
 }
 
-/* Button */
 .cta__btn {
     background: #ffffff;
     color: #0f172a;
@@ -44,10 +42,6 @@
 .cta__btn:hover {
     transform: translateY(-3px);
 }
-
-/* ========================= */
-/* TABLET */
-/* ========================= */
 
 @media (max-width: 1024px) {
 
@@ -65,10 +59,6 @@
         font-size: 18px;
     }
 }
-
-/* ========================= */
-/* MOBILE */
-/* ========================= */
 
 @media (max-width: 640px) {
 

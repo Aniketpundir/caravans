@@ -76,7 +76,7 @@
 @media (max-width: 1024px) {
 
     .info {
-        padding: 40px 0;
+        padding: 10px 0;
     }
 
     .info__grid {
@@ -102,6 +102,10 @@
     .info.show .info__image,
     .info.show .info__content {
         transform: translateY(0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
 
     .info.reverse .info__image,
@@ -117,6 +121,7 @@
 @media (max-width: 992px) {
 
     .info {
+        margin-top: -3%;
         padding: 40px 0;
     }
 
@@ -136,17 +141,15 @@
     }
 
     .info__content p {
-        text-align: center;
-
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .info.show .info__image,
     .info.show .info__content {
         transform: translateY(0);
-        display: flex !important;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
     }
 
     .info.reverse .info__image,
