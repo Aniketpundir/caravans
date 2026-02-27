@@ -12,7 +12,6 @@
 }
 
 .footer__logo {
-    /* width: 100%; */
     display: flex;
     align-items: center;
     gap: 8px;

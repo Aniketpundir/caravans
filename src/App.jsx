@@ -7,6 +7,7 @@ import PremiumLotSelector from './Components/PremiumLotSelector/PremiumLotSelect
 import ReserveSection from "./Components/ReserveSection/ReserveSection"
 import CaravanStorageLogo from "./Components/CaravansLogo/CaravanStorageLogo"
 import StoreContextProvider from './Context/Storecontext'
+import ContactUs from './Pages/ContactUs/ContactUs';
 
 const App = () => {
 
@@ -28,6 +29,7 @@ const App = () => {
             <Route path='/logo' element={<CaravanStorageLogo size={80} />} />
             <Route path='/' element={<Layout />}>
               <Route index element={<Home />} />
+              <Route path='/contact-us' element={<ContactUs />} />
               <Route path='/book-online' element={<PremiumLotSelector />} />
               <Route path='/book-online/reserve-section' element={<ReserveSection />} />
             </Route>

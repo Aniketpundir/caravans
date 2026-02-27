@@ -11,7 +11,6 @@
     margin-bottom: 80px;
 }
 
-/* Left Side */
 .stats-top__left {
     text-align: left;
 }
@@ -32,16 +31,11 @@
     color: #113c81;
 }
 
-/* Right Side */
 .stats-top__right p {
     font-size: 18px;
     line-height: 1.7;
     color: #475569;
 }
-
-/* ========================= */
-/* STATS GRID */
-/* ========================= */
 
 .stats__grid {
     display: grid;
@@ -50,13 +44,11 @@
     gap: 20px;
 }
 
-/* Individual Stat */
 .stat-item {
     padding: 30px 15px;
     position: relative;
 }
 
-/* Vertical Divider (Desktop Only) */
 .stat-item:not(:last-child)::after {
     content: "";
     position: absolute;
@@ -67,7 +59,6 @@
     background: #e2e8f0;
 }
 
-/* Icon */
 .stat-icon {
     font-size: 22px;
     width: 50px;
@@ -81,7 +72,6 @@
     align-items: center;
 }
 
-/* Number */
 .stat-item__value {
     font-size: 56px;
     font-weight: 800;
@@ -89,16 +79,11 @@
     margin-bottom: 10px;
 }
 
-/* Label */
 .stat-item__label {
     font-size: 16px;
     color: #475569;
     font-weight: 500;
 }
-
-/* ========================= */
-/* TABLET (≤1024px) */
-/* ========================= */
 
 @media (max-width: 1024px) {
 
@@ -130,10 +115,6 @@
         display: none;
     }
 }
-
-/* ========================= */
-/* MOBILE (≤640px) */
-/* ========================= */
 
 @media (max-width: 640px) {
 

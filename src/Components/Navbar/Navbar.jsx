@@ -30,10 +30,10 @@ export default function Navbar() {
                 </a>
 
                 <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
-                    <li><a href="#home" onClick={closeMenu}>Home</a></li>
-                    <li><a href="#features" onClick={closeMenu}>Features</a></li>
-                    <li><a href="#pricing" onClick={closeMenu}>Pricing</a></li>
-                    <li><a href="#location" onClick={closeMenu}>Location</a></li>
+                    <li><Link to="/" onClick={closeMenu}>Home</Link></li>
+                    <li><Link to="" onClick={closeMenu}>Features</Link></li>
+                    <li><Link to="" onClick={closeMenu}>Pricing</Link></li>
+                    <li><Link to="/contact-us" onClick={closeMenu}>Contact Us</Link></li>
                 </ul>
 
                 {/* Desktop CTA */}

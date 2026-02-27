@@ -3,7 +3,6 @@
     background: var(--gray-50);
 }
 
-/* Header */
 .lot-header {
     text-align: center;
     max-width: 680px;
@@ -24,14 +23,12 @@
     margin-top: 12px;
 }
 
-/* Grid */
 .lot-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 28px;
 }
 
-/* Card */
 .lot-card {
     position: relative;
     background: var(--white);
@@ -53,7 +50,6 @@
     box-shadow: var(--shadow-lg);
 }
 
-/* Badge */
 .lot-badge {
     position: absolute;
     top: -12px;
@@ -67,7 +63,6 @@
     font-weight: 600;
 }
 
-/* Content */
 .lot-size {
     color: var(--gray-600);
     margin-bottom: 18px;
@@ -96,7 +91,6 @@
     margin-bottom: 24px;
 }
 
-/* Button Style */
 .lot-select {
     padding: 12px 18px;
     border-radius: 8px;
@@ -111,7 +105,6 @@
     color: var(--white);
 }
 
-/* Responsive */
 @media (max-width: 992px) {
     .lot-grid {
         grid-template-columns: 1fr;
