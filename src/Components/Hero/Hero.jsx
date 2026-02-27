@@ -19,14 +19,6 @@ export default function Hero() {
         return () => clearInterval(interval);
     }, []);
 
-    const nextSlide = () => {
-        setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    };
-
-    const prevSlide = () => {
-        setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    };
-
     return (
         <section className="hero">
 
@@ -49,16 +41,6 @@ export default function Hero() {
                 className="hero__bg"
                 style={{ backgroundImage: `url(${images[current]})` }}
             />
-
-            {/* Arrows */}
-            <button className="hero__arrow hero__arrow--left" onClick={prevSlide}>
-                ❮
-            </button>
-
-            <button className="hero__arrow hero__arrow--right" onClick={nextSlide}>
-                ❯
-            </button>
-
         </section>
     );
 }
