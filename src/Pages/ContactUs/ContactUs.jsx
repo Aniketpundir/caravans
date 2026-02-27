@@ -6,6 +6,8 @@ export default function ContactUs() {
     return (
         <section className="contact-page">
 
+            {/* HERO SECTION */}
+
             <div
                 className="contact-hero"
                 style={{ backgroundImage: `url(${hero})` }}
@@ -19,11 +21,17 @@ export default function ContactUs() {
                     </p>
                 </div>
 
+                {/* image for tablet/mobile */}
+                <img src={hero} alt="hero" className="mobile-hero-img" />
+
             </div>
 
+            {/* CONTACT INTRO */}
+
             <div className="contact-intro">
-                <h2>We'd Love to hear from you .</h2>
-                <p>Or just reach out manually via info@mmmlogistics.com.au</p>
+
+                <h2>We'd Love to hear from you.</h2>
+                <p>Or just reach out manually via</p>
 
                 <div className="contact-cards">
 
@@ -32,8 +40,8 @@ export default function ContactUs() {
                             <FaPhoneAlt />
                         </div>
                         <h4>Call Us Directly</h4>
-                        <p>Available during working hours</p>
-                        <span>(02) 9855 000</span>
+                        <span> 0412 260 525</span>
+                        <span> 0402 438 063</span>
                     </div>
 
                     <div className="contact-card">
@@ -49,13 +57,16 @@ export default function ContactUs() {
                         <div className="card-icon">
                             <FaBuilding />
                         </div>
-                        <h4>Visit Our Office</h4>
-                        <p>Visit our location in real life</p>
-                        <span>38A Sutherland Road, Sydney NSW 2147</span>
+                        <h4>Visit Our</h4>
+                        <p>location in real life</p>
+                        <span>Tuggerah NSW</span>
                     </div>
 
                 </div>
+
             </div>
+
+            {/* CONTACT FORM */}
 
             <div className="contact-form-section">
 
@@ -72,11 +83,6 @@ export default function ContactUs() {
                         <input type="text" placeholder="Phone" />
                         <input type="text" placeholder="Weight, kg" />
                     </div>
-
-                    <select>
-                        <option>Select Service</option>
-                        <option>Caravan Storage</option>
-                    </select>
 
                     <textarea placeholder="Enter your message here..." />
 

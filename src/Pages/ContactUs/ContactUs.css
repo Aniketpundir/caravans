@@ -2,6 +2,8 @@
     font-family: sans-serif;
 }
 
+/* HERO */
+
 .contact-hero {
     margin-top: 7%;
     height: 420px;
@@ -31,6 +33,14 @@
     line-height: 1.6;
 }
 
+/* MOBILE IMAGE */
+
+.mobile-hero-img {
+    display: none;
+}
+
+/* INTRO */
+
 .contact-intro {
     text-align: center;
     padding: 60px 20px;
@@ -48,6 +58,8 @@
     font-size: 18px;
     color: #444;
 }
+
+/* CARDS */
 
 .contact-cards {
     display: grid;
@@ -96,6 +108,8 @@
     font-size: 18px;
     color: #0d1b2a;
 }
+
+/* FORM */
 
 .contact-form-section {
     background: #1767b3;
@@ -152,20 +166,9 @@ button:hover {
     background: #5fa0d6;
 }
 
-@media (max-width: 1024px) {
+/* TABLET */
 
-    .contact-hero {
-        margin-top: 9%;
-        padding-left: 40px;
-    }
-
-    .contact-hero-overlay h1 {
-        font-size: 48px;
-    }
-
-    .contact-intro h2 {
-        font-size: 44px;
-    }
+@media(max-width:1024px) {
 
     .contact-cards {
         grid-template-columns: repeat(2, 1fr);
@@ -178,28 +181,39 @@ button:hover {
 
 }
 
-@media (max-width: 768px) {
+/* MOBILE */
+
+@media(max-width:768px) {
 
     .contact-hero {
-        height: 320px;
-        padding-left: 25px;
+        margin-top: 20%;
+        height: auto;
+        background: none;
+        flex-direction: column;
+        padding: 0;
     }
 
-    .contact-hero-overlay h1 {
-        font-size: 36px;
+    /* TEXT WHITE BACKGROUND */
+
+    .contact-hero-overlay {
+        display: flex;
+        flex-direction: column;
+        background: white;
+        color: #1b356b;
+        padding: 40px 20px;
+        text-align: center;
+        width: 100%;
     }
 
-    .contact-hero-overlay p {
-        font-size: 16px;
-    }
+    /* IMAGE */
 
-    .contact-intro h2 {
-        font-size: 34px;
+    .mobile-hero-img {
+        display: block;
+        width: 100%;
     }
 
     .contact-cards {
         grid-template-columns: 1fr;
-        gap: 30px;
     }
 
     .form-row {
@@ -208,28 +222,24 @@ button:hover {
 
 }
 
-@media (max-width: 480px) {
+/* SMALL MOBILE */
 
-    .contact-hero {
-        margin-top: 25%;
-        height: 260px;
-        padding-left: 20px;
-    }
+@media(max-width:480px) {
 
     .contact-hero-overlay h1 {
-        font-size: 28px;
+        font-size: 32px;
     }
 
     .contact-hero-overlay p {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .contact-intro h2 {
-        font-size: 28px;
+        font-size: 32px;
     }
 
     .contact-intro p {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .card-icon {
