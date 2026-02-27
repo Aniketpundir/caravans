@@ -70,6 +70,34 @@
     animation: scroll 20s linear infinite;
 }
 
+
+/* Arrow Buttons */
+.hero__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: #ffffff;
+    font-size: 28px;
+    padding: 8px 14px;
+    cursor: pointer;
+    z-index: 5;
+    border-radius: 4px;
+}
+
+.hero__arrow--left {
+    left: 20px;
+}
+
+.hero__arrow--right {
+    right: 20px;
+}
+
+.hero__arrow:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
 @keyframes scroll {
     0% {
         transform: translateX(0%);
@@ -123,6 +151,20 @@
     /* Scrolling line normal position on mobile */
     .hero__scroll {
         position: relative;
+    }
+
+    .hero__arrow {
+        position: absolute;
+        top: 75%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.4);
+        border: none;
+        color: #ffffff;
+        font-size: 28px;
+        padding: 8px 14px;
+        cursor: pointer;
+        z-index: 5;
+        border-radius: 4px;
     }
 }
 
