@@ -1,5 +1,4 @@
-import React from "react";
-import "./StepLoader.css";
+import "./Steploader.css";
 
 const StepLoader = () => {
     return (
