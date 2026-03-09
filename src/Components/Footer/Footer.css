@@ -6,7 +6,7 @@
 
 .footer__grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 48px;
     padding: 60px 0 40px;
 }
@@ -58,47 +58,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
-
-.footer__newsletter p {
-    margin-bottom: 16px;
-    font-size: 13px;
-}
-
-.footer__form {
-    display: flex;
-    gap: 0;
-}
-
-.footer__input {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid black;
-    border-right: none;
-    border-radius: 8px 0 0 8px;
-    padding: 10px 14px;
-    color: white;
-    font-family: var(--font-body);
-    font-size: 13px;
-    outline: none;
-}
-
-.footer__input::placeholder {
-    color: #ffffff;
-}
-
-.footer__input:focus {
-    border-color: var(--primary-light);
-}
-
-.footer__submit {
-    background: var(--primary);
-    border: none;
-    color: var(--white);
-    padding: 10px 16px;
-    border-radius: 0 8px 8px 0;
-    font-size: 18px;
-    transition: background 0.2s;
 }
 
 .footer__submit:hover {

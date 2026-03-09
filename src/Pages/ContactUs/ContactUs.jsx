@@ -14,7 +14,7 @@ export default function ContactUs() {
             >
 
                 <div className="contact-hero-overlay">
-                    <h1>Contact</h1>
+                    <h1>Contact US</h1>
                     <p>
                         Connect with us for more information about our
                         Caravan / Boat / Bus storage
@@ -30,8 +30,8 @@ export default function ContactUs() {
 
             <div className="contact-intro">
 
-                <h2>We'd Love to hear from you.</h2>
-                <p>Or just reach out manually via</p>
+                {/* <h2>We'd Love to hear from you.</h2>
+                <p>Or just reach out manually via</p> */}
 
                 <div className="contact-cards">
 
@@ -40,8 +40,8 @@ export default function ContactUs() {
                             <FaPhoneAlt />
                         </div>
                         <h4>Call Us Directly</h4>
-                        <span> 0412 260 525</span>
-                        <span> 0402 438 063</span>
+                        <span> Jimmy - 0412 260 525</span>
+                        <span> Sean - 0402 438 063</span>
                     </div>
 
                     <div className="contact-card">
@@ -49,8 +49,8 @@ export default function ContactUs() {
                             <FaEnvelope />
                         </div>
                         <h4>Email Support</h4>
-                        <p>Our team can respond in real time</p>
-                        <span>info@mmmlogistics.com.au</span>
+                        {/* <p>Our team can respond in real time</p> */}
+                        <span>info@caravanstorage.com.au</span>
                     </div>
 
                     <div className="contact-card">
@@ -58,8 +58,8 @@ export default function ContactUs() {
                             <FaBuilding />
                         </div>
                         <h4>Visit Our</h4>
-                        <p>location in real life</p>
-                        <span>Tuggerah NSW</span>
+                        <h4>location in real life</h4>
+                        <span>77 Lakes Rd, Tuggerah, NSW 2259</span>
                     </div>
 
                 </div>
@@ -81,7 +81,6 @@ export default function ContactUs() {
 
                     <div className="form-row">
                         <input type="text" placeholder="Phone" />
-                        <input type="text" placeholder="Weight, kg" />
                     </div>
 
                     <textarea placeholder="Enter your message here..." />

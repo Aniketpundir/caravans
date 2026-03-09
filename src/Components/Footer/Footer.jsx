@@ -34,7 +34,7 @@ export default function Footer() {
                     <p><a href="tel:0254301324">(02) 5430 1324</a></p>
                 </address>
 
-                <section className="footer__newsletter" aria-label="Newsletter signup">
+                {/* <section className="footer__newsletter" aria-label="Newsletter signup">
                     <h3 className="footer__heading">Newsletter</h3>
                     <p>Stay up to date on our latest offers.</p>
                     <form className="footer__form" onSubmit={(e) => e.preventDefault()} aria-label="Newsletter form">
@@ -47,7 +47,7 @@ export default function Footer() {
                         />
                         <button type="submit" className="footer__submit" aria-label="Subscribe">→</button>
                     </form>
-                </section>
+                </section> */}
             </div>
 
             <div className="footer__bottom">
