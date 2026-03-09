@@ -40,8 +40,8 @@ export default function ContactUs() {
                             <FaPhoneAlt />
                         </div>
                         <h4>Call Us Directly</h4>
-                        <span> Jimmy - 0412 260 525</span>
-                        <span> Sean - 0402 438 063</span>
+                        <span> 0412 260 525 - Jimmy</span>
+                        <span> 0402 438 063 - Sean</span>
                     </div>
 
                     <div className="contact-card">
