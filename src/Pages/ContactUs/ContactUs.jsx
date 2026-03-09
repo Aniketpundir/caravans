@@ -14,7 +14,7 @@ export default function ContactUs() {
             >
 
                 <div className="contact-hero-overlay">
-                    <h1>Contact US</h1>
+                    <h1>Contact us</h1>
                     <p>
                         Connect with us for more information about our
                         Caravan / Boat / Bus storage

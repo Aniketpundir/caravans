@@ -31,8 +31,8 @@ export default function Navbar() {
 
                 <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
                     <li><Link to="/" onClick={closeMenu}>Home</Link></li>
-                    <li><Link to="" onClick={closeMenu}>Features</Link></li>
-                    <li><Link to="" onClick={closeMenu}>Pricing</Link></li>
+                    <li><Link to="/book-online" onClick={closeMenu}>Book Online</Link></li>
+                    <li><Link to="" onClick={closeMenu}>My Bookings</Link></li>
                     <li><Link to="/contact-us" onClick={closeMenu}>Contact Us</Link></li>
                 </ul>
 
