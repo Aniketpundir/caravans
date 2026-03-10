@@ -71,6 +71,7 @@
 /* ================= STEP 1 ================= */
 
 .lot-grid {
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 26px;
@@ -79,7 +80,7 @@
 .lot-card {
     display: flex;
     gap: 18px;
-    background: white;
+    background-color: #6bb8ff;
     padding: 22px;
     border-radius: 14px;
     border: 1px solid #e5e7eb;
@@ -95,27 +96,27 @@
 }
 
 .lot-card.active {
-    border: 2px solid #6bb8ff;
-    background: #f0fbfa;
+    border: 2px solid #113c81;
     box-shadow: 0 10px 22px rgba(42, 167, 164, 0.15);
 }
 
 .lot-card img {
-    width: 66px;
-    height: 66px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
 }
 
 .lot-card h4 {
+    color: #113c81;
     font-size: 18px;
     margin-bottom: 6px;
 }
 
 .lot-card p {
     font-size: 14px;
-    color: #6b7280;
+    color: #fff;
     line-height: 1.55;
 }
 
@@ -930,13 +931,24 @@
     }
 
     .lot-card {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         padding: 14px 16px;
-        gap: 12px;
+        gap: 20px;
+    }
+
+    .lot-card h4 {
+        text-align: center;
+    }
+
+    .lot-card p {
+        text-align: center;
     }
 
     .lot-card img {
-        width: 52px;
-        height: 52px;
+        width: 60px;
+        height: 60px;
     }
 
     .lot-card h4 {

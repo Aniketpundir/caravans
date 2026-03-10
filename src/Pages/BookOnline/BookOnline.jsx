@@ -9,6 +9,9 @@ import {
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import StepLoader from "../../Components/Steploader/Steploader";
+import Large from "../../assets/large.jpeg"
+import Medium from "../../assets/medium.jpeg"
+import Small from "../../assets/small.jpeg"
 
 /* ==== PRICING ==== */
 const RATES = {
@@ -50,19 +53,19 @@ const Step1 = ({ next, data, setData }) => {
             id: "large",
             title: "Large Lot – 9mx3m",
             desc: "Large Lots are 9m x 3m (27m2) in size. Price is on a per day basis. Minimum 7 day booking period.",
-            img: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?q=80&w=200",
+            img: Large,
         },
         {
             id: "medium",
             title: "Medium Lot – 7mx3m",
             desc: "Medium Lots are 7m x 3m (21m2) in size. Price is on a per day basis. Minimum 7 day booking period.",
-            img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=200",
+            img: Medium,
         },
         {
             id: "small",
             title: "Small Lot – 6mx3m",
             desc: "Small Lots are 6m x 3m (18m2) in size. Price is on a per day basis. Minimum 7 day booking period.",
-            img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=200",
+            img: Small,
         },
     ];
 
@@ -74,7 +77,7 @@ const Step1 = ({ next, data, setData }) => {
                     <div
                         key={lot.id}
                         className={`lot-card ${data.type === lot.id ? "active" : ""}`}
-                        onClick={() => setData({ ...data, type: lot.id })}
+                        onClick={() => { setData({ ...data, type: lot.id }), next() }}
                     >
                         <img src={lot.img} alt="" />
                         <div>
