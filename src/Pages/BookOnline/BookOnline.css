@@ -63,9 +63,11 @@
 }
 
 .title {
+    text-align: center;
     margin-bottom: 28px;
     font-size: 22px;
     font-weight: 600;
+    color: #113c81;
 }
 
 /* ================= STEP 1 ================= */
@@ -226,7 +228,6 @@
 .real-calendar {
     background: white;
     padding: 22px;
-    border-radius: 14px;
     border: 1px solid #e5e7eb;
     width: 100%;
     box-sizing: border-box;
@@ -281,6 +282,11 @@
     color: #cbd5e1 !important;
 }
 
+.react-calendar button {
+    border-radius: 0;
+    margin: 2px;
+}
+
 
 .slot-text {
     font-size: 11px;
@@ -291,8 +297,12 @@
 .range-highlight {
     background: #6bb8ff !important;
     color: white !important;
-    border-radius: 10px !important;
-    border: none !important;
+    border: 1px solid #fff !important;
+}
+
+.range-highlight .slot-text {
+    display: flex;
+    flex-direction: column;
 }
 
 .range-highlight abbr {
@@ -847,8 +857,9 @@
     /* LAYOUT */
     .wizard-layout {
         flex-direction: column;
-        margin-top: 30%;
+        /* margin-top: 30%; */
         min-height: 100vh;
+        margin: 30% 2% 0
     }
 
     /* SIDEBAR — sticky row with icons + labels + dividers */
@@ -913,7 +924,7 @@
 
     /* CONTENT */
     .content {
-        padding: 20px 16px 40px;
+        padding: 20px 0px 1px;
         flex: 1;
     }
 
@@ -980,6 +991,7 @@
     }
 
     .react-calendar__tile {
+        border: 1px solid #fff;
         height: 62px !important;
         padding: 6px 2px !important;
     }
