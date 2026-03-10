@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./BookOnline.css";
 import {
     RectangleStackIcon,
@@ -48,6 +49,7 @@ const ScrollToTop = () => {
 
 /* ==== STEP 1 ==== */
 const Step1 = ({ next, data, setData }) => {
+    const Navigate = useNavigate()
     const lots = [
         {
             id: "large",
@@ -89,6 +91,18 @@ const Step1 = ({ next, data, setData }) => {
             </div>
             <div className="bottom-nav right">
                 <button onClick={next}>Next: Booking Date →</button>
+            </div>
+
+            <div className="booking-info-banner">
+                <p>
+                    Your booking confirmation and Booking ID will be sent to your email shortly after completing your reservation.
+                    If you wish to reschedule or cancel your booking, or if you have any questions regarding your reservation,
+                    our team will be happy to assist you. Please feel free to contact us.
+                </p>
+                <button className="contact-btn" onClick={() => Navigate("/contact-us")}>
+                    Contact Us
+                </button>
+                <h5 className="thank-you-text">Thank you for choosing us. We truly appreciate your trust and look forward to taking care of your storage needs.</h5>
             </div>
         </>
     );

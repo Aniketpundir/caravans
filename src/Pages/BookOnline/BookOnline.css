@@ -122,6 +122,53 @@
     line-height: 1.55;
 }
 
+.booking-info-banner {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    text-align: center;
+    padding: 32px 28px;
+    background: #f0f6ff;
+    border-radius: 14px;
+    border: 1px solid #cce0ff;
+}
+
+.booking-info-banner p {
+    color: #113c81;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 620px;
+    margin: 0 auto 20px auto;
+}
+
+.contact-btn {
+    background-color: #113c81;
+    color: #ffffff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.4px;
+    margin-bottom: 20px;
+}
+
+.contact-btn:hover {
+    background-color: #6bb8ff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(17, 60, 129, 0.2);
+}
+
+.thank-you-text {
+    color: #113c81 !important;
+    font-size: 18px !important;
+    font-style: italic;
+    opacity: 0.8;
+    margin-bottom: 0 !important;
+}
+
 /* ================= STEP 2 ================= */
 
 .duration-center {
@@ -261,6 +308,7 @@
     background: none;
     cursor: pointer;
     transition: border 0.15s;
+    border: 1px solid rgba(0, 0, 0, 0.482) !important;
 }
 
 .react-calendar__tile abbr {
@@ -297,7 +345,7 @@
 .range-highlight {
     background: #6bb8ff !important;
     color: white !important;
-    border: 1px solid #fff !important;
+    /* border: 2px solid #fff !important; */
 }
 
 .range-highlight .slot-text {
