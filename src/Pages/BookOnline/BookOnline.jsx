@@ -106,7 +106,7 @@ const Step1 = ({ next, data, setData }) => {
                     If you wish to reschedule or cancel your booking, or if you have any questions regarding your reservation,
                     our team will be happy to assist you. Please feel free to contact us.
                 </p>
-                <button className="contact-btn" onClick={() => Navigate("/contact-us")}>
+                <button className="contact-btn" onClick={() => { Navigate("/contact-us"), handleClick() }}>
                     Contact Us
                 </button>
                 <h5 className="thank-you-text">Thank you for choosing us. We truly appreciate your trust and look forward to taking care of your storage needs.</h5>

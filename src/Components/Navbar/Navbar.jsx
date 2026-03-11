@@ -37,10 +37,27 @@ export default function Navbar() {
                 </Link>
 
                 <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
-                    <li><Link to="/" onClick={closeMenu}>Home</Link></li>
-                    <li><Link to="/book-online" onClick={closeMenu}>Book Online</Link></li>
-                    <li><Link to="/my-booking" onClick={closeMenu}>My Bookings</Link></li>
-                    <li><Link to="/contact-us" onClick={closeMenu}>Contact Us</Link></li>
+                    <li>
+                        <Link to="/" onClick={() => { closeMenu(), handleClick() }}>
+                            Home
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/book-online" onClick={() => { closeMenu(), handleClick() }}>
+                            Book Online
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/my-booking" onClick={() => { closeMenu(), handleClick() }}
+                        >
+                            My Bookings
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/contact-us" onClick={() => { closeMenu(), handleClick() }}>
+                            Contact Us
+                        </Link>
+                    </li>
                 </ul>
 
                 {/* Desktop CTA */}

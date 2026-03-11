@@ -10,6 +10,13 @@ export default function Hero() {
     const images = [image1, image2];
     const [current, setCurrent] = useState(0);
 
+    const handleClick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    };
+
     // Auto slide every 4 seconds
     useEffect(() => {
         const interval = setInterval(() => {
@@ -29,7 +36,7 @@ export default function Hero() {
                     </h1>
 
                     <div className="hero__actions">
-                        <Link to="/book-online" className="btn-primary">
+                        <Link to="/book-online" onClick={() => { handleClick() }} className="btn-primary">
                             View Options
                         </Link>
                     </div>

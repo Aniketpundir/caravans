@@ -2,29 +2,6 @@ import { Link } from 'react-router-dom';
 import './Footer.css';
 import CaravanStorageLogo from "../CaravansLogo/CaravanStorageLogo"
 
-const quickLinks = [
-    {
-        id: 1,
-        title: "Home",
-        path: "/"
-    },
-    {
-        id: 2,
-        title: "Book Online",
-        path: "/book-online",
-    },
-    {
-        id: 3,
-        title: "My Bookings",
-        path: "/my-booking",
-    },
-    {
-        id: 4,
-        title: "Contact us",
-        path: "/contact-us",
-    }
-];
-
 export default function Footer() {
     const handleClick = () => {
         window.scrollTo({
@@ -47,9 +24,30 @@ export default function Footer() {
                 <nav className="footer__nav" aria-label="Quick links">
                     <h3 className="footer__heading">Quick Links</h3>
                     <ul role="list">
-                        {quickLinks.map((val) => (
-                            <li key={val.id}><Link onClick={() => { handleClick() }} to={val.path}>{val.title}</Link></li>
-                        ))}
+                        <li >
+                            <Link
+                                onClick={() => { handleClick() }} to="/">
+                                Home
+                            </Link>
+                        </li>
+                        <li >
+                            <Link
+                                onClick={() => { handleClick() }} to="/book-online">
+                                Book Online
+                            </Link>
+                        </li>
+                        <li >
+                            <Link
+                                onClick={() => { handleClick() }} to="/my-booking">
+                                My Bookings
+                            </Link>
+                        </li>
+                        <li >
+                            <Link
+                                onClick={() => { handleClick() }} to="/contact-us">
+                                Contact us
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
 
