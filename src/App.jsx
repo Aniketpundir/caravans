@@ -7,6 +7,8 @@ import CaravanStorageLogo from "./Components/CaravansLogo/CaravanStorageLogo"
 import StoreContextProvider from './Context/Storecontext'
 import ContactUs from './Pages/ContactUs/ContactUs';
 import BookOnline from './Pages/BookOnline/BookOnline';
+import MyBooking from './Pages/MyBooking/MyBooking';
+import MyBookingsDashboard from './Components/Mybookingsdashboard/Mybookingsdashboard';
 
 const App = () => {
 
@@ -29,8 +31,8 @@ const App = () => {
             <Route path='/' element={<Layout />}>
               <Route index element={<Home />} />
               <Route path='/contact-us' element={<ContactUs />} />
-              {/* <Route path='/book-online' element={<PremiumLotSelector />} /> */}
-              {/* <Route path='/book-online/reserve-section' element={<ReserveSection />} /> */}
+              <Route path='/my-booking' element={<MyBooking />} />
+              {/* <Route path='/my-booking-dashboard' element={<MyBookingsDashboard />} /> */}
               <Route path='/book-online' element={<BookOnline />} />
             </Route>
 

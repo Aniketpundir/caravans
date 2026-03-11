@@ -1,0 +1,130 @@
+.my-bookings-page {
+    margin-top: 8%;
+    padding: 40px 20px;
+    background: #f9fafb;
+    min-height: 100vh;
+}
+
+.bookings-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #113c81;
+    margin-bottom: 32px;
+}
+
+.login-card {
+    max-width: 480px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+}
+
+.login-heading {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #6bb8ff;
+    margin-bottom: 28px;
+}
+
+.login-field {
+    margin-bottom: 20px;
+}
+
+.login-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 7px;
+}
+
+.required {
+    color: #e53e3e;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #374151;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.login-field input:focus {
+    border-color: #2a9d9a;
+    box-shadow: 0 0 0 3px rgba(42, 157, 154, 0.1);
+}
+
+.login-field input::placeholder {
+    color: #9ca3af;
+}
+
+.remember-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.remember-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #113c81;
+    cursor: pointer;
+}
+
+.remember-row label {
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 13px;
+    background-color: #113c81;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.2s ease;
+    margin-bottom: 18px;
+}
+
+.login-btn:hover {
+    background-color: #21807d;
+    transform: translateY(-1px);
+}
+
+.lost-password {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.lost-password:hover {
+    color: #2a9d9a;
+    text-decoration: underline;
+}
+
+@media (max-width:768px) {
+    .my-bookings-page {
+        margin-top: 20%;
+    }
+}

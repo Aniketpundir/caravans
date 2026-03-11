@@ -47,6 +47,13 @@ const ScrollToTop = () => {
     );
 };
 
+
+const handleClick = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+};
 /* ==== STEP 1 ==== */
 const Step1 = ({ next, data, setData }) => {
     const Navigate = useNavigate()
@@ -90,7 +97,7 @@ const Step1 = ({ next, data, setData }) => {
                 ))}
             </div>
             <div className="bottom-nav right">
-                <button onClick={next}>Next: Booking Date →</button>
+                <button onClick={() => { next(), handleClick() }}>Next: Booking Date →</button>
             </div>
 
             <div className="booking-info-banner">
@@ -227,7 +234,7 @@ const Step2 = ({ next, back, data, setData }) => {
 
                     <div className="bottom-nav">
                         <span onClick={back}>← Go Back</span>
-                        <button onClick={next}>Next: Customer Details →</button>
+                        <button onClick={() => { next(), handleClick() }}>Next: Customer Details →</button>
                     </div>
                 </>
             )}
@@ -504,7 +511,7 @@ const Step3 = ({ next, back, data, setData }) => {
 
             <div className="bottom-nav">
                 <span onClick={back}>← Go Back</span>
-                <button onClick={handleNext}>Next: Payment →</button>
+                <button onClick={() => { handleNext(), handleClick() }}>Next: Payment →</button>
             </div>
         </>
     );
