@@ -1,9 +1,37 @@
+import { Link } from 'react-router-dom';
 import './Footer.css';
 import CaravanStorageLogo from "../CaravansLogo/CaravanStorageLogo"
 
-const quickLinks = ['Home', 'Book Online', 'My Bookings', 'Contact us'];
+const quickLinks = [
+    {
+        id: 1,
+        title: "Home",
+        path: "/"
+    },
+    {
+        id: 2,
+        title: "Book Online",
+        path: "/book-online",
+    },
+    {
+        id: 3,
+        title: "My Bookings",
+        path: "/my-booking",
+    },
+    {
+        id: 4,
+        title: "Contact us",
+        path: "/contact-us",
+    }
+];
 
 export default function Footer() {
+    const handleClick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    };
     return (
         <footer className="footer" role="contentinfo">
             <div className="container footer__grid">
@@ -19,8 +47,8 @@ export default function Footer() {
                 <nav className="footer__nav" aria-label="Quick links">
                     <h3 className="footer__heading">Quick Links</h3>
                     <ul role="list">
-                        {quickLinks.map((l) => (
-                            <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>
+                        {quickLinks.map((val) => (
+                            <li key={val.id}><Link onClick={() => { handleClick() }} to={val.path}>{val.title}</Link></li>
                         ))}
                     </ul>
                 </nav>

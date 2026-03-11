@@ -32,9 +32,9 @@ export default function Navbar() {
     return (
         <header className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
             <nav className="container navbar__inner">
-                <a href="#home" className="navbar__logo">
+                <Link to="/" className="navbar__logo">
                     <CaravanStorageLogo size={100} />
-                </a>
+                </Link>
 
                 <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
                     <li><Link to="/" onClick={closeMenu}>Home</Link></li>
