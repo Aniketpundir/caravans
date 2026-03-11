@@ -103,6 +103,7 @@
 }
 
 .contact-card span {
+    cursor: pointer;
     display: block;
     margin-top: 20px;
     font-size: 18px;

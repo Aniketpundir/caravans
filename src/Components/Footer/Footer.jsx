@@ -1,7 +1,7 @@
 import './Footer.css';
 import CaravanStorageLogo from "../CaravansLogo/CaravanStorageLogo"
 
-const quickLinks = ['Home', 'Features', 'Pricing', 'Location'];
+const quickLinks = ['Home', 'Book Online', 'My Bookings', 'Contact us'];
 
 export default function Footer() {
     return (
@@ -31,7 +31,8 @@ export default function Footer() {
                         <a href="mailto:info@caravanstorage.com.au">info@caravanstorage.com.au</a>
                     </p>
                     <p>77 Lakes Rd, Tuggerah NSW</p>
-                    <p><a href="tel:0254301324">(02) 5430 1324</a></p>
+                    <p><a href="tel:0412260525">0412 260 525 - Jimmy</a></p>
+                    <p><a href="tel:0402438063">0402 438 063 - Sean</a></p>
                 </address>
 
                 {/* <section className="footer__newsletter" aria-label="Newsletter signup">

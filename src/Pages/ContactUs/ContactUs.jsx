@@ -40,8 +40,8 @@ export default function ContactUs() {
                             <FaPhoneAlt />
                         </div>
                         <h4>Call Us Directly</h4>
-                        <span> 0412 260 525 - Jimmy</span>
-                        <span> 0402 438 063 - Sean</span>
+                        <span> <a href="tel:0412260525">0412 260 525 - Jimmy</a> </span>
+                        <span> <a href="tel:0402438063">0402 438 063 - Sean</a> </span>
                     </div>
 
                     <div className="contact-card">
@@ -49,8 +49,7 @@ export default function ContactUs() {
                             <FaEnvelope />
                         </div>
                         <h4>Email Support</h4>
-                        {/* <p>Our team can respond in real time</p> */}
-                        <span>info@caravanstorage.com.au</span>
+                        <span> <a href="mailto:info@caravanstorage.com.au">info@caravanstorage.com.au</a></span>
                     </div>
 
                     <div className="contact-card">
