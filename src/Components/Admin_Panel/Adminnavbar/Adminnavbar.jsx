@@ -1,4 +1,4 @@
-import "./AdminNavbar.css";
+import "./Adminnavbar.css";
 
 // ─── ICONS ───────────────────────────────────────────────────────────────────
 const CalendarIcon = () => (
