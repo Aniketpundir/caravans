@@ -1,4 +1,4 @@
-import "./ExpandPanel.css";
+import "./Expandpanel.css";
 
 // ─── CLOSE ICON ───────────────────────────────────────────────────────────────
 const CloseIcon = () => (
