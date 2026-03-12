@@ -1,0 +1,144 @@
+/* ===== EXPAND PANEL ===== */
+
+.admin_expand__panel {
+    background: #f8fafc;
+    padding: 24px 28px 28px;
+    border-top: 1px solid #e2e8f0;
+    animation: admin_expand__slideIn 0.2s ease;
+}
+
+@keyframes admin_expand__slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Header ── */
+.admin_expand__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.admin_expand__header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.admin_expand__booking-id {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.admin_expand__service-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.admin_expand__price-badge {
+    background: #22c55e;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 8px;
+}
+
+.admin_expand__cancel-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.admin_expand__cancel-btn:hover {
+    background: #f1f5f9;
+}
+
+.admin_expand__cancel-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+}
+
+/* ── 3-column details grid ── */
+.admin_expand__details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.admin_expand__details-col {
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 18px 20px;
+}
+
+.admin_expand__col-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.admin_expand__detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px solid #f8fafc;
+    gap: 12px;
+}
+
+.admin_expand__detail-row:last-child {
+    border-bottom: none;
+}
+
+.admin_expand__detail-label {
+    font-size: 13px;
+    color: #64748b;
+    flex-shrink: 0;
+    min-width: 90px;
+}
+
+.admin_expand__detail-value {
+    font-size: 13px;
+    color: #1e293b;
+    font-weight: 500;
+    text-align: right;
+    word-break: break-word;
+}
+
+.admin_expand__detail-value--green {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.admin_expand__detail-value--blue {
+    color: #3b82f6;
+    font-weight: 600;
+}

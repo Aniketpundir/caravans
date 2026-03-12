@@ -60,7 +60,6 @@ export default function Navbar() {
                     </li>
                 </ul>
 
-                {/* Desktop CTA */}
                 <Link to="/book-online" onClick={() => { handleClick() }} className="btn-primary navbar__cta">
                     Check Availability
                 </Link>

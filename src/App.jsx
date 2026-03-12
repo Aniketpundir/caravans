@@ -8,6 +8,8 @@ import StoreContextProvider from './Context/Storecontext'
 import ContactUs from './Pages/ContactUs/ContactUs';
 import BookOnline from './Pages/BookOnline/BookOnline';
 import MyBooking from './Pages/MyBooking/MyBooking';
+import Dashboard from './Components/Admin_Panel/Dashboard/Dashboard';
+import AdminLayout from './Components/Admin_Panel/AdminLayout/AdminLayout';
 // import MyBookingsDashboard from './Components/Mybookingsdashboard/Mybookingsdashboard';
 
 const App = () => {
@@ -27,6 +29,16 @@ const App = () => {
       <StoreContextProvider>
         <Router>
           <Routes>
+
+            <Route path='/admin-dashboard' element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+            </Route>
+
+
+
+
+
+
             <Route path='/logo' element={<CaravanStorageLogo size={80} />} />
             <Route path='/' element={<Layout />}>
               <Route index element={<Home />} />

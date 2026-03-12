@@ -1,0 +1,485 @@
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f0f2f5;
+    color: #2d3748;
+}
+
+/* ===== PAGE WRAPPER ===== */
+.admin_page__wrapper {
+    padding: 30px 36px;
+}
+
+/* ===== DASHBOARD CONTAINER ===== */
+.admin_dashboard__container {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 28px 32px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== DASHBOARD HEADER ===== */
+.admin_dashboard__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.admin_dashboard__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.admin_dashboard__date-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    background: #fff;
+}
+
+.admin_dashboard__date-picker svg {
+    width: 18px;
+    height: 18px;
+    stroke: #64748b;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ===== STAT CARDS ===== */
+.admin_stats__row-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.admin_stats__row-bottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 36px;
+}
+
+.admin_stat__card {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+}
+
+.admin_stat__number {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.admin_stat__number--dark {
+    color: #1e293b;
+}
+
+.admin_stat__number--green {
+    color: #22c55e;
+}
+
+.admin_stat__number--orange {
+    color: #f59e0b;
+}
+
+.admin_stat__number--blue {
+    color: #3b82f6;
+}
+
+.admin_stat__number--purple {
+    color: #a855f7;
+}
+
+.admin_stat__label {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 400;
+}
+
+/* ===== SECTION TITLE ===== */
+.admin_section__title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+}
+
+/* ===== CHARTS GRID ===== */
+.admin_charts__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.admin_chart__card {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px 18px 14px;
+    background: #fff;
+}
+
+.admin_chart__title {
+    font-size: 14.5px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1e293b;
+}
+
+.admin_chart__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.admin_chart__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #64748b;
+}
+
+.admin_chart__legend-box {
+    width: 28px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.admin_chart__legend-box--green {
+    background: #22c55e;
+}
+
+.admin_chart__legend-box--orange {
+    background: #f5d9a0;
+    border: 1px solid #f59e0b;
+}
+
+.admin_chart__legend-box--blue {
+    background: #93c5fd;
+}
+
+.admin_chart__canvas-wrap {
+    height: 190px;
+    position: relative;
+}
+
+/* ===== TABLE ===== */
+.admin_table__section-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+}
+
+.admin_table__wrapper {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.admin_table__appointments {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin_table__appointments thead tr {
+    background: #fff;
+    border-bottom: 1.5px solid #e2e8f0;
+}
+
+.admin_table__appointments th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.admin_table__th-inner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.admin_table__sort-arrows {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    opacity: 0.5;
+}
+
+.admin_table__sort-arrows span {
+    font-size: 8px;
+    line-height: 1;
+    color: #64748b;
+}
+
+/* ── tbody data rows ── */
+.admin_table__data-row {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.1s;
+    position: relative;
+}
+
+.admin_table__data-row:nth-child(odd) {
+    background: #fff;
+}
+
+.admin_table__data-row:nth-child(even) {
+    background: #f8fafc;
+}
+
+.admin_table__data-row:hover {
+    background: #f1f5f9;
+}
+
+/* ── expand row (panel row) – no hover effect ── */
+.admin_table__expand-row td {
+    padding: 0 !important;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin_table__expand-row:hover {
+    background: transparent !important;
+}
+
+/* ── td styles ── */
+.admin_table__appointments td {
+    padding: 18px 16px;
+    font-size: 13.5px;
+    color: #374151;
+    vertical-align: middle;
+}
+
+/* ── id cell ── */
+.admin_table__id-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── expand / collapse button ── */
+.admin_table__expand-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid #cbd5e0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    font-size: 18px;
+    font-weight: 400;
+    flex-shrink: 0;
+    line-height: 1;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.admin_table__expand-btn:hover {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+/* open state — dark filled circle */
+.admin_table__expand-btn--open {
+    background: #1e293b;
+    border-color: #1e293b;
+    color: #ffffff;
+}
+
+.admin_table__expand-btn--open:hover {
+    background: #334155;
+    border-color: #334155;
+    color: #ffffff;
+}
+
+/* ── actions cell (last column) ── */
+.admin_table__actions-cell {
+    white-space: nowrap;
+    position: relative;
+}
+
+/* created date text — always visible */
+.admin_table__created-date {
+    font-size: 13.5px;
+    color: #374151;
+}
+
+/* edit / delete icons — hidden by default, show on row hover */
+.admin_table__action-icons {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.admin_table__data-row:hover .admin_table__action-icons {
+    display: flex;
+}
+
+/* hide created date text when icons are shown */
+.admin_table__data-row:hover .admin_table__created-date {
+    visibility: hidden;
+}
+
+.admin_table__action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.admin_table__action-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e0;
+    color: #1e293b;
+}
+
+.admin_table__action-btn svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ===== STATUS DROPDOWN ===== */
+.admin_status__wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.admin_status__btn {
+    border: 1.5px solid #cbd5e0;
+    border-radius: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
+    transition: background 0.15s;
+}
+
+.admin_status__btn:hover {
+    background: #f8fafc;
+}
+
+.admin_status__dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 500;
+    min-width: 170px;
+    padding: 6px 0;
+}
+
+.admin_status__dropdown-header {
+    padding: 10px 16px 7px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 4px;
+}
+
+.admin_status__dropdown-option {
+    padding: 9px 16px;
+    font-size: 13.5px;
+    cursor: pointer;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.1s;
+}
+
+.admin_status__dropdown-option:hover {
+    background: #f1f5f9;
+}
+
+.admin_status__dropdown-option--selected {
+    color: #22c55e;
+    font-weight: 500;
+}
+
+.admin_status__dropdown-option--selected::before {
+    content: "✓";
+}
+
+/* ===== HELP FAB ===== */
+.admin_help__fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 52px;
+    height: 52px;
+    background: #3b82f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(59, 130, 246, 0.45);
+    z-index: 999;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.admin_help__fab:hover {
+    transform: scale(1.07);
+    box-shadow: 0 6px 22px rgba(59, 130, 246, 0.55);
+}
+
+.admin_help__fab svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
