@@ -16,6 +16,8 @@ import ManageServices from './Components/Admin_Panel/ManageServices/ManageServic
 import CouponManagement from './Components/Admin_Panel/CouponManagement/CouponManagement';
 import Reports from './Components/Admin_Panel/Reports/Reports';
 import MyBookingsDashboard from './Components/MyBookingsDashboard/MyBookingsDashboard';
+import PaymentFailed from './Components/Paymentfailed/Paymentfailed';
+import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
 
 const App = () => {
   useEffect(() => {
@@ -51,6 +53,8 @@ const App = () => {
             <Route path='/my-booking' element={<MyBooking />} />
             <Route path='/my-booking-dashboard' element={<MyBookingsDashboard />} />
             <Route path='/book-online' element={<BookOnline />} />
+            <Route path='/payment-failed' element={<PaymentFailed />} />
+            <Route path='/payment-success' element={<PaymentSuccess />} />
           </Route>
 
         </Routes>

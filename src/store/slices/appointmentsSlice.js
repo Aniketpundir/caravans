@@ -8,7 +8,6 @@ export const fetchAppointments = createAsyncThunk(
             const res = await fetch(url);
             if (!res.ok) throw new Error(`API error: ${res.status}`);
             const json = await res.json();
-            // console.log("✅ Appointments Response:", json);
             return json?.data ?? json ?? [];
         } catch (err) {
             console.error("❌ Error:", err.message);
