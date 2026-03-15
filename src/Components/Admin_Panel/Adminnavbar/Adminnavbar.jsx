@@ -18,13 +18,13 @@ export default function AdminNavbar() {
     const closeMenu = () => setMenuOpen(false);
 
     const links = [
-        // { to: "/admin-dashboard", icon: <FaThLarge />, label: "Dashboard" },
+        { to: "/admin-dashboard", icon: <FaThLarge />, label: "Dashboard" },
         { to: "/admin-dashboard/appointments", icon: <MdEventNote />, label: "Appointments" },
-        // { to: "/admin-dashboard/payments", icon: <FaMoneyBillWave />, label: "Payments" },
-        // { to: "/admin-dashboard/customers", icon: <FaUsers />, label: "Customers" },
-        // { to: "/admin-dashboard/service", icon: <FaThLarge />, label: "Services" },
-        // { to: "/admin-dashboard/coupan", icon: <FaTag />, label: "Discounts" },
-        // { to: "/admin-dashboard/report", icon: <FaChartBar />, label: "Reports" },
+        { to: "/admin-dashboard/payments", icon: <FaMoneyBillWave />, label: "Payments" },
+        { to: "/admin-dashboard/customers", icon: <FaUsers />, label: "Customers" },
+        { to: "/admin-dashboard/service", icon: <FaThLarge />, label: "Services" },
+        { to: "/admin-dashboard/coupan", icon: <FaTag />, label: "Discounts" },
+        { to: "/admin-dashboard/report", icon: <FaChartBar />, label: "Reports" },
     ];
 
     return (
