@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://caravans-project.onrender.com/api";
+// const BASE_URL = "http://localhost:4000/api";
+
+const BASE_URL = "https://caravans-project.onrender.com/api"
 
 // ─── Login ────────────────────────────────────────────────────────────────────
 export const loginUser = createAsyncThunk(
@@ -58,12 +60,12 @@ export const updateProfile = createAsyncThunk(
 // ─── Change Password ─────────────────────────────────────────────────────────
 export const changePassword = createAsyncThunk(
     "auth/changePassword",
-    async ({ oldPassword, newPassword, }, { rejectWithValue }) => {
+    async ({ currentPassword, newPassword }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.patch(
+            const response = await axios.post(
                 `${BASE_URL}/auth/change-password`,
-                { oldPassword, newPassword },
+                { oldPassword: currentPassword, newPassword },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             return response.data;
@@ -72,6 +74,43 @@ export const changePassword = createAsyncThunk(
         }
     }
 );
+
+// ─── Reschedule Booking ──────────────────────────────────────────────────────
+export const rescheduleBooking = createAsyncThunk(
+    "auth/rescheduleBooking",
+    async ({ bookingId, startDate, endDate }, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.patch(
+                `${BASE_URL}/auth/booking/${bookingId}/reschedule`,
+                { startDate, endDate },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            console.log(response)
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error?.response?.data?.message || "Failed to reschedule booking.");
+        }
+    }
+);
+
+// // ─── Reschedule Booking ──────────────────────────────────────────────────────
+// export const rescheduleBooking = createAsyncThunk(
+//     "auth/rescheduleBooking",
+//     async ({ bookingId, startDate, endDate }, { rejectWithValue }) => {
+//         try {
+//             const token = localStorage.getItem("token");
+//             const response = await axios.patch(
+//                 `${BASE_URL}/auth/booking/${bookingId}/reschedule`,
+//                 { startDate, endDate },
+//                 { headers: { Authorization: `Bearer ${token}` } }
+//             );
+//             return response.data;
+//         } catch (error) {
+//             return rejectWithValue(error?.response?.data?.message || "Failed to reschedule booking.");
+//         }
+//     }
+// );
 
 // ─── Auth Slice ───────────────────────────────────────────────────────────────
 const authSlice = createSlice({
@@ -89,6 +128,9 @@ const authSlice = createSlice({
         passwordLoading: false,
         passwordSuccess: false,
         passwordError: null,
+        rescheduleLoading: false,
+        rescheduleSuccess: false,
+        rescheduleError: null,
     },
     reducers: {
         logout(state) {
@@ -101,6 +143,7 @@ const authSlice = createSlice({
         clearError(state) { state.error = null; },
         clearUpdateSuccess(state) { state.updateSuccess = false; state.updateError = null; },
         clearPasswordSuccess(state) { state.passwordSuccess = false; state.passwordError = null; },
+        clearReschedule(state) { state.rescheduleSuccess = false; state.rescheduleError = null; },
     },
     extraReducers: (builder) => {
         builder
@@ -165,9 +208,24 @@ const authSlice = createSlice({
             .addCase(changePassword.rejected, (state, action) => {
                 state.passwordLoading = false;
                 state.passwordError = action.payload || "Password change failed.";
+            })
+
+            // ── Reschedule Booking ──
+            .addCase(rescheduleBooking.pending, (state) => {
+                state.rescheduleLoading = true;
+                state.rescheduleSuccess = false;
+                state.rescheduleError = null;
+            })
+            .addCase(rescheduleBooking.fulfilled, (state) => {
+                state.rescheduleLoading = false;
+                state.rescheduleSuccess = true;
+            })
+            .addCase(rescheduleBooking.rejected, (state, action) => {
+                state.rescheduleLoading = false;
+                state.rescheduleError = action.payload || "Reschedule failed.";
             });
     },
 });
 
-export const { logout, clearError, clearUpdateSuccess, clearPasswordSuccess } = authSlice.actions;
+export const { logout, clearError, clearUpdateSuccess, clearPasswordSuccess, clearReschedule } = authSlice.actions;
 export default authSlice.reducer;
