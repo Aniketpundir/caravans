@@ -11,7 +11,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import StepLoader from "../../Components/Steploader/Steploader";
 
-// const API_BASE = "http://localhost:4000/api";
 const API_BASE = "https://caravans-project.onrender.com/api";
 
 /* ==== PRICING HELPERS ==== */

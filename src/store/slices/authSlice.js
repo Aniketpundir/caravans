@@ -60,7 +60,7 @@ export const updateProfile = createAsyncThunk(
 // ─── Change Password ─────────────────────────────────────────────────────────
 export const changePassword = createAsyncThunk(
     "auth/changePassword",
-    async ({ currentPassword, newPassword }, { rejectWithValue }) => {
+    async ({ currentPassword, newPassword, confirmPassword }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.post(
@@ -81,12 +81,11 @@ export const rescheduleBooking = createAsyncThunk(
     async ({ bookingId, startDate, endDate }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.patch(
+            const response = await axios.post(
                 `${BASE_URL}/auth/booking/${bookingId}/reschedule`,
                 { startDate, endDate },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            console.log(response)
             return response.data;
         } catch (error) {
             return rejectWithValue(error?.response?.data?.message || "Failed to reschedule booking.");
@@ -94,23 +93,22 @@ export const rescheduleBooking = createAsyncThunk(
     }
 );
 
-// // ─── Reschedule Booking ──────────────────────────────────────────────────────
-// export const rescheduleBooking = createAsyncThunk(
-//     "auth/rescheduleBooking",
-//     async ({ bookingId, startDate, endDate }, { rejectWithValue }) => {
-//         try {
-//             const token = localStorage.getItem("token");
-//             const response = await axios.patch(
-//                 `${BASE_URL}/auth/booking/${bookingId}/reschedule`,
-//                 { startDate, endDate },
-//                 { headers: { Authorization: `Bearer ${token}` } }
-//             );
-//             return response.data;
-//         } catch (error) {
-//             return rejectWithValue(error?.response?.data?.message || "Failed to reschedule booking.");
-//         }
-//     }
-// );
+// ─── Fetch Booking Credentials ───────────────────────────────────────────────
+export const fetchBookingCredentials = createAsyncThunk(
+    "auth/fetchBookingCredentials",
+    async (sessionId, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                `${BASE_URL}/user/booking/credentials?session_id=${sessionId}`
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(
+                error?.response?.data?.message || "Could not fetch credentials."
+            );
+        }
+    }
+);
 
 // ─── Auth Slice ───────────────────────────────────────────────────────────────
 const authSlice = createSlice({
@@ -131,6 +129,9 @@ const authSlice = createSlice({
         rescheduleLoading: false,
         rescheduleSuccess: false,
         rescheduleError: null,
+        credentials: null,
+        credLoading: false,
+        credError: null,
     },
     reducers: {
         logout(state) {
