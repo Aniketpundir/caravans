@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE = "http://16.16.213.67:4000/api/admin";
+const BASE = "https://caravans-project.onrender.com/api/admin";
 
 /* ─────────────────────────────────────────────
    GET  –  fetch all services

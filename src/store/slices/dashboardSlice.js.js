@@ -30,7 +30,7 @@ export const fetchDashboardData = createAsyncThunk(
         const startDate = toYMD(from);
         const endDate = toYMD(to);
 
-        const url = `http://16.16.213.67:4000/api/admin/dashboard/summary?startDate=${startDate}&endDate=${endDate}`;
+        const url = `https://caravans-project.onrender.com/api/admin/dashboard/summary?startDate=${startDate}&endDate=${endDate}`;
 
         try {
             const res = await fetch(url);
@@ -51,7 +51,7 @@ export const fetchChartsData = createAsyncThunk(
     async ({ from, to }, { rejectWithValue }) => {
         const startDate = toYMD(from);
         const endDate = toYMD(to);
-        const url = `http://16.16.213.67:4000/api/admin/dashboard/charts?startDate=${startDate}&endDate=${endDate}`;
+        const url = `https://caravans-project.onrender.com/api/admin/dashboard/charts?startDate=${startDate}&endDate=${endDate}`;
         try {
             const res = await fetch(url);
             if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -67,7 +67,7 @@ export const fetchChartsData = createAsyncThunk(
 export const fetchUpcomingAppointments = createAsyncThunk(
     "dashboard/fetchUpcomingAppointments",
     async (_, { rejectWithValue }) => {
-        const url = `http://16.16.213.67:4000/api/admin/appointments/upcoming?limit=5`;
+        const url = `https://caravans-project.onrender.com/api/admin/appointments/upcoming?limit=5`;
         try {
             const res = await fetch(url);
             if (!res.ok) throw new Error(`API error: ${res.status}`);
