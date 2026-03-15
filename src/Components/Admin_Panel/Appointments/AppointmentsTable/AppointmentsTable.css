@@ -1,0 +1,438 @@
+/* ===== AppointmentsTable.css — Responsive ===== */
+
+/* ── Table Card ── */
+.table-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+/* ── Scrollable wrapper ── */
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 520px;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 transparent;
+}
+
+.table-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 99px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ── Table ── */
+.appointments-table {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: collapse;
+}
+
+/* ── Table Head ── */
+.appointments-table thead tr {
+    border-bottom: 2px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #fff;
+}
+
+.appointments-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    white-space: nowrap;
+    background: #fff;
+}
+
+.th-expand {
+    width: 40px;
+}
+
+.th-checkbox {
+    width: 40px;
+    padding-left: 20px !important;
+}
+
+/* ── Sort Icon ── */
+.sort-icon {
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: 4px;
+    gap: 1px;
+    vertical-align: middle;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.sort-icon span {
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.sort-icon .up {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #374151;
+}
+
+.sort-icon .down {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #374151;
+}
+
+/* ── Table Body ── */
+.appointments-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.15s;
+    position: relative;
+}
+
+.appointments-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.appointments-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.appointments-table td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #374151;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.td-expand {
+    padding-left: 20px !important;
+    width: 40px;
+}
+
+.td-checkbox {
+    width: 40px;
+}
+
+/* ── Expand Button ── */
+.expand-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #9ca3af;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.expand-btn:hover {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+/* ── Checkbox ── */
+.custom-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+    background: #fff;
+    transition: all 0.15s;
+}
+
+.custom-checkbox:checked {
+    background: #22c55e;
+    border-color: #22c55e;
+}
+
+.id-cell {
+    font-weight: 600;
+    color: #374151;
+}
+
+/* ── Status Dropdown ── */
+.status-dropdown-wrapper {
+    position: relative;
+}
+
+.status-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s;
+    min-width: 120px;
+    justify-content: space-between;
+}
+
+.status-btn:hover {
+    border-color: #22c55e;
+}
+
+.status-btn .chevron {
+    font-size: 10px;
+    color: #6b7280;
+}
+
+.status-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    min-width: 160px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.status-menu-header {
+    padding: 10px 14px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.status-menu-item {
+    padding: 9px 14px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.1s;
+}
+
+.status-menu-item:hover {
+    background: #f9fafb;
+}
+
+.status-menu-item.active {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.checkmark {
+    color: #22c55e;
+    font-size: 13px;
+}
+
+/* ── Row Actions ── */
+.row-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 14px;
+    transition: all 0.15s;
+}
+
+.action-btn:hover {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.action-btn.delete:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+/* ── Table Footer / Pagination ── */
+.table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.showing-info {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.showing-info strong {
+    color: #111827;
+    font-weight: 700;
+}
+
+.per-page-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.per-page-select {
+    height: 34px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    padding: 0 28px 0 10px;
+    font-size: 13px;
+    color: #374151;
+    background: #fff;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    cursor: pointer;
+    outline: none;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #6b7280;
+    transition: all 0.15s;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-btn.active {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #fff;
+    font-weight: 700;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+
+    .appointments-table th,
+    .appointments-table td {
+        padding: 12px 12px;
+        font-size: 12.5px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .table-card {
+        border-radius: 10px;
+    }
+
+    .table-scroll {
+        max-height: 400px;
+    }
+
+    .appointments-table th,
+    .appointments-table td {
+        padding: 10px 10px;
+        font-size: 12px;
+    }
+
+    .status-btn {
+        min-width: 100px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .table-footer {
+        padding: 12px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .footer-left {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .pagination-controls {
+        align-self: flex-end;
+    }
+
+    .page-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}

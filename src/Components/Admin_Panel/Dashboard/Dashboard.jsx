@@ -1,102 +1,87 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDashboardData, fetchUpcomingAppointments } from "../../../store/slices/dashboardSlice.js";
 import {
     BarChart, Bar, LineChart, Line,
     XAxis, YAxis, CartesianGrid, Tooltip,
     ResponsiveContainer,
 } from "recharts";
 import ExpandPanel from "../Expandpanel/Expandpanel";
+import DateRangePicker from "../Daterangepicker/Daterangepicker";
 import "./Dashboard.css";
 
-// ─── UTILITY: Last 7 days dates ──────────────────────────────────────────────
-function getLast7Days() {
-    return Array.from({ length: 7 }, (_, i) => {
-        const d = new Date();
-        d.setDate(d.getDate() - 6 + i); // 6 din peeche se aaj tak
-        return d.toLocaleDateString("en-US", { month: "short", day: "2-digit" });
-        // Output: "Mar 06", "Mar 07", ... "Mar 12"
-    });
+function startOfDay(d) {
+    const x = new Date(d); x.setHours(0, 0, 0, 0); return x;
 }
 
-function formatDisplayDate(dateStr) {
-    // "Mar 06" → "March 6, 2026" format for header display
-    const d = new Date(`${dateStr} ${new Date().getFullYear()}`);
-    return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+function buildDateRange(from, to) {
+    const days = [];
+    const cur = new Date(from);
+    while (cur <= to) {
+        days.push(cur.toLocaleDateString("en-US", { month: "short", day: "2-digit" }));
+        cur.setDate(cur.getDate() + 1);
+    }
+    return days;
 }
 
-// ─── UTILITY: Build empty chart data for 7 days ───────────────────────────────
-function buildEmptyChartData(dates) {
-    return dates.map((date) => ({ date, approved: 0, pending: 0, revenue: 0, customers: 0 }));
+function toISO(d) {
+    return d.toISOString().split("T")[0];
 }
 
-// ─── STATUS OPTIONS ───────────────────────────────────────────────────────────
+function getDefaultRange() {
+    const to = startOfDay(new Date());
+    const from = new Date(to);
+    from.setDate(to.getDate() - 6);
+    return { from, to };
+}
+
 const STATUS_OPTIONS = ["Approved", "Pending", "Cancelled", "Rejected", "No-Show", "Completed"];
 
-// ─── SAMPLE APPOINTMENTS (replace with API data) ─────────────────────────────
 const initialAppointments = [
     {
         id: "#152",
         date: "March 28, 2026 12:00 am",
         customer: "Tracy Hazell",
-        firstName: "Tracy",
-        lastName: "Hazell",
-        email: "tracyhazell@gmail.com",
-        phone: "+1 555 000 1111",
-        service: "Large Lot - 9mx3m",
-        duration: "110 Days",
-        status: "Approved",
-        payment: "$738.10",
-        paymentMethod: "Credit Card",
-        tax: "$67.10",
+        firstName: "Tracy", lastName: "Hazell",
+        email: "tracyhazell@gmail.com", phone: "+1 555 000 1111",
+        service: "Large Lot - 9mx3m", duration: "110 Days",
+        status: "Approved", payment: "$738.10",
+        paymentMethod: "Credit Card", tax: "$67.10",
         createdDate: "January 14, 2026 7:39 am",
-        time: "12:00 am To 12:00 am",
-        bookingDate: "March 28, 2026",
+        time: "12:00 am To 12:00 am", bookingDate: "March 28, 2026",
     },
     {
         id: "#173",
         date: "April 2, 2026 12:00 am",
         customer: "Corey Hogan",
-        firstName: "Corey",
-        lastName: "Hogan",
-        email: "coreyhoganaes@gmail.com",
-        phone: "+1 555 000 2222",
-        service: "Medium Lot - 7mx3m",
-        duration: "18 Days",
-        status: "Approved",
-        payment: "$93.85",
-        paymentMethod: "Credit Card",
-        tax: "$8.53",
+        firstName: "Corey", lastName: "Hogan",
+        email: "coreyhoganaes@gmail.com", phone: "+1 555 000 2222",
+        service: "Medium Lot - 7mx3m", duration: "18 Days",
+        status: "Approved", payment: "$93.85",
+        paymentMethod: "Credit Card", tax: "$8.53",
         createdDate: "February 17, 2026 11:26 am",
-        time: "12:00 am To 12:00 am",
-        bookingDate: "April 2, 2026",
+        time: "12:00 am To 12:00 am", bookingDate: "April 2, 2026",
     },
     {
         id: "#172",
         date: "April 24, 2026 12:00 am",
         customer: "Rodney SMITH",
-        firstName: "Rodney",
-        lastName: "SMITH",
-        email: "rodneysmith@gmail.com",
-        phone: "+1 555 000 3333",
-        service: "Small Lot - 6mx3m",
-        duration: "52 Days",
-        status: "Approved",
-        payment: "$232.23",
-        paymentMethod: "Credit Card",
-        tax: "$21.11",
+        firstName: "Rodney", lastName: "SMITH",
+        email: "rodneysmith@gmail.com", phone: "+1 555 000 3333",
+        service: "Small Lot - 6mx3m", duration: "52 Days",
+        status: "Approved", payment: "$232.23",
+        paymentMethod: "Credit Card", tax: "$21.11",
         createdDate: "February 14, 2026 10:54 am",
-        time: "12:00 am To 12:00 am",
-        bookingDate: "April 24, 2026",
+        time: "12:00 am To 12:00 am", bookingDate: "April 24, 2026",
     },
 ];
 
-// ─── ICONS ───────────────────────────────────────────────────────────────────
 const EditIcon = () => (
     <svg viewBox="0 0 24 24">
         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
     </svg>
 );
-
 const DeleteIcon = () => (
     <svg viewBox="0 0 24 24">
         <polyline points="3 6 5 6 21 6" />
@@ -106,35 +91,26 @@ const DeleteIcon = () => (
     </svg>
 );
 
-// ─── STATUS DROPDOWN ──────────────────────────────────────────────────────────
 function StatusDropdown({ status, onChange }) {
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
-
     useEffect(() => {
-        function handleClickOutside(e) {
-            if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        function h(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+        document.addEventListener("mousedown", h);
+        return () => document.removeEventListener("mousedown", h);
     }, []);
-
     return (
         <div className="admin_status__wrapper" ref={ref}>
-            <button className="admin_status__btn" onClick={() => setOpen((v) => !v)}>
-                {status}
-            </button>
+            <button className="admin_status__btn" onClick={() => setOpen(v => !v)}>{status}</button>
             {open && (
                 <div className="admin_status__dropdown">
                     <div className="admin_status__dropdown-header">Change status</div>
-                    {STATUS_OPTIONS.map((opt) => (
+                    {STATUS_OPTIONS.map(opt => (
                         <div
                             key={opt}
                             className={`admin_status__dropdown-option${opt === status ? " admin_status__dropdown-option--selected" : ""}`}
                             onClick={() => { onChange(opt); setOpen(false); }}
-                        >
-                            {opt}
-                        </div>
+                        >{opt}</div>
                     ))}
                 </div>
             )}
@@ -142,139 +118,148 @@ function StatusDropdown({ status, onChange }) {
     );
 }
 
-// ─── MAIN DASHBOARD ───────────────────────────────────────────────────────────
 export default function Dashboard() {
+    const dispatch = useDispatch();
+
+    // ── Redux se dashboard API data lo ───────────────────────────────────────
+    const { data: dashboardApiData, upcomingData, upcomingError, loading, error, from: reduxFrom, to: reduxTo } = useSelector((state) => state.dashboard);
+
     const [appointments, setAppointments] = useState(initialAppointments);
     const [expandedId, setExpandedId] = useState(null);
 
-    // ── Last 7 days dates (auto, changes every day) ──
-    const last7Days = useMemo(() => getLast7Days(), []);
+    const defaultRange = getDefaultRange();
+    const [dateRange, setDateRange] = useState(defaultRange);
 
-    // ── Chart data: start with empty skeleton, fill from API ──
-    const [appointmentsChartData, setAppointmentsChartData] = useState(
-        () => buildEmptyChartData(last7Days).map(d => ({ date: d.date, approved: 0, pending: 0 }))
-    );
-    const [revenueChartData, setRevenueChartData] = useState(
-        () => last7Days.map(date => ({ date, revenue: 0 }))
-    );
-    const [customersChartData, setCustomersChartData] = useState(
-        () => last7Days.map(date => ({ date, customers: 0 }))
-    );
+    const [appointmentsChartData, setAppointmentsChartData] = useState([]);
+    const [revenueChartData, setRevenueChartData] = useState([]);
+    const [customersChartData, setCustomersChartData] = useState([]);
 
-    // ── Header date display ──
-    const dateFrom = formatDisplayDate(last7Days[0]);
-    const dateTo = formatDisplayDate(last7Days[6]);
+    // const [data, setData] = useState([]);
 
-    // ── Fetch chart data from API ──
+    const [stats, setStats] = useState({ total: 0, approved: 0, pending: 0, revenue: "$0.00", customers: 0 });
+
+    // ── Page load par default range ke saath API hit karo ────────────────────
     useEffect(() => {
-        // Convert "Mar 06" → "2026-03-06" for API params
-        const toISO = (label) => {
-            const d = new Date(`${label} ${new Date().getFullYear()}`);
-            return d.toISOString().split("T")[0];
-        };
-        const fromParam = toISO(last7Days[0]);
-        const toParam = toISO(last7Days[6]);
+        dispatch(fetchDashboardData({ from: reduxFrom, to: reduxTo }));
+        dispatch(fetchUpcomingAppointments());
+    }, []);
 
-        // ── Replace these fetch URLs with your actual API endpoints ──
+    // ── Jab bhi API se data aaye, console mein print karo ────────────────────
+    // useEffect(() => {
+    //     if (dashboardApiData) {
+    //         console.log("✅ Dashboard API Response:", dashboardApiData);
+    //     }
+    //     if (error) {
+    //         console.error("❌ Dashboard API Error:", error);
+    //     }
+    // }, [dashboardApiData, error]);
 
-        // Appointments chart
-        fetch(`/api/charts/appointments?from=${fromParam}&to=${toParam}`)
-            .then((res) => res.json())
-            .then((data) => setAppointmentsChartData(data))
+    const fetchData = useCallback((from, to) => {
+        const fromISO = toISO(from);
+        const toISO_ = toISO(to);
+        const dates = buildDateRange(from, to);
+
+        const emptyAppts = dates.map(d => ({ date: d, approved: 0, pending: 0 }));
+        const emptyRevenue = dates.map(d => ({ date: d, revenue: 0 }));
+        const emptyCustomers = dates.map(d => ({ date: d, customers: 0 }));
+
+        fetch(`/api/charts/appointments?from=${fromISO}&to=${toISO_}`)
+            .then(r => r.json())
+            .then(data => setAppointmentsChartData(data))
+            .catch(() => setAppointmentsChartData(emptyAppts));
+
+        fetch(`/api/charts/revenue?from=${fromISO}&to=${toISO_}`)
+            .then(r => r.json())
+            .then(data => setRevenueChartData(data))
+            .catch(() => setRevenueChartData(emptyRevenue));
+
+        fetch(`/api/charts/customers?from=${fromISO}&to=${toISO_}`)
+            .then(r => r.json())
+            .then(data => setCustomersChartData(data))
+            .catch(() => setCustomersChartData(emptyCustomers));
+
+        fetch(`/api/dashboard/stats?from=${fromISO}&to=${toISO_}`)
+            .then(r => r.json())
+            .then(data => setStats(data))
             .catch(() => {
-                // If API fails, keep empty data (no crash)
+                setStats({ total: 2, approved: 2, pending: 0, revenue: "$301.95", customers: 2 });
             });
 
-        // Revenue chart
-        fetch(`/api/charts/revenue?from=${fromParam}&to=${toParam}`)
-            .then((res) => res.json())
-            .then((data) => setRevenueChartData(data))
-            .catch(() => { });
+    }, []);
 
-        // Customers chart
-        fetch(`/api/charts/customers?from=${fromParam}&to=${toParam}`)
-            .then((res) => res.json())
-            .then((data) => setCustomersChartData(data))
-            .catch(() => { });
+    useEffect(() => {
+        fetchData(dateRange.from, dateRange.to);
+    }, [dateRange, fetchData]);
 
-        /*
-        ─── YA agar ek hi API call mein sab data aata ho ───
-        fetch(`/api/dashboard/charts?from=${fromParam}&to=${toParam}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setAppointmentsChartData(data.appointments);
-                setRevenueChartData(data.revenue);
-                setCustomersChartData(data.customers);
-            })
-            .catch(() => {});
-        */
-    }, [last7Days]);
+    function handleDateChange({ from, to }) {
+        setDateRange({ from, to });
+    }
 
     const handleStatusChange = (index, newStatus) => {
-        setAppointments((prev) =>
-            prev.map((a, i) => (i === index ? { ...a, status: newStatus } : a))
-        );
+        setAppointments(prev => prev.map((a, i) => i === index ? { ...a, status: newStatus } : a));
+    };
+    const toggleExpand = (id) => {
+        setExpandedId(prev => prev === id ? null : id);
     };
 
-    const toggleExpand = (id) => {
-        setExpandedId((prev) => (prev === id ? null : id));
-    };
+
+    function formatDateTime(dateString) {
+
+        const date = new Date(dateString);
+
+        return date.toLocaleString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+    }
 
     return (
         <>
             <div className="admin_page__wrapper">
                 <div className="admin_dashboard__container">
 
-                    {/* ── Header ── */}
                     <div className="admin_dashboard__header">
                         <h1 className="admin_dashboard__title">Dashboard</h1>
-                        {/* Date range auto update hoti hai last 7 days se */}
-                        <div className="admin_dashboard__date-picker">
-                            <svg viewBox="0 0 24 24">
-                                <rect x="3" y="4" width="18" height="18" rx="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
-                            <span>{dateFrom}</span>
-                            <span>-</span>
-                            <span>{dateTo}</span>
-                        </div>
+                        <DateRangePicker
+                            from={dateRange.from}
+                            to={dateRange.to}
+                            onChange={handleDateChange}
+                        />
                     </div>
 
-                    {/* ── Stat Cards Row 1 ── */}
                     <div className="admin_stats__row-top">
                         <div className="admin_stat__card">
-                            <div className="admin_stat__number admin_stat__number--dark">2</div>
+                            <div className="admin_stat__number admin_stat__number--dark">{dashboardApiData?.data?.totalAppointments ?? 0}</div>
                             <div className="admin_stat__label">Total Appointments</div>
                         </div>
                         <div className="admin_stat__card">
-                            <div className="admin_stat__number admin_stat__number--green">2</div>
+                            <div className="admin_stat__number admin_stat__number--green">{dashboardApiData?.data?.approvedAppointments ?? 0}</div>
                             <div className="admin_stat__label">Approved Appointments</div>
                         </div>
                         <div className="admin_stat__card">
-                            <div className="admin_stat__number admin_stat__number--orange">0</div>
+                            <div className="admin_stat__number admin_stat__number--orange">{dashboardApiData?.data?.pendingAppointments ?? 0}</div>
                             <div className="admin_stat__label">Pending Appointments</div>
                         </div>
                     </div>
 
-                    {/* ── Stat Cards Row 2 ── */}
                     <div className="admin_stats__row-bottom">
                         <div className="admin_stat__card">
-                            <div className="admin_stat__number admin_stat__number--blue">$301.95</div>
+                            <div className="admin_stat__number admin_stat__number--blue">{dashboardApiData?.data?.revenue ?? 0}</div>
                             <div className="admin_stat__label">Revenue</div>
                         </div>
                         <div className="admin_stat__card">
-                            <div className="admin_stat__number admin_stat__number--purple">2</div>
+                            <div className="admin_stat__number admin_stat__number--purple">{dashboardApiData?.data?.totalAppointments ?? 0}</div>
                             <div className="admin_stat__label">Customers</div>
                         </div>
                     </div>
 
-                    {/* ── Technical Analysis ── */}
                     <div className="admin_section__title">Technical Analysis</div>
                     <div className="admin_charts__grid">
 
-                        {/* Appointments Chart */}
                         <div className="admin_chart__card">
                             <div className="admin_chart__title">Appointments</div>
                             <div className="admin_chart__legend">
@@ -301,7 +286,6 @@ export default function Dashboard() {
                             </div>
                         </div>
 
-                        {/* Revenue Chart */}
                         <div className="admin_chart__card">
                             <div className="admin_chart__title">Revenue</div>
                             <div className="admin_chart__legend">
@@ -317,20 +301,12 @@ export default function Dashboard() {
                                         <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
                                         <YAxis tick={{ fontSize: 11, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
                                         <Tooltip />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="revenue"
-                                            stroke="#22c55e"
-                                            strokeWidth={2}
-                                            dot={{ fill: "#22c55e", r: 4 }}
-                                            activeDot={{ r: 6 }}
-                                        />
+                                        <Line type="monotone" dataKey="revenue" stroke="#22c55e" strokeWidth={2} dot={{ fill: "#22c55e", r: 4 }} activeDot={{ r: 6 }} />
                                     </LineChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
 
-                        {/* Customers Chart */}
                         <div className="admin_chart__card">
                             <div className="admin_chart__title">Customers</div>
                             <div className="admin_chart__legend">
@@ -353,54 +329,29 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    {/* ── Upcoming Appointments Table ── */}
                     <div className="admin_table__section-title">Upcoming Appointments</div>
                     <div className="admin_table__wrapper">
                         <table className="admin_table__appointments">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>
-                                        <div className="admin_table__th-inner">Date
-                                            <div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div className="admin_table__th-inner">Customer
-                                            <div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div className="admin_table__th-inner">Service
-                                            <div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div className="admin_table__th-inner">Duration
-                                            <div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div>
-                                        </div>
-                                    </th>
+                                    <th><div className="admin_table__th-inner">Date<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Customer<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Service<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Duration<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
                                     <th>Status</th>
-                                    <th>
-                                        <div className="admin_table__th-inner">Payment
-                                            <div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div className="admin_table__th-inner">Created Date
-                                            <div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div>
-                                        </div>
-                                    </th>
+                                    <th><div className="admin_table__th-inner">Payment<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Created Date<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {appointments.map((appt, index) => {
+                                {upcomingData?.data.map((appt, index) => {
                                     const isOpen = expandedId === appt.id;
                                     return (
                                         <>
-                                            <tr key={appt.id} className="admin_table__data-row">
+                                            <tr key={appt._id} className="admin_table__data-row">
                                                 <td>
-                                                    <div className="admin_table__id-cell">
+                                                    <div key={appt._id} className="admin_table__id-cell">
                                                         <button
                                                             className={`admin_table__expand-btn${isOpen ? " admin_table__expand-btn--open" : ""}`}
                                                             onClick={() => toggleExpand(appt.id)}
@@ -410,37 +361,29 @@ export default function Dashboard() {
                                                         {appt.id}
                                                     </div>
                                                 </td>
-                                                <td>{appt.date}</td>
+                                                <td>{formatDateTime(appt.date)}</td>
                                                 <td>{appt.customer}</td>
                                                 <td>{appt.service}</td>
                                                 <td>{appt.duration}</td>
                                                 <td>
                                                     <StatusDropdown
                                                         status={appt.status}
-                                                        onChange={(newStatus) => handleStatusChange(index, newStatus)}
+                                                        onChange={(s) => handleStatusChange(index, s)}
                                                     />
                                                 </td>
                                                 <td>{appt.payment}</td>
                                                 <td className="admin_table__actions-cell">
-                                                    <span className="admin_table__created-date">{appt.createdDate}</span>
+                                                    <span className="admin_table__created-date">{formatDateTime(appt.createdAt)}</span>
                                                     <div className="admin_table__action-icons">
-                                                        <button className="admin_table__action-btn" title="Edit">
-                                                            <EditIcon />
-                                                        </button>
-                                                        <button className="admin_table__action-btn" title="Delete">
-                                                            <DeleteIcon />
-                                                        </button>
+                                                        <button className="admin_table__action-btn" title="Edit"><EditIcon /></button>
+                                                        <button className="admin_table__action-btn" title="Delete"><DeleteIcon /></button>
                                                     </div>
                                                 </td>
                                             </tr>
-
                                             {isOpen && (
                                                 <tr key={`${appt.id}-expand`} className="admin_table__expand-row">
                                                     <td colSpan={8}>
-                                                        <ExpandPanel
-                                                            appt={appt}
-                                                            onClose={() => setExpandedId(null)}
-                                                        />
+                                                        <ExpandPanel appt={appt} onClose={() => setExpandedId(null)} />
                                                     </td>
                                                 </tr>
                                             )}
@@ -454,7 +397,6 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            {/* ── Help FAB ── */}
             <div className="admin_help__fab">
                 <svg viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" />
@@ -465,3 +407,14 @@ export default function Dashboard() {
         </>
     );
 }
+// ```
+
+// ---
+
+// ## Console Output
+
+// Jab page load hoga ya date change hogi:
+// ```
+// 📅 Date Range: { from: "2026-03-07T...", to: "2026-03-13T..." }
+// 🔗 API URL: https://caravans-project.onrender.com/api/admin/dashboard/summary?startDate=2026-03-07&endDate=2026-03-13
+// ✅ Dashboard API Response: { ... }   ← Dashboard.jsx mein print hoga

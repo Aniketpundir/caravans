@@ -1,0 +1,610 @@
+.appointments-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.appointments-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-add-new {
+    background: #22c55e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-add-new:hover {
+    background: #16a34a;
+}
+
+.btn-share-url {
+    background: #fff;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-share-url:hover {
+    background: #f9fafb;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   2. FILTERS CARD
+   ────────────────────────────────────────────────────────── */
+
+.filters-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Row 1: Date | Customer | Service | Status */
+.filters-row-1 {
+    display: grid;
+    grid-template-columns: 260px 1fr 1fr 200px;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* Row 2: ID | Search | Reset | Apply | Export */
+.filters-row-2 {
+    display: grid;
+    grid-template-columns: 200px 1fr auto auto auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.filter-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.filter-input,
+.filter-select {
+    height: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 13px;
+    color: #374151;
+    background: #fff;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    border-color: #22c55e;
+}
+
+.filter-input::placeholder {
+    color: #9ca3af;
+}
+
+.filter-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.search-full {
+    height: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 13px;
+    color: #374151;
+    background: #fff;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-full:focus {
+    border-color: #22c55e;
+}
+
+.search-full::placeholder {
+    color: #9ca3af;
+}
+
+.btn-reset {
+    height: 40px;
+    padding: 0 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.btn-reset:hover {
+    background: #f9fafb;
+}
+
+.btn-apply {
+    height: 40px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 8px;
+    background: #22c55e;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.btn-apply:hover {
+    background: #16a34a;
+}
+
+.btn-export {
+    height: 40px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: #f59e0b;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+
+.btn-export:hover {
+    background: #d97706;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   3. DATE RANGE PICKER
+   ────────────────────────────────────────────────────────── */
+
+.drp-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Trigger */
+.drp-trigger {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 12px;
+    gap: 8px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.2s;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.drp-trigger:hover,
+.drp-trigger.open {
+    border-color: #22c55e;
+}
+
+.drp-trigger-icon {
+    color: #6b7280;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.drp-trigger-text {
+    font-size: 13px;
+    color: #374151;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Popover */
+.drp-popover {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 999;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.13);
+    border: 1px solid #e5e7eb;
+    padding: 20px 22px;
+    display: flex;
+    gap: 0;
+}
+
+.drp-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 252px;
+}
+
+.drp-month-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px;
+    margin-bottom: 4px;
+}
+
+.drp-month-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    text-align: center;
+    flex: 1;
+}
+
+.drp-nav-group {
+    display: flex;
+    gap: 2px;
+}
+
+.drp-nav-btn {
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #6b7280;
+    transition: background 0.15s, color 0.15s;
+    padding: 0;
+}
+
+.drp-nav-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.drp-month {
+    width: 100%;
+}
+
+.drp-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.drp-dow {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-align: center;
+    padding: 4px 0 8px;
+    letter-spacing: 0.02em;
+}
+
+.drp-day {
+    position: relative;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    color: #374151;
+}
+
+.drp-day.other-month {
+    color: #c5c5c5;
+    pointer-events: none;
+}
+
+.drp-day.today .drp-day-num {
+    color: #22c55e;
+    font-weight: 700;
+}
+
+.drp-day.weekend:not(.range-start):not(.range-end) .drp-day-num {
+    color: #ef4444;
+}
+
+.drp-day.in-range {
+    background: #dcfce7;
+}
+
+.drp-day.range-start {
+    background: linear-gradient(to right, transparent 50%, #dcfce7 50%);
+}
+
+.drp-day.range-end {
+    background: linear-gradient(to left, transparent 50%, #dcfce7 50%);
+}
+
+.drp-day.range-start.range-end {
+    background: transparent;
+}
+
+.drp-day.range-start .drp-day-num,
+.drp-day.range-end .drp-day-num {
+    background: #22c55e;
+    color: #fff !important;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.drp-day:not(.other-month):not(.range-start):not(.range-end):hover .drp-day-num {
+    background: #f0fdf4;
+    border-radius: 50%;
+}
+
+.drp-day-num {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    transition: background 0.1s;
+}
+
+.drp-divider {
+    width: 1px;
+    background: #e5e7eb;
+    margin: 0 20px;
+    align-self: stretch;
+}
+
+/* ── Customer Suggestions Dropdown ── */
+.suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 999;
+    overflow: hidden;
+    animation: suggFadeIn 0.15s ease;
+}
+
+@keyframes suggFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.suggestion-item {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.suggestion-item::before {
+    content: "👤";
+    font-size: 12px;
+    opacity: 0.5;
+}
+
+.suggestion-item:hover {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.suggestion-highlight {
+    color: #16a34a;
+    font-weight: 700;
+    background: #dcfce7;
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+
+
+/* ──────────────────────────────────────────────────────────
+   4. RESPONSIVE
+   ────────────────────────────────────────────────────────── */
+
+/* Tablet — 1024px */
+@media (max-width: 1024px) {
+    .filters-row-1 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filters-row-2 {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    /* ID input full width */
+    .filters-row-2>input:first-child {
+        grid-column: 1 / -1;
+    }
+
+    /* Search full width */
+    .filters-row-2>.search-full {
+        grid-column: 1 / -1;
+    }
+
+    /* Buttons row */
+    .btn-reset,
+    .btn-apply,
+    .btn-export {
+        flex: 1;
+    }
+}
+
+/* Tablet small — 768px: popover single month */
+@media (max-width: 768px) {
+    .filters-card {
+        padding: 16px;
+    }
+
+    .filters-row-1 {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    /* Hide second month panel and divider on small screens */
+    .drp-popover .drp-panel:last-child,
+    .drp-popover .drp-divider {
+        display: none;
+    }
+
+    /* Popover full width */
+    .drp-popover {
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 16px;
+    }
+
+    .drp-panel {
+        width: 100%;
+    }
+}
+
+/* Mobile — 640px */
+@media (max-width: 640px) {
+    .appointments-header h1 {
+        font-size: 18px;
+    }
+
+    .btn-add-new,
+    .btn-share-url {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .filters-card {
+        padding: 14px 12px;
+        border-radius: 10px;
+    }
+
+    .filters-row-1 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .filters-row-2 {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .filters-row-2>input:first-child,
+    .filters-row-2>.search-full {
+        grid-column: 1 / -1;
+    }
+
+    .btn-reset {
+        grid-column: 1;
+    }
+
+    .btn-apply {
+        grid-column: 2;
+    }
+
+    .btn-export {
+        grid-column: 1 / -1;
+        justify-content: center;
+    }
+
+    /* Popover: compact day cells */
+    .drp-day {
+        height: 30px;
+    }
+
+    .drp-day-num {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+    }
+
+    .drp-dow {
+        font-size: 10px;
+    }
+}
+
+/* Very small — 400px */
+@media (max-width: 400px) {
+    .header-actions {
+        width: 100%;
+    }
+
+    .btn-add-new,
+    .btn-share-url {
+        flex: 1;
+        justify-content: center;
+    }
+}

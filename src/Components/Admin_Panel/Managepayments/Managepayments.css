@@ -1,0 +1,1086 @@
+/* ─── LAYOUT ─────────────────────────────────────────────────────────────── */
+.mp-page {
+    background: #f1f5f9;
+    min-height: 100vh;
+    padding: 28px 24px;
+    font-family: "Segoe UI", -apple-system, sans-serif;
+    box-sizing: border-box;
+}
+
+.mp-card {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 1260px;
+    margin: 0 auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.mp-card-inner {
+    padding: 28px 28px 0;
+}
+
+/* ─── HEADER ROW ──────────────────────────────────────────────────────────── */
+.mp-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.mp-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* Mobile filter toggle — hidden on desktop */
+.mp-filter-toggle {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.mp-filter-toggle:hover {
+    background: #f9fafb;
+}
+
+/* ─── FILTERS ─────────────────────────────────────────────────────────────── */
+.mp-filters {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-bottom: 20px;
+}
+
+.mp-filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mp-filter-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+.mp-filter-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ─── INPUTS ──────────────────────────────────────────────────────────────── */
+.mp-input {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+    color: #374151;
+    outline: none;
+    height: 38px;
+    box-sizing: border-box;
+    min-width: 210px;
+    width: 100%;
+    font-family: inherit;
+}
+
+.mp-input::placeholder {
+    color: #9ca3af;
+}
+
+.mp-input:focus {
+    border-color: #22c55e;
+}
+
+/* ─── BUTTONS ─────────────────────────────────────────────────────────────── */
+.mp-btn {
+    border: none;
+    border-radius: 8px;
+    height: 38px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+}
+
+.mp-btn:hover {
+    opacity: 0.88;
+}
+
+.mp-btn-reset {
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+    color: #6b7280;
+    font-weight: 500;
+    padding: 0 20px;
+}
+
+.mp-btn-apply {
+    background: #22c55e;
+    color: #fff;
+    padding: 0 24px;
+}
+
+.mp-btn-export {
+    background: #f59e0b;
+    color: #fff;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+/* ─── SELECT DROPDOWN ─────────────────────────────────────────────────────── */
+.mp-select-wrap {
+    position: relative;
+}
+
+.mp-select-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    background: #fff;
+    font-size: 13px;
+    height: 38px;
+    box-sizing: border-box;
+    user-select: none;
+    transition: border-color 0.15s;
+}
+
+.mp-select-trigger:hover {
+    border-color: #d1d5db;
+}
+
+.mp-select-trigger--placeholder {
+    color: #9ca3af;
+}
+
+.mp-select-trigger--value {
+    color: #374151;
+}
+
+.mp-select-trigger span:first-child {
+    flex: 1;
+}
+
+.mp-select-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 500;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-width: 100%;
+}
+
+.mp-select-option {
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #374151;
+    border-bottom: 1px solid #f9fafb;
+    transition: background 0.1s;
+}
+
+.mp-select-option:hover {
+    background: #f9fafb;
+}
+
+.mp-select-option--active {
+    background: #f0fdf4;
+}
+
+/* ─── STATUS BADGE ────────────────────────────────────────────────────────── */
+.mp-status-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.mp-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 8px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    min-width: 100px;
+    user-select: none;
+    border-width: 1.5px;
+    border-style: solid;
+}
+
+.mp-status-badge span:first-child {
+    flex: 1;
+}
+
+.mp-status-badge--paid {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #16a34a;
+}
+
+.mp-status-badge--pending {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #ca8a04;
+}
+
+.mp-status-badge--failed {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+.mp-status-menu {
+    position: absolute;
+    top: calc(100% + 3px);
+    left: 0;
+    z-index: 400;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-width: 110px;
+}
+
+.mp-status-option {
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom: 1px solid #f9fafb;
+    transition: background 0.1s;
+}
+
+.mp-status-option--paid {
+    color: #16a34a;
+}
+
+.mp-status-option--pending {
+    color: #ca8a04;
+}
+
+.mp-status-option--failed {
+    color: #dc2626;
+}
+
+.mp-status-option--paid.active {
+    background: #f0fdf4;
+}
+
+.mp-status-option--pending.active {
+    background: #fefce8;
+}
+
+.mp-status-option--failed.active {
+    background: #fef2f2;
+}
+
+/* ─── DATE RANGE PICKER ───────────────────────────────────────────────────── */
+.mp-drp-wrap {
+    position: relative;
+}
+
+/* ✅ FIX: display:flex explicitly set */
+.mp-drp-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0 12px;
+    cursor: pointer;
+    background: #fff;
+    min-width: 240px;
+    user-select: none;
+    height: 38px;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+
+.mp-drp-trigger:hover {
+    border-color: #d1d5db;
+}
+
+.mp-drp-trigger--empty {
+    color: #9ca3af;
+}
+
+.mp-drp-trigger--filled {
+    color: #374151;
+}
+
+/* ✅ FIX: drp-text explicit styling */
+.drp-text {
+    flex: 1;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.mp-drp-trigger--filled .drp-text {
+    color: #374151;
+}
+
+.mp-drp-trigger--empty .drp-text {
+    color: #9ca3af;
+}
+
+.mp-drp-clear {
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mp-drp-clear:hover {
+    color: #6b7280;
+}
+
+.mp-drp-popup {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 999;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    padding: 16px 18px;
+    display: flex;
+    gap: 20px;
+}
+
+/* ─── CALENDAR SHARED ─────────────────────────────────────────────────────── */
+.mp-cal-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.mp-cal-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.mp-cal-nav-spacer {
+    flex: 1;
+}
+
+.mp-cal-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #6b7280;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.mp-cal-nav-btn:hover {
+    color: #374151;
+}
+
+.mp-cal-header {
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+}
+
+.mp-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 30px);
+    gap: 2px 0;
+}
+
+.mp-cal-day-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    padding-bottom: 6px;
+}
+
+.mp-cal-cell {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mp-cal-cell--inactive {
+    cursor: default;
+}
+
+.mp-cal-cell-inner {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 13px;
+    transition: background 0.1s;
+    color: #374151;
+}
+
+.mp-cal-cell-inner:hover {
+    background: #f3f4f6;
+}
+
+.mp-cal-cell-inner--inactive {
+    color: #d1d5db;
+    cursor: default;
+}
+
+.mp-cal-cell-inner--inactive:hover {
+    background: transparent;
+}
+
+.mp-cal-cell-inner--weekend {
+    color: #ef4444;
+}
+
+.mp-cal-cell-inner--today {
+    font-weight: 800;
+}
+
+.mp-cal-cell-inner--selected {
+    background: #22c55e !important;
+    color: #fff;
+    border-radius: 50% !important;
+}
+
+.mp-cal-cell-inner--in-range {
+    background: #dcfce7;
+    color: #15803d;
+    border-radius: 0;
+}
+
+/* ─── DESKTOP TABLE ───────────────────────────────────────────────────────── */
+.mp-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mp-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.mp-table thead tr {
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+}
+
+.mp-th-expand {
+    width: 44px;
+    padding: 12px 8px 12px 16px;
+}
+
+.mp-th-check {
+    width: 36px;
+    padding: 12px 4px;
+}
+
+.mp-th {
+    text-align: left;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    white-space: nowrap;
+    user-select: none;
+    background: #fff;
+}
+
+.mp-th-sort-icon {
+    margin-left: 4px;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.mp-tr {
+    border-bottom: 1px solid #f3f4f6;
+    background: #fff;
+    transition: background 0.12s;
+}
+
+.mp-tr--checked {
+    background: #f0fdf4;
+}
+
+.mp-tr--hovered {
+    background: #fafafa;
+}
+
+.mp-td-expand {
+    padding: 14px 4px 14px 16px;
+}
+
+.mp-expand-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #374151;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 17px;
+    line-height: 22px;
+    text-align: center;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mp-td-check {
+    padding: 14px 4px;
+}
+
+.mp-td {
+    padding: 14px;
+    font-size: 13px;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.mp-td--amount {
+    font-weight: 500;
+}
+
+.mp-td-status {
+    padding: 10px 14px;
+}
+
+.mp-appt-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mp-action-btn {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 4px 7px;
+    background: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+}
+
+.mp-action-btn:hover {
+    background: #f9fafb;
+}
+
+.mp-tr-expanded td {
+    background: #f8fafc;
+    padding: 14px 56px 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.mp-expanded-inner {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.mp-expanded-key {
+    font-weight: 700;
+    color: #374151;
+}
+
+/* ─── MOBILE CARD LIST — hidden on desktop ────────────────────────────────── */
+.mp-mobile-list {
+    display: none;
+}
+
+.mp-mobile-card {
+    border-bottom: 1px solid #f3f4f6;
+    padding: 14px 16px;
+    background: #fff;
+    transition: background 0.1s;
+}
+
+.mp-mobile-card--checked {
+    background: #f0fdf4;
+}
+
+.mp-mobile-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.mp-mobile-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mp-mobile-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.mp-mobile-card-sub {
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mp-mobile-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.mp-mobile-card-amount {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.mp-mobile-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.mp-mobile-card-method,
+.mp-mobile-card-appt {
+    flex: 1;
+}
+
+.mp-mobile-expand {
+    width: 24px !important;
+    height: 24px !important;
+    flex-shrink: 0;
+}
+
+.mp-mobile-card-detail {
+    margin-top: 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mp-mobile-detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #374151;
+}
+
+/* ─── PAGINATION ──────────────────────────────────────────────────────────── */
+.mp-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px 20px;
+    border-top: 1px solid #f3f4f6;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.mp-pagination-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: #6b7280;
+    flex-wrap: wrap;
+}
+
+.mp-pagination-left strong {
+    color: #111827;
+}
+
+.mp-per-page {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mp-per-page-select-wrap {
+    position: relative;
+}
+
+.mp-per-page-select {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 5px 32px 5px 12px;
+    font-size: 13px;
+    color: #374151;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    font-family: inherit;
+}
+
+.mp-per-page-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.mp-pagination-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Mobile page info — hidden on desktop */
+.mp-page-mobile-info {
+    display: none;
+}
+
+.mp-page-btn {
+    min-width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0 8px;
+    transition: background 0.1s, color 0.1s;
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+    color: #374151;
+    font-weight: 500;
+}
+
+.mp-page-btn:hover:not(:disabled):not(.mp-page-btn--active) {
+    background: #f9fafb;
+}
+
+.mp-page-btn--active {
+    border: none;
+    background: #22c55e;
+    color: #fff;
+    font-weight: 700;
+}
+
+.mp-page-btn:disabled {
+    color: #d1d5db;
+    cursor: default;
+}
+
+/* ─── CHECKBOX ────────────────────────────────────────────────────────────── */
+input[type="checkbox"].mp-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #22c55e;
+    flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet landscape (≤1024px) ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .mp-card-inner {
+        padding: 20px 20px 0;
+    }
+
+    .mp-filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        align-items: end;
+    }
+
+    .mp-filter-group {
+        width: 100%;
+    }
+
+    .mp-filter-buttons {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+
+    .mp-input,
+    .mp-drp-trigger {
+        min-width: 0;
+        width: 100%;
+    }
+
+    /* Right calendar panel hide on tablet */
+    .mp-cal-col--right {
+        display: none;
+    }
+
+    .mp-drp-popup {
+        gap: 0;
+    }
+
+    .mp-pagination {
+        padding: 14px 20px 18px;
+    }
+}
+
+/* ── Tablet portrait (≤768px) ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .mp-page {
+        padding: 16px 14px;
+    }
+
+    .mp-card {
+        border-radius: 12px;
+    }
+
+    .mp-card-inner {
+        padding: 16px 16px 0;
+    }
+
+    .mp-title {
+        font-size: 18px;
+    }
+
+    /* Show filter toggle button */
+    .mp-filter-toggle {
+        display: flex;
+    }
+
+    /* Filters: default mein visible, --closed class se hide */
+    .mp-filters {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding-bottom: 16px;
+    }
+
+    .mp-filters--closed {
+        display: none;
+    }
+
+    .mp-filter-buttons {
+        grid-column: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .mp-btn-reset {
+        grid-column: 1;
+    }
+
+    .mp-btn-apply {
+        grid-column: 2;
+    }
+
+    .mp-btn-export {
+        grid-column: 1 / -1;
+        justify-content: center;
+        height: 40px;
+    }
+
+    /* Desktop table hidden — mobile card list visible */
+    .mp-table-wrap {
+        display: none;
+    }
+
+    .mp-mobile-list {
+        display: block;
+        border-top: 1px solid #f3f4f6;
+    }
+
+    /* Date picker popup — full width on small screens */
+    .mp-drp-popup {
+        left: 0;
+        right: 0;
+        padding: 14px;
+    }
+
+    .mp-pagination {
+        padding: 12px 16px 16px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .mp-pagination-left {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .mp-pagination-right {
+        justify-content: center;
+    }
+
+    /* Mobile: page number buttons hidden, show "page X / Y" instead */
+    .mp-page-btn:not(:first-child):not(:last-child) {
+        display: none;
+    }
+
+    .mp-page-mobile-info {
+        display: inline-flex;
+        align-items: center;
+        font-size: 13px;
+        color: #374151;
+        font-weight: 500;
+        padding: 0 12px;
+    }
+}
+
+/* ── Mobile (≤480px) ────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .mp-page {
+        padding: 10px;
+    }
+
+    .mp-card {
+        border-radius: 10px;
+    }
+
+    .mp-card-inner {
+        padding: 14px 14px 0;
+    }
+
+    .mp-title {
+        font-size: 16px;
+    }
+
+    .mp-mobile-card {
+        padding: 12px 14px;
+    }
+
+    .mp-mobile-card-name {
+        font-size: 13px;
+    }
+
+    .mp-mobile-card-amount {
+        font-size: 14px;
+    }
+
+    .mp-status-badge {
+        min-width: 80px;
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    /* Calendar cells smaller */
+    .mp-cal-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .mp-cal-cell {
+        height: 28px;
+    }
+
+    .mp-cal-cell-inner {
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
+    }
+
+    .mp-per-page {
+        display: none;
+    }
+
+    .mp-page-btn {
+        min-width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    /* Stack per page and count vertically */
+    .mp-pagination-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+
+/* ── Very small (≤360px) ────────────────────────────────────────────────── */
+@media (max-width: 360px) {
+    .mp-drp-popup {
+        position: fixed;
+        left: 8px;
+        right: 8px;
+        top: auto;
+        padding: 12px;
+    }
+
+    .mp-mobile-card-sub {
+        font-size: 11px;
+    }
+
+    .mp-filter-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .mp-btn-reset,
+    .mp-btn-apply,
+    .mp-btn-export {
+        grid-column: 1;
+        width: 100%;
+        justify-content: center;
+    }
+}

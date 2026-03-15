@@ -1,0 +1,1215 @@
+/* ========================
+   PAGE LAYOUT
+========================= */
+.ms-root {
+    font-family: inherit;
+}
+
+.ms-page {
+    padding: 28px 32px;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.ms-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.ms-page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.ms-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ========================
+   BUTTONS
+========================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: filter 0.15s, transform 0.1s;
+    box-sizing: border-box;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-green {
+    background: #22c55e;
+    color: #fff;
+}
+
+.btn-green:hover {
+    filter: brightness(1.08);
+}
+
+.btn-green:disabled {
+    background: #86efac;
+    cursor: not-allowed;
+    filter: none;
+}
+
+.btn-outline {
+    background: #fff;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-outline:hover {
+    background: #f8fafc;
+}
+
+.btn-outline:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-danger {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.btn-danger:hover {
+    background: #fecaca;
+}
+
+.btn-sm {
+    padding: 7px 14px;
+    font-size: 12px;
+}
+
+/* ========================
+   FILTER BAR
+========================= */
+.ms-filter-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.ms-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ms-filter-label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.ms-filter-input,
+.ms-filter-select {
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    font-size: 13px;
+    color: #334155;
+    background: #fff;
+    outline: none;
+    min-width: 200px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.ms-filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.ms-filter-input:focus,
+.ms-filter-select:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.ms-filter-input::placeholder {
+    color: #94a3b8;
+}
+
+.ms-filter-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* ========================
+   ERROR BANNER
+========================= */
+.ms-error-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 13px;
+}
+
+.ms-retry-btn {
+    margin-left: auto;
+    padding: 4px 10px;
+    background: #dc2626;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* ========================
+   TABLE CARD
+========================= */
+.ms-table-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.ms-table-head {
+    display: grid;
+    grid-template-columns: 36px 36px 2fr 160px 120px 110px 175px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafafa;
+}
+
+.ms-th {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+}
+
+.ms-table-row {
+    display: grid;
+    grid-template-columns: 36px 36px 2fr 160px 120px 110px 175px;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f8fafc;
+    background: #fff;
+    transition: background 0.15s;
+}
+
+.ms-table-row:last-child {
+    border-bottom: none;
+}
+
+.ms-table-row:hover {
+    background: #f8fafc;
+}
+
+.ms-table-row:hover .ms-row-actions {
+    opacity: 1;
+}
+
+/* ========================
+   DRAG HANDLE
+========================= */
+.ms-drag-handle {
+    color: #cbd5e1;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+}
+
+.ms-drag-handle:hover {
+    color: #94a3b8;
+}
+
+/* ========================
+   CHECKBOX
+========================= */
+.ms-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #22c55e;
+    cursor: pointer;
+}
+
+/* ========================
+   SERVICE INFO CELL
+========================= */
+.ms-service-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ms-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.ms-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.ms-service-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.ms-service-id {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.ms-cell {
+    font-size: 13px;
+    color: #475569;
+}
+
+/* ========================
+   SKELETON
+========================= */
+.ms-skeleton {
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ========================
+   ROW ACTIONS
+========================= */
+.ms-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.ms-act-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    font-size: 12px;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.ms-act-btn:hover {
+    background: #f1f5f9;
+}
+
+.ms-act-btn.edit:hover {
+    background: #22c55e;
+    color: #fff;
+    border-color: #22c55e;
+}
+
+.ms-act-btn.delete:hover {
+    background: #ef4444;
+    color: #fff;
+    border-color: #ef4444;
+}
+
+.ms-empty {
+    padding: 32px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+/* ========================
+   MODAL OVERLAY
+========================= */
+.ms-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.ms-modal {
+    background: #fff;
+    border-radius: 12px;
+    width: 540px;
+    max-width: 95vw;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    position: relative;
+    overflow: visible;
+    animation: slideUp 0.18s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(16px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.ms-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ms-modal-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.ms-modal-body {
+    padding: 16px 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ms-modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ========================
+   CATEGORY TABLE
+========================= */
+.ms-cat-head {
+    display: grid;
+    grid-template-columns: 1fr 130px 80px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 8px;
+}
+
+.ms-cat-row {
+    display: grid;
+    grid-template-columns: 1fr 130px 80px;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    margin-bottom: 8px;
+    background: #fafafa;
+    transition: background 0.15s;
+}
+
+.ms-cat-row:hover {
+    background: #f1f5f9;
+}
+
+.ms-cat-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #334155;
+}
+
+.ms-cat-drag {
+    color: #cbd5e1;
+    cursor: grab;
+}
+
+.ms-cat-total {
+    font-size: 13px;
+    color: #475569;
+}
+
+.ms-cat-actions {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+}
+
+.ms-cat-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #64748b;
+    transition: background 0.15s;
+}
+
+.ms-cat-btn.edit:hover {
+    background: #dcfce7;
+    color: #16a34a;
+    border-color: #86efac;
+}
+
+.ms-cat-btn.del:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+.ms-cat-badge {
+    font-size: 10px;
+    font-weight: 600;
+    background: #e0f2fe;
+    color: #0284c7;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* ========================
+   ADD CATEGORY POPOVER
+========================= */
+.ms-popover {
+    position: absolute;
+    top: 54px;
+    right: 20px;
+    width: 300px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.14);
+    padding: 16px;
+    z-index: 20;
+    animation: slideUp 0.15s ease;
+}
+
+.ms-popover-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.ms-pop-label {
+    font-size: 12px;
+    color: #475569;
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.ms-pop-label span {
+    color: #ef4444;
+}
+
+.ms-pop-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #334155;
+    background: #fff;
+    outline: none;
+    margin-bottom: 12px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ms-pop-input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.ms-pop-input::placeholder {
+    color: #94a3b8;
+}
+
+.ms-pop-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* ========================
+   EDIT / ADD FORM WRAP
+========================= */
+.ms-edit-wrap {
+    margin-top: 20px;
+}
+
+.ms-form-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 14px;
+}
+
+.ms-edit-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+/* ========================
+   IMAGE UPLOAD SECTION
+========================= */
+.ms-img-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.ms-img-drop {
+    width: 100%;
+    height: 130px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ms-img-drop:hover {
+    border-color: #22c55e;
+    background: #f0fdf4;
+}
+
+.ms-img-drop.has-image {
+    border-style: solid;
+    border-color: #86efac;
+    padding: 0;
+}
+
+.ms-img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ms-img-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.ms-img-icon {
+    font-size: 28px;
+}
+
+.ms-img-hint {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.ms-img-sub {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.ms-img-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.ms-img-filename {
+    font-size: 12px;
+    color: #16a34a;
+    font-weight: 500;
+}
+
+/* ========================
+   FORM GRID ROWS
+========================= */
+.ms-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.ms-form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.ms-form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.ms-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    /* critical: prevents grid blowout */
+}
+
+.ms-form-label {
+    font-size: 12px;
+    color: #475569;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.ms-form-label .req,
+.ms-form-label span.req {
+    color: #ef4444;
+    margin-left: 2px;
+}
+
+/* ========================
+   CORE INPUT / SELECT  ← main fix
+========================= */
+.ms-form-control {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    font-size: 13px;
+    color: #334155;
+    background: #fff;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    /* THE critical fixes */
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+}
+
+/* Custom dropdown arrow for <select> */
+select.ms-form-control {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.ms-form-control:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.ms-form-control::placeholder {
+    color: #94a3b8;
+}
+
+/* Hide number spinners */
+input[type="number"].ms-form-control {
+    -moz-appearance: textfield;
+}
+
+input[type="number"].ms-form-control::-webkit-outer-spin-button,
+input[type="number"].ms-form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Date picker */
+input[type="date"].ms-form-control {
+    cursor: pointer;
+}
+
+input[type="date"].ms-form-control::-webkit-calendar-picker-indicator {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+/* ========================
+   TEXTAREA
+========================= */
+.ms-form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    font-size: 13px;
+    color: #334155;
+    background: #fff;
+    outline: none;
+    resize: vertical;
+    min-height: 90px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.ms-form-textarea:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.ms-form-textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* ========================
+   STEPPER
+========================= */
+.ms-stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    overflow: hidden;
+    height: 38px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.ms-stepper-btn {
+    width: 36px;
+    min-width: 36px;
+    height: 100%;
+    background: #f8fafc;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+    font-family: inherit;
+    line-height: 1;
+}
+
+.ms-stepper-btn:hover {
+    background: #e2e8f0;
+}
+
+.ms-stepper-val {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    font-size: 13px;
+    color: #334155;
+    border: none;
+    outline: none;
+    background: #fff;
+    font-family: inherit;
+    padding: 0;
+    -moz-appearance: textfield;
+}
+
+.ms-stepper-val::-webkit-outer-spin-button,
+.ms-stepper-val::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ========================
+   DURATION ROW
+========================= */
+.ms-duration-row {
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    gap: 8px;
+    align-items: center;
+}
+
+.ms-price-unit-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ms-price-unit-row .ms-form-control {
+    flex: 1;
+    min-width: 0;
+}
+
+.ms-add-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #22c55e;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+    font-family: inherit;
+}
+
+.ms-add-circle:hover {
+    background: #16a34a;
+}
+
+/* ========================
+   ADVANCE OPTIONS
+========================= */
+.ms-advance-section {
+    margin-top: 4px;
+}
+
+.ms-advance-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.ms-advance-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ms-tabs {
+    display: flex;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 16px;
+}
+
+.ms-tab {
+    padding: 12px 4px;
+    margin-right: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #94a3b8;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: inherit;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.ms-tab.active {
+    color: #22c55e;
+    border-bottom-color: #22c55e;
+}
+
+.ms-tab-content {
+    padding: 20px 16px;
+}
+
+/* ========================
+   DATE SECTION
+========================= */
+.ms-date-section {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+}
+
+.ms-date-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 14px;
+}
+
+/* ========================
+   SAVE SPINNER
+========================= */
+.ms-spinner {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================
+   FORM FOOTER
+========================= */
+.ms-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 0 8px;
+}
+
+/* ========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+
+    .ms-table-head,
+    .ms-table-row {
+        grid-template-columns: 36px 36px 1fr 120px 90px;
+    }
+
+    .ms-form-row,
+    .ms-form-row-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ms-duration-row {
+        grid-template-columns: 1fr 90px;
+    }
+}
+
+@media (max-width: 600px) {
+    .ms-page {
+        padding: 16px;
+    }
+
+    .ms-form-row,
+    .ms-form-row-2,
+    .ms-form-row-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .ms-duration-row {
+        grid-template-columns: 1fr 80px;
+    }
+
+    .ms-filter-input,
+    .ms-filter-select {
+        min-width: 140px;
+    }
+}
+
+/* ════════════════════════════════
+   SERVICE FORM POPUP MODAL
+════════════════════════════════ */
+.ms-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    animation: fadeIn 0.15s ease;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.ms-form-modal {
+    background: #fff;
+    border-radius: 14px;
+    width: 780px;
+    max-width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+    animation: slideUp 0.2s ease;
+    overflow: hidden;
+}
+
+/* Header */
+.ms-form-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    flex-shrink: 0;
+    background: #fff;
+}
+
+.ms-form-modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.ms-modal-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+}
+
+.ms-modal-close-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+/* Scrollable body */
+.ms-form-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    scroll-behavior: smooth;
+}
+
+.ms-form-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ms-form-modal-body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.ms-form-modal-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.ms-form-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Section title inside modal body */
+.ms-modal-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Footer */
+.ms-form-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid #f1f5f9;
+    flex-shrink: 0;
+    background: #fafafa;
+}
+
+/* Responsive modal */
+@media (max-width: 840px) {
+    .ms-form-modal {
+        width: 100%;
+        max-height: 95vh;
+        border-radius: 12px;
+    }
+
+    .ms-form-modal-body {
+        padding: 16px;
+    }
+
+    .ms-form-modal-header {
+        padding: 14px 16px;
+    }
+
+    .ms-form-modal-footer {
+        padding: 12px 16px;
+    }
+}

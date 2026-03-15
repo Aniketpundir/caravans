@@ -123,6 +123,52 @@
     text-decoration: underline;
 }
 
+/* ── Yeh classes apni MyBooking.css ke end mein paste karo ── */
+
+/* Error Box */
+.login-error-box {
+    background: #fff0f0;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+/* Loading Spinner */
+.login-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.spinner-dot {
+    width: 16px;
+    height: 16px;
+    border: 2.5px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Disabled state */
+.login-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
 @media (max-width:768px) {
     .my-bookings-page {
         margin-top: 20%;

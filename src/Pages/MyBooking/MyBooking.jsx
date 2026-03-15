@@ -1,14 +1,37 @@
-import { useState } from "react";
-import "./MyBooking.css"
+import { useState, useEffect } from "react";
+import "./MyBooking.css";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, clearError } from "../../store/slices/authSlice";
 
 const MyBooking = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { loading, error, token } = useSelector((state) => state.auth);
+
+    // Agar already logged in hai to redirect karo
+    useEffect(() => {
+        if (token) {
+            navigate("/my-booking-dashboard");
+        }
+    }, [token, navigate]);
+
+    // Component unmount hone par error clear karo
+    useEffect(() => {
+        return () => {
+            dispatch(clearError());
+        };
+    }, [dispatch]);
 
     const handleLogin = (e) => {
         e.preventDefault();
-        // your login logic here
+        if (!email.trim() || !password.trim()) return;
+        dispatch(loginUser({ email, password }));
     };
 
     return (
@@ -17,13 +40,21 @@ const MyBooking = () => {
             <div className="login-card">
                 <h3 className="login-heading">Please Login</h3>
 
+                {/* API Error Message */}
+                {error && (
+                    <div className="login-error-box">
+                        ⚠️ {error}
+                    </div>
+                )}
+
                 <div className="login-field">
                     <label>Username <span className="required">*</span></label>
                     <input
                         type="email"
                         placeholder="Enter your email address"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={loading}
                     />
                 </div>
 
@@ -34,6 +65,7 @@ const MyBooking = () => {
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading}
                     />
                 </div>
 
@@ -43,11 +75,25 @@ const MyBooking = () => {
                         id="remember"
                         checked={remember}
                         onChange={(e) => setRemember(e.target.checked)}
+                        disabled={loading}
                     />
                     <label htmlFor="remember">Remember Me</label>
                 </div>
 
-                <button className="login-btn" onClick={handleLogin}>LOGIN</button>
+                <button
+                    className="login-btn"
+                    onClick={handleLogin}
+                    disabled={loading || !email || !password}
+                >
+                    {loading ? (
+                        <span className="login-spinner">
+                            <span className="spinner-dot" />
+                            Logging in...
+                        </span>
+                    ) : (
+                        "LOGIN"
+                    )}
+                </button>
 
                 <p className="lost-password">Lost Your Password</p>
             </div>
@@ -55,4 +101,4 @@ const MyBooking = () => {
     );
 };
 
-export default MyBooking
+export default MyBooking;

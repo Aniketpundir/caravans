@@ -12,6 +12,8 @@
     z-index: 1000;
 }
 
+/* ===== LOGO ===== */
+
 .admin_navbar__logo {
     width: 46px;
     height: 46px;
@@ -23,13 +25,19 @@
     margin-right: 30px;
     flex-shrink: 0;
     cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.admin_navbar__logo:hover {
+    transform: scale(1.05);
 }
 
 .admin_navbar__logo svg {
-    width: 24px;
-    height: 24px;
-    fill: white;
+    font-size: 24px;
+    color: white;
 }
+
+/* ===== NAV ITEMS ===== */
 
 .admin_navbar__items {
     display: flex;
@@ -37,10 +45,13 @@
     gap: 2px;
 }
 
+/* ===== NAV LINK ===== */
+
 .admin_navbar__link {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 8px 18px;
     cursor: pointer;
     color: #64748b;
@@ -48,24 +59,171 @@
     gap: 5px;
     border-bottom: 3px solid transparent;
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: all 0.15s ease;
 }
+
+/* ===== ICON STYLE ===== */
+
+.admin_navbar__link svg {
+    font-size: 20px;
+}
+
+.admin_navbar__link.active {
+    color: #22c55e;
+    border-bottom: 3px solid #22c55e;
+}
+
+/* ===== TEXT STYLE ===== */
+
+.admin_navbar__link span {
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ===== HOVER EFFECT ===== */
 
 .admin_navbar__link:hover {
     color: #1e293b;
 }
 
-.admin_navbar__link svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+/* ===== ACTIVE TAB ===== */
+
+.admin_navbar__link.active {
+    color: #22c55e;
+    border-bottom: 3px solid #22c55e;
 }
 
-.admin_navbar__link span {
-    font-size: 13px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+/* ===== HAMBURGER BUTTON ===== */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    margin-left: auto;
+}
+
+.hamburger:hover {
+    background: #f1f5f9;
+}
+
+.hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #64748b;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ===== MOBILE DROPDOWN ===== */
+.admin_navbar__mobile {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 16px;
+    gap: 4px;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.admin_navbar__mobile.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.admin_navbar__mobile .admin_navbar__link {
+    flex-direction: row;
+    padding: 12px 16px;
+    gap: 14px;
+    border-bottom: none;
+    border-radius: 10px;
+    font-size: 14px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.admin_navbar__mobile .admin_navbar__link span {
+    font-size: 14px;
+}
+
+.admin_navbar__mobile .admin_navbar__link:hover {
+    background: #f8fafc;
+}
+
+.admin_navbar__mobile .admin_navbar__link.active {
+    background: #f0fdf4;
+    color: #22c55e;
+    border-bottom: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .admin_navbar__items {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin_navbar {
+        padding: 0 16px;
+    }
+
+    .admin_navbar__logo {
+        margin-right: 12px;
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 900px) {
+    .admin_navbar {
+        padding: 0 12px;
+    }
+
+    .admin_navbar__link {
+        padding: 8px 12px;
+    }
+
+    .admin_navbar__link span {
+        font-size: 12px;
+    }
+
+    .admin_navbar__link svg {
+        font-size: 18px;
+    }
 }
