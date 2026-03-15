@@ -101,6 +101,8 @@ export const fetchBookingCredentials = createAsyncThunk(
             const response = await axios.get(
                 `${BASE_URL}/user/booking/credentials?session_id=${sessionId}`
             );
+
+            console.log(response)
             return response.data;
         } catch (error) {
             return rejectWithValue(

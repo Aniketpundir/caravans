@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBookingCredentials } from "../../store/slices/authSlice";
 import "./Paymentsuccess.css";
 
 export default function PaymentSuccess() {
+    const { session_id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
     const [visible, setVisible] = useState(false);
+    console.log(session_id)
     const [showPass, setShowPass] = useState(false);
 
     // Redux state
@@ -17,6 +19,8 @@ export default function PaymentSuccess() {
     // URL params
     const sessionId = searchParams.get("session_id") || "";
     const bookingId = searchParams.get("bookingId") || searchParams.get("booking_id") || "N/A";
+
+    console.log(sessionId)
     const amount = searchParams.get("amount") || "N/A";
     const serviceName = searchParams.get("service") || "Caravan Storage";
     const date = new Date().toLocaleDateString("en-AU", {
