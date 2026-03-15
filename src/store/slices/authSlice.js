@@ -3,7 +3,7 @@ import axios from "axios";
 
 // const BASE_URL = "http://localhost:4000/api";
 
-const BASE_URL = "https://caravans-project.onrender.com/api"
+const BASE_URL = "http://16.16.213.67:4000/api"
 
 // ─── Login ────────────────────────────────────────────────────────────────────
 export const loginUser = createAsyncThunk(

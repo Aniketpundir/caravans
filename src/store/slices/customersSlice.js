@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchCustomers = createAsyncThunk(
     "customers/fetchAll",
     async (_, { rejectWithValue }) => {
-        const url = `https://caravans-project.onrender.com/api/admin/customers`;
+        const url = `http://16.16.213.67:4000/api/admin/customers`;
         try {
             const res = await fetch(url);
             if (!res.ok) throw new Error(`API error: ${res.status}`);

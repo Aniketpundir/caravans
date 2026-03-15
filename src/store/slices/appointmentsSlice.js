@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchAppointments = createAsyncThunk(
     "appointments/fetchAll",
     async (_, { rejectWithValue }) => {
-        const url = `https://caravans-project.onrender.com/api/admin/appointments`;
+        const url = `http://16.16.213.67:4000/api/admin/appointments`;
         try {
             const res = await fetch(url);
             if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -21,7 +21,7 @@ export const updateAppointmentStatus = createAsyncThunk(
     async ({ id, status }) => {
         try {
             await fetch(
-                `https://caravans-project.onrender.com/api/admin/appointments/${id}/status`,
+                `http://16.16.213.67:4000/api/admin/appointments/${id}/status`,
                 {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
@@ -40,7 +40,7 @@ export const deleteAppointment = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
             await fetch(
-                `https://caravans-project.onrender.com/api/admin/appointments/${id}`,
+                `http://16.16.213.67:4000/api/admin/appointments/${id}`,
                 { method: "DELETE" }
             );
             return id;
