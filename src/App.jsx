@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import AOS from "aos";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Layout from './Components/Layout/Layout'
 import Home from './Pages/Home/Home'
 import CaravanStorageLogo from "./Components/CaravansLogo/CaravanStorageLogo"
@@ -15,7 +15,7 @@ import ManageCustomers from './Components/Admin_Panel/ManageCustomers/ManageCust
 import ManageServices from './Components/Admin_Panel/ManageServices/ManageServices';
 import CouponManagement from './Components/Admin_Panel/CouponManagement/CouponManagement';
 import Reports from './Components/Admin_Panel/Reports/Reports';
-import MyBookingsDashboard from './Components/Mybookingsdashboard/Mybookingsdashboard';
+import MyBookingsDashboard from './Components/MyBookingsDashboard/MyBookingsDashboard';
 
 const App = () => {
   useEffect(() => {
