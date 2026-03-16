@@ -43,18 +43,18 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/book-online" onClick={() => { closeMenu(), handleClick() }}>
+                        <Link to="book-online/" onClick={() => { closeMenu(), handleClick() }}>
                             Book Online
                         </Link>
                     </li>
                     <li>
-                        <Link to="/my-booking" onClick={() => { closeMenu(), handleClick() }}
+                        <Link to="my-booking/" onClick={() => { closeMenu(), handleClick() }}
                         >
                             My Bookings
                         </Link>
                     </li>
                     <li>
-                        <Link to="/contact-us" onClick={() => { closeMenu(), handleClick() }}>
+                        <Link to="contact/" onClick={() => { closeMenu(), handleClick() }}>
                             Contact Us
                         </Link>
                     </li>

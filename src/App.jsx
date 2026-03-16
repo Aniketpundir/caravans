@@ -49,7 +49,7 @@ const App = () => {
           <Route path='/logo' element={<CaravanStorageLogo size={80} />} />
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path='/contact-us' element={<ContactUs />} />
+            <Route path='contact/' element={<ContactUs />} />
             <Route path='/my-booking' element={<MyBooking />} />
             <Route path='/my-booking-dashboard' element={<MyBookingsDashboard />} />
             <Route path='/book-online' element={<BookOnline />} />

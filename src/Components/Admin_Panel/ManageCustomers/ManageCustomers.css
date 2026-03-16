@@ -871,9 +871,6 @@ input[type='checkbox'] {
 
 /* ── Tablet: 769px – 1024px ──────────────────────────────── */
 @media (max-width: 1024px) {
-    body {
-        padding: 20px 16px;
-    }
 
     .page-wrapper {
         padding: 26px 24px;
@@ -893,9 +890,6 @@ input[type='checkbox'] {
 
 /* ── Mobile: ≤ 768px ─────────────────────────────────────── */
 @media (max-width: 768px) {
-    body {
-        padding: 10px 10px;
-    }
 
     .page-wrapper {
         padding: 16px 14px;
@@ -988,10 +982,6 @@ input[type='checkbox'] {
 
 /* ── Small: ≤ 480px ──────────────────────────────────────── */
 @media (max-width: 480px) {
-    body {
-        padding: 8px;
-    }
-
     .page-wrapper {
         padding: 14px 12px;
     }
