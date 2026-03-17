@@ -1,21 +1,32 @@
+// src/store/slices/customersSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
+const BASE_URL = "https://caravans-project.onrender.com/api";
+
+const getAuthHeader = () => {
+    const token = localStorage.getItem("adminToken");
+    return { Authorization: `Bearer ${token}` };
+};
+
+// ─── Fetch All Customers ──────────────────────────────────────────────────────
 export const fetchCustomers = createAsyncThunk(
     "customers/fetchAll",
     async (_, { rejectWithValue }) => {
-        const url = `https://caravans-project.onrender.com/api/admin/customers`;
         try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
-            const json = await res.json();
-            return json?.data ?? json ?? [];
+            const response = await axios.get(`${BASE_URL}/admin/customers`, {
+                headers: getAuthHeader(),
+            });
+            return response.data?.data ?? response.data ?? [];
         } catch (err) {
-            console.error("❌ Customers Error:", err.message);
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to fetch customers."
+            );
         }
     }
 );
 
+// ─── Slice ────────────────────────────────────────────────────────────────────
 const customersSlice = createSlice({
     name: "customers",
     initialState: {

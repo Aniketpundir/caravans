@@ -1,4 +1,13 @@
+// src/store/slices/dashboardSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const BASE_URL = "https://caravans-project.onrender.com/api";
+
+const getAuthHeader = () => {
+    const token = localStorage.getItem("adminToken");
+    return { Authorization: `Bearer ${token}` };
+};
 
 function startOfDay(d) {
     const x = new Date(d);
@@ -18,69 +27,69 @@ function getDefaultRange() {
 
 const defaultRange = getDefaultRange();
 
-// ── Helper: ISO string se YYYY-MM-DD ─────────────────────────────────────────
 function toYMD(isoString) {
     return isoString.split("T")[0];
 }
 
-// ── Async Thunk: API hit karega ───────────────────────────────────────────────
+// ─── Fetch Dashboard Summary ──────────────────────────────────────────────────
 export const fetchDashboardData = createAsyncThunk(
     "dashboard/fetchData",
     async ({ from, to }, { rejectWithValue }) => {
         const startDate = toYMD(from);
         const endDate = toYMD(to);
-
-        const url = `https://caravans-project.onrender.com/api/admin/dashboard/summary?startDate=${startDate}&endDate=${endDate}`;
-
         try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
-            const data = await res.json();
-            return data;
+            const response = await axios.get(
+                `${BASE_URL}/admin/dashboard/summary?startDate=${startDate}&endDate=${endDate}`,
+                { headers: getAuthHeader() }
+            );
+            return response.data;
         } catch (err) {
-            console.error("❌ API Error:", err.message);
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to fetch dashboard data."
+            );
         }
     }
 );
 
-// ── Thunk 2: Charts API ───────────────────────────────────────────────────────
-
+// ─── Fetch Charts Data ────────────────────────────────────────────────────────
 export const fetchChartsData = createAsyncThunk(
     "dashboard/fetchChartsData",
     async ({ from, to }, { rejectWithValue }) => {
         const startDate = toYMD(from);
         const endDate = toYMD(to);
-        const url = `https://caravans-project.onrender.com/api/admin/dashboard/charts?startDate=${startDate}&endDate=${endDate}`;
         try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
-            const data = await res.json();
-            return data;
+            const response = await axios.get(
+                `${BASE_URL}/admin/dashboard/charts?startDate=${startDate}&endDate=${endDate}`,
+                { headers: getAuthHeader() }
+            );
+            return response.data;
         } catch (err) {
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to fetch charts data."
+            );
         }
     }
 );
 
-// ── Thunk 3: Upcoming Appointments API ───────────────────────────────────────
+// ─── Fetch Upcoming Appointments ──────────────────────────────────────────────
 export const fetchUpcomingAppointments = createAsyncThunk(
     "dashboard/fetchUpcomingAppointments",
     async (_, { rejectWithValue }) => {
-        const url = `https://caravans-project.onrender.com/api/admin/appointments/upcoming?limit=5`;
         try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
-            const data = await res.json();
-            return data;
+            const response = await axios.get(
+                `${BASE_URL}/admin/appointments/upcoming?limit=5`,
+                { headers: getAuthHeader() }
+            );
+            return response.data;
         } catch (err) {
-            console.error("❌ Upcoming Appointments API Error:", err.message);
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to fetch upcoming appointments."
+            );
         }
     }
 );
 
-// ── Slice ─────────────────────────────────────────────────────────────────────
+// ─── Slice ────────────────────────────────────────────────────────────────────
 const dashboardSlice = createSlice({
     name: "dashboard",
     initialState: {
@@ -109,7 +118,7 @@ const dashboardSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // Summary
+        // ── Summary ──
         builder
             .addCase(fetchDashboardData.pending, (state) => {
                 state.loading = true;
@@ -124,7 +133,7 @@ const dashboardSlice = createSlice({
                 state.error = action.payload;
             });
 
-        // Charts
+        // ── Charts ──
         builder
             .addCase(fetchChartsData.pending, (state) => {
                 state.chartsLoading = true;
@@ -139,7 +148,7 @@ const dashboardSlice = createSlice({
                 state.chartsError = action.payload;
             });
 
-        // Upcoming Appointments
+        // ── Upcoming Appointments ──
         builder
             .addCase(fetchUpcomingAppointments.pending, (state) => {
                 state.upcomingLoading = true;

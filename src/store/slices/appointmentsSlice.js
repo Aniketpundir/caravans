@@ -1,64 +1,81 @@
+// src/store/slices/appointmentsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
+const BASE_URL = "https://caravans-project.onrender.com/api";
+
+const getAuthHeader = () => {
+    const token = localStorage.getItem("adminToken");
+    return { Authorization: `Bearer ${token}` };
+};
+
+// ─── Fetch All Appointments ───────────────────────────────────────────────────
 export const fetchAppointments = createAsyncThunk(
     "appointments/fetchAll",
     async (_, { rejectWithValue }) => {
-        const url = `https://caravans-project.onrender.com/api/admin/appointments`;
         try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
-            const json = await res.json();
-            // console.log("✅ Appointments Response:", json);
-            return json?.data ?? json ?? [];
+            const response = await axios.get(`${BASE_URL}/admin/appointments`, {
+                headers: getAuthHeader(),
+            });
+            return response.data?.data ?? response.data ?? [];
         } catch (err) {
-            console.error("❌ Error:", err.message);
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to fetch appointments."
+            );
         }
     }
 );
 
+// ─── Update Appointment Status ────────────────────────────────────────────────
 export const updateAppointmentStatus = createAsyncThunk(
     "appointments/updateStatus",
-    async ({ id, status }) => {
+    async ({ id, status }, { rejectWithValue }) => {
         try {
-            await fetch(
-                `https://caravans-project.onrender.com/api/admin/appointments/${id}/status`,
-                {
-                    method: "PATCH",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ status }),
-                }
+            await axios.patch(
+                `${BASE_URL}/admin/appointments/${id}/status`,
+                { status },
+                { headers: getAuthHeader() }
             );
+            return { id, status };
         } catch (err) {
-            console.error("Status update error:", err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to update status."
+            );
         }
-        return { id, status };
     }
 );
 
+// ─── Delete Appointment ───────────────────────────────────────────────────────
 export const deleteAppointment = createAsyncThunk(
     "appointments/delete",
     async (id, { rejectWithValue }) => {
         try {
-            await fetch(
-                `https://caravans-project.onrender.com/api/admin/appointments/${id}`,
-                { method: "DELETE" }
-            );
+            await axios.delete(`${BASE_URL}/admin/appointments/${id}`, {
+                headers: getAuthHeader(),
+            });
             return id;
         } catch (err) {
-            return rejectWithValue(err.message);
+            return rejectWithValue(
+                err?.response?.data?.message || "Failed to delete appointment."
+            );
         }
     }
 );
 
-
-
+// ─── Slice ────────────────────────────────────────────────────────────────────
 const appointmentsSlice = createSlice({
     name: "appointments",
-    initialState: { data: [], loading: false, error: null },
+    initialState: {
+        data: [],
+        loading: false,
+        error: null,
+        updateError: null,
+        deleteError: null,
+    },
     reducers: {},
     extraReducers: (builder) => {
         builder
+            // ── Fetch All ──
             .addCase(fetchAppointments.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -71,15 +88,25 @@ const appointmentsSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            // ── Update Status ──
             .addCase(updateAppointmentStatus.fulfilled, (state, action) => {
                 const { id, status } = action.payload;
                 const appt = state.data.find((a) => (a._id ?? a.id) === id);
                 if (appt) appt.status = status;
             })
+            .addCase(updateAppointmentStatus.rejected, (state, action) => {
+                state.updateError = action.payload;
+            })
+
+            // ── Delete ──
             .addCase(deleteAppointment.fulfilled, (state, action) => {
                 state.data = state.data.filter(
                     (a) => (a._id ?? a.id) !== action.payload
                 );
+            })
+            .addCase(deleteAppointment.rejected, (state, action) => {
+                state.deleteError = action.payload;
             });
     },
 });

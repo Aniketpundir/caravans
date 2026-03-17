@@ -18,6 +18,7 @@ import Reports from './Components/Admin_Panel/Reports/Reports';
 import MyBookingsDashboard from './Components/MyBookingsDashboard/MyBookingsDashboard';
 import PaymentFailed from './Components/Paymentfailed/Paymentfailed';
 import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
+import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 
 const App = () => {
   useEffect(() => {
@@ -34,7 +35,7 @@ const App = () => {
     <>
       <Router>
         <Routes>
-
+          <Route path='/admin-login' element={<AdminLogin />} />
           <Route path='/admin-dashboard' element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path='/admin-dashboard/appointments' element={<Appointments />} />

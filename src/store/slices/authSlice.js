@@ -60,10 +60,10 @@ export const updateProfile = createAsyncThunk(
 // ─── Change Password ─────────────────────────────────────────────────────────
 export const changePassword = createAsyncThunk(
     "auth/changePassword",
-    async ({ currentPassword, newPassword, confirmPassword }, { rejectWithValue }) => {
+    async ({ currentPassword, newPassword }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.post(
+            const response = await axios.patch(
                 `${BASE_URL}/auth/change-password`,
                 { oldPassword: currentPassword, newPassword },
                 { headers: { Authorization: `Bearer ${token}` } }
@@ -81,7 +81,7 @@ export const rescheduleBooking = createAsyncThunk(
     async ({ bookingId, startDate, endDate }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.post(
+            const response = await axios.patch(
                 `${BASE_URL}/auth/booking/${bookingId}/reschedule`,
                 { startDate, endDate },
                 { headers: { Authorization: `Bearer ${token}` } }

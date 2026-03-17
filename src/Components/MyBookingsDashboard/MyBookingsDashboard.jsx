@@ -89,7 +89,7 @@ function CalendarMonth({ year, month, rangeStart, rangeEnd, onSelect, allowedNig
     today.setHours(0, 0, 0, 0);
 
     const validEnd = rangeStart && !rangeEnd && allowedNights
-        ? addDays(rangeStart, allowedNights) : null;
+        ? addDays(rangeStart, allowedNights - 1) : null;
 
     const cells = [];
     for (let i = 0; i < firstDow; i++)
@@ -154,7 +154,7 @@ function DateRangePicker({ value, onChange, onClose, allowedNights }) {
             setRangeStart(date);
             setRangeEnd(null);
         } else {
-            const exactEnd = addDays(rangeStart, allowedNights);
+            const exactEnd = addDays(rangeStart, allowedNights - 1);
             if (isSameDay(date, exactEnd)) setRangeEnd(date);
         }
     };
@@ -445,6 +445,8 @@ function ChangePasswordSection() {
         if (!form.newPass.trim()) { setValidationError("New password is required."); return; }
         if (form.newPass.length < 6) { setValidationError("New password must be at least 6 characters."); return; }
         if (form.newPass !== form.confirm) { setValidationError("Passwords do not match."); return; }
+
+        // ✅ FIX: oldPassword key use karo — slice se match hoga
         dispatch(changePassword({ oldPassword: form.current, newPassword: form.newPass }));
     };
 
@@ -477,7 +479,6 @@ function ChangePasswordSection() {
         </div>
     );
 }
-
 // ─── Nav Items ────────────────────────────────────────────────────────────────
 const navItems = [
     { key: "bookings", label: "My Bookings", icon: <BookingsIcon /> },

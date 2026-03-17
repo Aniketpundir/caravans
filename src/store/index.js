@@ -4,6 +4,7 @@ import appointmentsReducer from "../store/slices/appointmentsSlice";
 import customersReducer from "../store/slices/customersSlice";
 import servicesReducer from "../store/slices/servicesSlice.js";
 import authReducer from "../store/slices/authSlice.js"
+import adminReducer from "./slices/adminSlice";
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         customers: customersReducer,
         services: servicesReducer,
         auth: authReducer,
+        admin: adminReducer,
     },
 });
 
