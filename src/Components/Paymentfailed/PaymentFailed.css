@@ -1,7 +1,6 @@
-/* ─── Page ───────────────────────────────────────────────────────────────────── */
 .pf-page {
+    margin-top: 6%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
     display: flex;
     align-items: center;
     justify-content: center;

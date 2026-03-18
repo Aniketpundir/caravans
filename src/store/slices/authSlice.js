@@ -93,25 +93,6 @@ export const rescheduleBooking = createAsyncThunk(
     }
 );
 
-// ─── Fetch Booking Credentials ───────────────────────────────────────────────
-export const fetchBookingCredentials = createAsyncThunk(
-    "auth/fetchBookingCredentials",
-    async (sessionId, { rejectWithValue }) => {
-        try {
-            const response = await axios.get(
-                `${BASE_URL}/user/booking/credentials?session_id=${sessionId}`
-            );
-
-            console.log(response)
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(
-                error?.response?.data?.message || "Could not fetch credentials."
-            );
-        }
-    }
-);
-
 // ─── Auth Slice ───────────────────────────────────────────────────────────────
 const authSlice = createSlice({
     name: "auth",

@@ -34,17 +34,6 @@ export default function PaymentFailed() {
                     Please try again or use a different payment method.
                 </p>
 
-                {/* Possible reasons */}
-                <div className="pf-reasons">
-                    <p className="pf-reasons-title">Possible reasons:</p>
-                    <ul>
-                        <li>❌ Insufficient funds</li>
-                        <li>❌ Card declined by bank</li>
-                        <li>❌ Incorrect card details</li>
-                        <li>❌ Payment session expired</li>
-                    </ul>
-                </div>
-
                 {/* Buttons */}
                 <div className="pf-actions">
                     <button
