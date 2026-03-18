@@ -1,12 +1,13 @@
 import "./ContactUs.css";
 import hero from "../../assets/6.jpeg";
 import { FaPhoneAlt, FaEnvelope, FaBuilding } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 export default function ContactUs() {
     return (
         <section className="contact-page">
 
-            {/* HERO SECTION */}
+            <Helmet><title>Contact us</title></Helmet>
 
             <div
                 className="contact-hero"

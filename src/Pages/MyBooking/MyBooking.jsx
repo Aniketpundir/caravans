@@ -3,6 +3,7 @@ import "./MyBooking.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, clearError } from "../../store/slices/authSlice";
+import { Helmet } from "react-helmet-async";
 
 const MyBooking = () => {
     const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ const MyBooking = () => {
 
     return (
         <div className="my-bookings-page">
+            <Helmet><title>My Bookings</title></Helmet>
             <h2 className="bookings-title">My Bookings</h2>
             <div className="login-card">
                 <h3 className="login-heading">Please Login</h3>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import AOS from "aos";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { HelmetProvider } from 'react-helmet-async';
 import Layout from './Components/Layout/Layout'
 import Home from './Pages/Home/Home'
 import CaravanStorageLogo from "./Components/CaravansLogo/CaravanStorageLogo"
@@ -33,33 +34,35 @@ const App = () => {
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path='/admin-login' element={<AdminLogin />} />
-          <Route path='/admin-dashboard' element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path='/admin-dashboard/appointments' element={<Appointments />} />
-            <Route path='/admin-dashboard/payments' element={<ManagePayments />} />
-            <Route path='/admin-dashboard/customers' element={<ManageCustomers />} />
-            <Route path='/admin-dashboard/service' element={<ManageServices />} />
-            <Route path='/admin-dashboard/coupan' element={<CouponManagement />} />
-            <Route path='/admin-dashboard/report' element={<Reports />} />
-          </Route>
+      <HelmetProvider>
+        <Router>
+          <Routes>
+            <Route path='/admin-login' element={<AdminLogin />} />
+            <Route path='/admin-dashboard' element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path='/admin-dashboard/appointments' element={<Appointments />} />
+              <Route path='/admin-dashboard/payments' element={<ManagePayments />} />
+              <Route path='/admin-dashboard/customers' element={<ManageCustomers />} />
+              <Route path='/admin-dashboard/service' element={<ManageServices />} />
+              <Route path='/admin-dashboard/coupan' element={<CouponManagement />} />
+              <Route path='/admin-dashboard/report' element={<Reports />} />
+            </Route>
 
 
-          <Route path='/logo' element={<CaravanStorageLogo size={80} />} />
-          <Route path='/' element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path='contact/' element={<ContactUs />} />
-            <Route path='/my-booking' element={<MyBooking />} />
-            <Route path='/my-booking-dashboard' element={<MyBookingsDashboard />} />
-            <Route path='/book-online' element={<BookOnline />} />
-            <Route path='/payment-failed' element={<PaymentFailed />} />
-            <Route path='/payment-success' element={<PaymentSuccess />} />
-          </Route>
+            <Route path='/logo' element={<CaravanStorageLogo size={80} />} />
+            <Route path='/' element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path='contact/' element={<ContactUs />} />
+              <Route path='/my-booking' element={<MyBooking />} />
+              <Route path='/my-booking-dashboard' element={<MyBookingsDashboard />} />
+              <Route path='/book-online' element={<BookOnline />} />
+              <Route path='/payment-failed' element={<PaymentFailed />} />
+              <Route path='/payment-success' element={<PaymentSuccess />} />
+            </Route>
 
-        </Routes>
-      </Router>
+          </Routes>
+        </Router>
+      </HelmetProvider>
     </>
   )
 }

@@ -7,6 +7,7 @@ import {
     rescheduleBooking, clearReschedule,
 } from "../../store/slices/authSlice";
 import "./MyBookingsDashboard.css";
+import { Helmet } from "react-helmet-async";
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 const Avatar = () => (
@@ -519,6 +520,7 @@ export default function MyBookingsDashboard() {
 
     return (
         <div className="dashboard-page">
+            <Helmet><title>My Bookings</title></Helmet>
             <div className="page-title-wrap">
                 <h1 className="page-title">My Bookings</h1>
             </div>

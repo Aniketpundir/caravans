@@ -10,6 +10,7 @@ import {
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import StepLoader from "../../Components/Steploader/Steploader";
+import { Helmet } from "react-helmet-async";
 
 const API_BASE = "https://caravans-project.onrender.com/api";
 
@@ -915,7 +916,9 @@ export default function BookOnline() {
 
     return (
         <div className="wizard-layout">
-            {/* SIDEBAR */}
+            <Helmet>
+                <title>Book Online</title>
+            </Helmet>
             <div className="sidebar">
                 <div className={`step ${step === 1 ? "active" : ""}`}>
                     <span className="icon-box"><RectangleStackIcon /></span>
