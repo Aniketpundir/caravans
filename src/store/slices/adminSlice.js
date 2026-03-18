@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://caravans-project.onrender.com/api";
+const BASE_URL = "https://16.16.213.67.sslip.io/api";
 
 // ─── Admin Login ──────────────────────────────────────────────────────────────
 export const adminLoginUser = createAsyncThunk(

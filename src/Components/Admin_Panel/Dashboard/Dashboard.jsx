@@ -407,14 +407,3 @@ export default function Dashboard() {
         </>
     );
 }
-// ```
-
-// ---
-
-// ## Console Output
-
-// Jab page load hoga ya date change hogi:
-// ```
-// 📅 Date Range: { from: "2026-03-07T...", to: "2026-03-13T..." }
-// 🔗 API URL: https://caravans-project.onrender.com/api/admin/dashboard/summary?startDate=2026-03-07&endDate=2026-03-13
-// ✅ Dashboard API Response: { ... }   ← Dashboard.jsx mein print hoga
