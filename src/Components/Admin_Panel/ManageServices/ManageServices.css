@@ -851,6 +851,7 @@ input[type="date"].ms-form-control::-webkit-calendar-picker-indicator {
 }
 
 .ms-stepper-btn {
+    margin-top: -1px;
     width: 36px;
     min-width: 36px;
     height: 100%;

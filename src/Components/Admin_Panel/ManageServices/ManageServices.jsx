@@ -328,6 +328,7 @@ export default function ManageServices() {
                         >
                             <option value="">Select Category</option>
                             <option value="All">All</option>
+                            <option value="Caravans">Caravans</option>
                             {allCats.map(name => <option key={name} value={name}>{name}</option>)}
                         </select>
                     </div>
@@ -481,6 +482,8 @@ export default function ManageServices() {
                                     <select className="ms-form-control" value={form.category}
                                         onChange={e => f("category", e.target.value)}>
                                         <option value="">Select Category</option>
+                                        <option value="All">All</option>
+                                        <option value="Caravans">Caravans</option>
                                         {allCats.map(n => <option key={n} value={n}>{n}</option>)}
                                     </select>
                                 </div>
