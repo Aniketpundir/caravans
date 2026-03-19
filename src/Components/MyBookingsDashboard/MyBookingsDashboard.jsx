@@ -54,6 +54,26 @@ const ChevronDown = () => (
 const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+});
+
+function parseDateOnly(value) {
+    if (typeof value === "string" && DATE_ONLY_RE.test(value)) {
+        const [year, month, day] = value.split("-").map(Number);
+        return new Date(year, month - 1, day);
+    }
+    return value ? new Date(value) : null;
+}
+
+function formatBookingDate(value) {
+    const date = parseDateOnly(value);
+    if (!date || Number.isNaN(date.getTime())) return "";
+    return BOOKING_DATE_FORMATTER.format(date);
+}
 
 function getDaysInMonth(year, month) { return new Date(year, month + 1, 0).getDate(); }
 function getFirstDayOfWeek(year, month) { return (new Date(year, month, 1).getDay() + 6) % 7; }
@@ -70,7 +90,7 @@ function addDays(date, n) {
 }
 function formatDate(date) {
     if (!date) return "";
-    return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    return formatBookingDate(date);
 }
 function toAPIDate(date) {
     if (!date) return "";
@@ -265,7 +285,7 @@ function BookingCard({ booking }) {
                         📅 {reschedule?.start
                             ? formatDate(reschedule.start)
                             : booking?.startDate
-                                ? formatDate(new Date(booking.startDate))
+                                ? formatBookingDate(booking.startDate)
                                 : "—"}
                     </span>
                 </div>
@@ -275,7 +295,7 @@ function BookingCard({ booking }) {
                         📅 {reschedule?.end
                             ? formatDate(reschedule.end)
                             : booking?.endDate
-                                ? formatDate(new Date(booking.endDate))
+                                ? formatBookingDate(booking.endDate)
                                 : "—"}
                     </span>
                 </div>

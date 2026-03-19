@@ -17,6 +17,33 @@ const API_BASE = "https://16.16.213.67.sslip.io/api";
 /* ==== PRICING HELPERS ==== */
 const calcSubtotal = (unitPrice, days) => (unitPrice || 0) * (days || 0);
 const calcTax = (subtotal, taxRate) => subtotal * ((taxRate || 0) / 100);
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+});
+
+const toYMD = (value) => {
+    if (!value) return "";
+    if (typeof value === "string" && DATE_ONLY_RE.test(value)) return value;
+    const dt = new Date(value);
+    if (Number.isNaN(dt.getTime())) return "";
+    return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+};
+
+const addDaysToYMD = (dateStr, days) => {
+    const base = new Date(`${dateStr}T00:00:00`);
+    base.setDate(base.getDate() + days);
+    return toYMD(base);
+};
+
+const formatBookingDate = (value) => {
+    const ymd = toYMD(value);
+    if (!ymd) return "—";
+    const [year, month, day] = ymd.split("-").map(Number);
+    return BOOKING_DATE_FORMATTER.format(new Date(year, month - 1, day));
+};
 
 /* ==== SCROLL TO TOP ==== */
 const ScrollToTop = () => {
@@ -157,11 +184,6 @@ const Step2 = ({ next, back, data, setData }) => {
     const max = data.maxDuration || 365;
     const daysList = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
-    const toYMD = (d) => {
-        const dt = new Date(d);
-        return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
-    };
-
     // Fetch for the visible month + 2 more months ahead
     const fetchAvailability = React.useCallback(async (anchor, days) => {
         if (!data.serviceId) return;
@@ -215,12 +237,12 @@ const Step2 = ({ next, back, data, setData }) => {
         if (!val) return;
         const days = Number(val);
         const today = new Date();
+        const start = toYMD(today);
+        const end = addDaysToYMD(start, days - 1);
         setSelectedDays(days);
         setShowCalendar(true);
         setStartDate(today);
-        const end = new Date(today);
-        end.setDate(today.getDate() + days - 1);
-        setData({ ...data, days, start: today, end });
+        setData({ ...data, days, start, end });
     };
 
     // Bar dropdown — change duration while calendar is visible
@@ -228,20 +250,18 @@ const Step2 = ({ next, back, data, setData }) => {
         if (!val) return;
         const days = Number(val);
         setSelectedDays(days);
-        const base = startDate || new Date();
-        const end = new Date(base);
-        end.setDate(base.getDate() + days - 1);
+        const base = toYMD(startDate || new Date());
+        const end = addDaysToYMD(base, days - 1);
         setData({ ...data, days, end });
     };
 
     const handleDateChange = (date) => {
         if (!selectedDays) return;
-        const start = new Date(date);
-        const end = new Date(start);
-        end.setDate(start.getDate() + selectedDays - 1);
-        setStartDate(start);
+        const start = toYMD(date);
+        const end = addDaysToYMD(start, selectedDays - 1);
+        setStartDate(new Date(date));
         setData({ ...data, start, end });
-        fetchAvailability(start, selectedDays);
+        fetchAvailability(date, selectedDays);
     };
 
     const tileClassName = ({ date }) => {
@@ -664,8 +684,7 @@ const Step4 = ({ back, data }) => {
     const taxAmount = calcTax(subtotal, data.taxRate);
     const total = subtotal + taxAmount - discount;
 
-    const formatDate = (d) =>
-        d ? new Date(d).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" }) : "—";
+    const formatDate = (d) => formatBookingDate(d);
 
     // Validate coupon against database
     const handleApplyCoupon = async () => {
@@ -733,8 +752,8 @@ const Step4 = ({ back, data }) => {
                 serviceId: data.serviceId,
                 duration: data.days,
                 currency: "aud",
-                startDate: data.start,
-                endDate: data.end,
+                startDate: toYMD(data.start),
+                endDate: toYMD(data.end),
                 firstName: data.first,
                 lastName: data.last,
                 email: data.email,
@@ -750,8 +769,6 @@ const Step4 = ({ back, data }) => {
                 coupon: couponApplied ? coupon.trim() : "",
             };
 
-            console.log(data.start);
-            console.log(data.end);
 
             const res = await fetch(`${API_BASE}/user/checkout`, {
                 method: "POST",

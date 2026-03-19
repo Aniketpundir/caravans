@@ -2,6 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import "./AppointmentsTable.css";
 
 const STATUS_OPTIONS = ["Approved", "Pending", "Cancelled", "Rejected", "No-Show", "Completed"];
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+});
 
 function SortIcon() {
     return (
@@ -46,10 +52,21 @@ function StatusDropdown({ current, onSelect }) {
     );
 }
 
-function formatDate(dateStr) {
-    if (!dateStr) return "—";
+function formatBookingDate(dateStr) {
+    if (!dateStr) return "?";
+    if (typeof dateStr === "string" && DATE_ONLY_RE.test(dateStr)) {
+        const [year, month, day] = dateStr.split("-").map(Number);
+        return BOOKING_DATE_FORMATTER.format(new Date(year, month - 1, day));
+    }
     const d = new Date(dateStr);
-    if (isNaN(d)) return dateStr;
+    if (Number.isNaN(d.getTime())) return dateStr;
+    return BOOKING_DATE_FORMATTER.format(d);
+}
+
+function formatTimestamp(dateStr) {
+    if (!dateStr) return "?";
+    const d = new Date(dateStr);
+    if (Number.isNaN(d.getTime())) return dateStr;
     return d.toLocaleDateString("en-US", {
         month: "long", day: "numeric", year: "numeric",
     }) + " " + d.toLocaleTimeString("en-US", {
@@ -125,7 +142,7 @@ export default function AppointmentsTable({
                                         />
                                     </td>
                                     <td className="id-cell">#{String(appt.id).slice(-6)}</td>
-                                    <td>{formatDate(appt.date)}</td>
+                                    <td>{formatBookingDate(appt.date)}</td>
                                     <td>{appt.customer || "—"}</td>
                                     <td>{appt.service || "—"}</td>
                                     <td>{appt.duration || "—"}</td>
@@ -148,7 +165,7 @@ export default function AppointmentsTable({
                                                 >🗑️</button>
                                             </div>
                                         ) : (
-                                            formatDate(appt.createdDate)
+                                            formatTimestamp(appt.createdDate)
                                         )}
                                     </td>
                                 </tr>

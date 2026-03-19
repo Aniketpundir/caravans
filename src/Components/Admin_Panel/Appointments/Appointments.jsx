@@ -9,6 +9,15 @@ import "./Appointments.css";
 import AppointmentsHeader from "./AppointmentsHeader/AppointmentsHeader";
 import AppointmentsTable from "./AppointmentsTable/AppointmentsTable";
 
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const toDateOnlyString = (value) => {
+    if (!value) return "";
+    if (typeof value === "string" && DATE_ONLY_RE.test(value)) return value;
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "";
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
 // ── API field ko normalize karo ───────────────────────────────────────────────
 function normalizeAppointment(appt) {
     return {
@@ -172,11 +181,10 @@ export default function Appointments() {
 
             // Date Range
             if (appliedFilters.dateRange?.start && appliedFilters.dateRange?.end) {
-                const apptDate = new Date(appt.date);
-                const start = new Date(appliedFilters.dateRange.start);
-                const end = new Date(appliedFilters.dateRange.end);
-                start.setHours(0, 0, 0, 0);
-                end.setHours(23, 59, 59, 999);
+                const apptDate = toDateOnlyString(appt.date);
+                const start = toDateOnlyString(appliedFilters.dateRange.start);
+                const end = toDateOnlyString(appliedFilters.dateRange.end);
+                if (!apptDate || !start || !end) return false;
                 if (apptDate < start || apptDate > end) return false;
             }
 

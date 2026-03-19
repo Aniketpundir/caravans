@@ -3,6 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomers } from "../../../store/slices/customersSlice";
 import "./ManageCustomers.css";
 
+const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+});
+
 // ── Normalize API data ────────────────────────────────────────────────────────
 function normalizeCustomer(c) {
     return {
@@ -261,7 +268,11 @@ export default function ManageCustomers() {
 
     // ── Format date ───────────────────────────────────────────────────────────
     function formatDate(dateStr) {
-        if (!dateStr) return "—";
+        if (!dateStr) return "?";
+        if (typeof dateStr === "string" && DATE_ONLY_RE.test(dateStr)) {
+            const [year, month, day] = dateStr.split("-").map(Number);
+            return BOOKING_DATE_FORMATTER.format(new Date(year, month - 1, day));
+        }
         const d = new Date(dateStr);
         if (isNaN(d)) return dateStr;
         return d.toLocaleDateString("en-US", {
