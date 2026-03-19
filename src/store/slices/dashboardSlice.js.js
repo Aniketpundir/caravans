@@ -16,9 +16,9 @@ function startOfDay(d) {
 }
 
 function getDefaultRange() {
-    const to = startOfDay(new Date());
-    const from = new Date(to);
-    from.setDate(to.getDate() - 6);
+    const from = startOfDay(new Date());
+    const to = new Date(from);
+    to.setDate(from.getDate() + 6);
     return {
         from: from.toISOString(),
         to: to.toISOString(),

@@ -12,10 +12,11 @@ const getAuthHeader = () => {
 // ─── Fetch All Customers ──────────────────────────────────────────────────────
 export const fetchCustomers = createAsyncThunk(
     "customers/fetchAll",
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
             const response = await axios.get(`${BASE_URL}/admin/customers`, {
                 headers: getAuthHeader(),
+                params,
             });
             return response.data?.data ?? response.data ?? [];
         } catch (err) {

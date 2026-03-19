@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+﻿import { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchDashboardData, fetchUpcomingAppointments } from "../../../store/slices/dashboardSlice.js";
+import { fetchDashboardData, fetchChartsData, fetchUpcomingAppointments } from "../../../store/slices/dashboardSlice.js";
 import {
     BarChart, Bar, LineChart, Line,
     XAxis, YAxis, CartesianGrid, Tooltip,
@@ -11,7 +11,9 @@ import DateRangePicker from "../Daterangepicker/Daterangepicker";
 import "./Dashboard.css";
 
 function startOfDay(d) {
-    const x = new Date(d); x.setHours(0, 0, 0, 0); return x;
+    const x = new Date(d);
+    x.setHours(0, 0, 0, 0);
+    return x;
 }
 
 function buildDateRange(from, to) {
@@ -24,57 +26,51 @@ function buildDateRange(from, to) {
     return days;
 }
 
-function toISO(d) {
-    return d.toISOString().split("T")[0];
-}
-
 function getDefaultRange() {
-    const to = startOfDay(new Date());
-    const from = new Date(to);
-    from.setDate(to.getDate() - 6);
+    const from = startOfDay(new Date());
+    const to = new Date(from);
+    to.setDate(from.getDate() + 6);
     return { from, to };
 }
 
-const STATUS_OPTIONS = ["Approved", "Pending", "Cancelled", "Rejected", "No-Show", "Completed"];
+function toChartLabel(dateStr) {
+    if (!dateStr) return null;
+    return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
+        month: "short",
+        day: "2-digit",
+    });
+}
 
-const initialAppointments = [
-    {
-        id: "#152",
-        date: "March 28, 2026 12:00 am",
-        customer: "Tracy Hazell",
-        firstName: "Tracy", lastName: "Hazell",
-        email: "tracyhazell@gmail.com", phone: "+1 555 000 1111",
-        service: "Large Lot - 9mx3m", duration: "110 Days",
-        status: "Approved", payment: "$738.10",
-        paymentMethod: "Credit Card", tax: "$67.10",
-        createdDate: "January 14, 2026 7:39 am",
-        time: "12:00 am To 12:00 am", bookingDate: "March 28, 2026",
-    },
-    {
-        id: "#173",
-        date: "April 2, 2026 12:00 am",
-        customer: "Corey Hogan",
-        firstName: "Corey", lastName: "Hogan",
-        email: "coreyhoganaes@gmail.com", phone: "+1 555 000 2222",
-        service: "Medium Lot - 7mx3m", duration: "18 Days",
-        status: "Approved", payment: "$93.85",
-        paymentMethod: "Credit Card", tax: "$8.53",
-        createdDate: "February 17, 2026 11:26 am",
-        time: "12:00 am To 12:00 am", bookingDate: "April 2, 2026",
-    },
-    {
-        id: "#172",
-        date: "April 24, 2026 12:00 am",
-        customer: "Rodney SMITH",
-        firstName: "Rodney", lastName: "SMITH",
-        email: "rodneysmith@gmail.com", phone: "+1 555 000 3333",
-        service: "Small Lot - 6mx3m", duration: "52 Days",
-        status: "Approved", payment: "$232.23",
-        paymentMethod: "Credit Card", tax: "$21.11",
-        createdDate: "February 14, 2026 10:54 am",
-        time: "12:00 am To 12:00 am", bookingDate: "April 24, 2026",
-    },
-];
+function mapChartsData(rawCharts, from, to) {
+    const labels = buildDateRange(from, to);
+    const rows = new Map(
+        labels.map((label) => [label, { date: label, approved: 0, pending: 0, revenue: 0, customers: 0 }])
+    );
+
+    rawCharts?.appointments?.forEach((item) => {
+        const label = toChartLabel(item?._id?.date);
+        if (!label || !rows.has(label)) return;
+        const status = String(item?._id?.status || "").toLowerCase();
+        if (status === "approved") rows.get(label).approved += item.count || 0;
+        if (status === "pending") rows.get(label).pending += item.count || 0;
+    });
+
+    rawCharts?.revenue?.forEach((item) => {
+        const label = toChartLabel(item?._id?.date);
+        if (!label || !rows.has(label)) return;
+        rows.get(label).revenue = item.total || 0;
+    });
+
+    rawCharts?.customers?.forEach((item) => {
+        const label = toChartLabel(item?._id?.date);
+        if (!label || !rows.has(label)) return;
+        rows.get(label).customers = item.count || 0;
+    });
+
+    return labels.map((label) => rows.get(label));
+}
+
+const STATUS_OPTIONS = ["Approved", "Pending", "Cancelled", "Rejected", "No-Show", "Completed"];
 
 const EditIcon = () => (
     <svg viewBox="0 0 24 24">
@@ -94,23 +90,29 @@ const DeleteIcon = () => (
 function StatusDropdown({ status, onChange }) {
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
+
     useEffect(() => {
-        function h(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+        function h(e) {
+            if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        }
         document.addEventListener("mousedown", h);
         return () => document.removeEventListener("mousedown", h);
     }, []);
+
     return (
         <div className="admin_status__wrapper" ref={ref}>
-            <button className="admin_status__btn" onClick={() => setOpen(v => !v)}>{status}</button>
+            <button className="admin_status__btn" onClick={() => setOpen((v) => !v)}>{status}</button>
             {open && (
                 <div className="admin_status__dropdown">
                     <div className="admin_status__dropdown-header">Change status</div>
-                    {STATUS_OPTIONS.map(opt => (
+                    {STATUS_OPTIONS.map((opt) => (
                         <div
                             key={opt}
                             className={`admin_status__dropdown-option${opt === status ? " admin_status__dropdown-option--selected" : ""}`}
                             onClick={() => { onChange(opt); setOpen(false); }}
-                        >{opt}</div>
+                        >
+                            {opt}
+                        </div>
                     ))}
                 </div>
             )}
@@ -120,93 +122,70 @@ function StatusDropdown({ status, onChange }) {
 
 export default function Dashboard() {
     const dispatch = useDispatch();
+    const {
+        data: dashboardApiData,
+        chartsData,
+        chartsLoading,
+        chartsError,
+        upcomingData,
+        loading,
+        error,
+        from: reduxFrom,
+        to: reduxTo,
+    } = useSelector((state) => state.dashboard);
 
-    // ── Redux se dashboard API data lo ───────────────────────────────────────
-    const { data: dashboardApiData, upcomingData, upcomingError, loading, error, from: reduxFrom, to: reduxTo } = useSelector((state) => state.dashboard);
-
-    const [appointments, setAppointments] = useState(initialAppointments);
     const [expandedId, setExpandedId] = useState(null);
+    const [dateRange, setDateRange] = useState(getDefaultRange());
 
-    const defaultRange = getDefaultRange();
-    const [dateRange, setDateRange] = useState(defaultRange);
-
-    const [appointmentsChartData, setAppointmentsChartData] = useState([]);
-    const [revenueChartData, setRevenueChartData] = useState([]);
-    const [customersChartData, setCustomersChartData] = useState([]);
-
-    // const [data, setData] = useState([]);
-
-    const [stats, setStats] = useState({ total: 0, approved: 0, pending: 0, revenue: "$0.00", customers: 0 });
-
-    // ── Page load par default range ke saath API hit karo ────────────────────
     useEffect(() => {
         dispatch(fetchDashboardData({ from: reduxFrom, to: reduxTo }));
+        dispatch(fetchChartsData({ from: reduxFrom, to: reduxTo }));
         dispatch(fetchUpcomingAppointments());
-    }, []);
-
-    // ── Jab bhi API se data aaye, console mein print karo ────────────────────
-    // useEffect(() => {
-    //     if (dashboardApiData) {
-    //         console.log("✅ Dashboard API Response:", dashboardApiData);
-    //     }
-    //     if (error) {
-    //         console.error("❌ Dashboard API Error:", error);
-    //     }
-    // }, [dashboardApiData, error]);
-
-    const fetchData = useCallback((from, to) => {
-        const fromISO = toISO(from);
-        const toISO_ = toISO(to);
-        const dates = buildDateRange(from, to);
-
-        const emptyAppts = dates.map(d => ({ date: d, approved: 0, pending: 0 }));
-        const emptyRevenue = dates.map(d => ({ date: d, revenue: 0 }));
-        const emptyCustomers = dates.map(d => ({ date: d, customers: 0 }));
-
-        fetch(`/api/charts/appointments?from=${fromISO}&to=${toISO_}`)
-            .then(r => r.json())
-            .then(data => setAppointmentsChartData(data))
-            .catch(() => setAppointmentsChartData(emptyAppts));
-
-        fetch(`/api/charts/revenue?from=${fromISO}&to=${toISO_}`)
-            .then(r => r.json())
-            .then(data => setRevenueChartData(data))
-            .catch(() => setRevenueChartData(emptyRevenue));
-
-        fetch(`/api/charts/customers?from=${fromISO}&to=${toISO_}`)
-            .then(r => r.json())
-            .then(data => setCustomersChartData(data))
-            .catch(() => setCustomersChartData(emptyCustomers));
-
-        fetch(`/api/dashboard/stats?from=${fromISO}&to=${toISO_}`)
-            .then(r => r.json())
-            .then(data => setStats(data))
-            .catch(() => {
-                setStats({ total: 2, approved: 2, pending: 0, revenue: "$301.95", customers: 2 });
-            });
-
-    }, []);
+    }, [dispatch, reduxFrom, reduxTo]);
 
     useEffect(() => {
-        fetchData(dateRange.from, dateRange.to);
-    }, [dateRange, fetchData]);
+        if (reduxFrom && reduxTo) {
+            setDateRange({ from: new Date(reduxFrom), to: new Date(reduxTo) });
+        }
+    }, [reduxFrom, reduxTo]);
 
-    function handleDateChange({ from, to }) {
+    const chartSeries = useMemo(
+        () => mapChartsData(chartsData?.data, dateRange.from, dateRange.to),
+        [chartsData, dateRange.from, dateRange.to]
+    );
+
+    const appointmentsChartData = useMemo(
+        () => chartSeries.map(({ date, approved, pending }) => ({ date, approved, pending })),
+        [chartSeries]
+    );
+    const revenueChartData = useMemo(
+        () => chartSeries.map(({ date, revenue }) => ({ date, revenue })),
+        [chartSeries]
+    );
+    const customersChartData = useMemo(
+        () => chartSeries.map(({ date, customers }) => ({ date, customers })),
+        [chartSeries]
+    );
+
+    const handleDateChange = ({ from, to }) => {
         setDateRange({ from, to });
-    }
-
-    const handleStatusChange = (index, newStatus) => {
-        setAppointments(prev => prev.map((a, i) => i === index ? { ...a, status: newStatus } : a));
     };
+
     const toggleExpand = (id) => {
-        setExpandedId(prev => prev === id ? null : id);
+        setExpandedId((prev) => (prev === id ? null : id));
     };
-
 
     function formatDateTime(dateString) {
-
+        if (!dateString) return "-";
+        if (typeof dateString === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+            return new Date(`${dateString}T00:00:00`).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
+        }
         const date = new Date(dateString);
-
+        if (Number.isNaN(date.getTime())) return String(dateString);
         return date.toLocaleString("en-US", {
             year: "numeric",
             month: "long",
@@ -214,22 +193,18 @@ export default function Dashboard() {
             hour: "2-digit",
             minute: "2-digit",
         });
-
     }
 
     return (
         <>
             <div className="admin_page__wrapper">
                 <div className="admin_dashboard__container">
-
                     <div className="admin_dashboard__header">
                         <h1 className="admin_dashboard__title">Dashboard</h1>
-                        <DateRangePicker
-                            from={dateRange.from}
-                            to={dateRange.to}
-                            onChange={handleDateChange}
-                        />
+                        <DateRangePicker from={dateRange.from} to={dateRange.to} onChange={handleDateChange} />
                     </div>
+
+                    {error && <div style={{ color: "#ef4444", marginBottom: 12 }}>{error}</div>}
 
                     <div className="admin_stats__row-top">
                         <div className="admin_stat__card">
@@ -252,14 +227,14 @@ export default function Dashboard() {
                             <div className="admin_stat__label">Revenue</div>
                         </div>
                         <div className="admin_stat__card">
-                            <div className="admin_stat__number admin_stat__number--purple">{dashboardApiData?.data?.totalAppointments ?? 0}</div>
+                            <div className="admin_stat__number admin_stat__number--purple">{dashboardApiData?.data?.customers ?? 0}</div>
                             <div className="admin_stat__label">Customers</div>
                         </div>
                     </div>
 
                     <div className="admin_section__title">Technical Analysis</div>
+                    {chartsError && <div style={{ color: "#ef4444", marginBottom: 12 }}>{chartsError}</div>}
                     <div className="admin_charts__grid">
-
                         <div className="admin_chart__card">
                             <div className="admin_chart__title">Appointments</div>
                             <div className="admin_chart__legend">
@@ -335,30 +310,28 @@ export default function Dashboard() {
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th><div className="admin_table__th-inner">Date<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
-                                    <th><div className="admin_table__th-inner">Customer<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
-                                    <th><div className="admin_table__th-inner">Service<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
-                                    <th><div className="admin_table__th-inner">Duration<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Date<div className="admin_table__sort-arrows"><span>^</span><span>v</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Customer<div className="admin_table__sort-arrows"><span>^</span><span>v</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Service<div className="admin_table__sort-arrows"><span>^</span><span>v</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Duration<div className="admin_table__sort-arrows"><span>^</span><span>v</span></div></div></th>
                                     <th>Status</th>
-                                    <th><div className="admin_table__th-inner">Payment<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
-                                    <th><div className="admin_table__th-inner">Created Date<div className="admin_table__sort-arrows"><span>▲</span><span>▼</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Payment<div className="admin_table__sort-arrows"><span>^</span><span>v</span></div></div></th>
+                                    <th><div className="admin_table__th-inner">Created Date<div className="admin_table__sort-arrows"><span>^</span><span>v</span></div></div></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {upcomingData?.data.map((appt, index) => {
-                                    const isOpen = expandedId === appt.id;
+                                {upcomingData?.data?.map((appt, index) => {
+                                    const rowId = appt.id || appt._id;
+                                    const isOpen = expandedId === rowId;
                                     return (
                                         <>
-                                            <tr key={appt._id} className="admin_table__data-row">
+                                            <tr key={rowId} className="admin_table__data-row">
                                                 <td>
-                                                    <div key={appt._id} className="admin_table__id-cell">
-                                                        <button
-                                                            className={`admin_table__expand-btn${isOpen ? " admin_table__expand-btn--open" : ""}`}
-                                                            onClick={() => toggleExpand(appt.id)}
-                                                        >
-                                                            {isOpen ? "−" : "+"}
+                                                    <div className="admin_table__id-cell">
+                                                        <button className={`admin_table__expand-btn${isOpen ? " admin_table__expand-btn--open" : ""}`} onClick={() => toggleExpand(rowId)}>
+                                                            {isOpen ? "-" : "+"}
                                                         </button>
-                                                        {appt.id}
+                                                        {rowId}
                                                     </div>
                                                 </td>
                                                 <td>{formatDateTime(appt.date)}</td>
@@ -366,10 +339,7 @@ export default function Dashboard() {
                                                 <td>{appt.service}</td>
                                                 <td>{appt.duration}</td>
                                                 <td>
-                                                    <StatusDropdown
-                                                        status={appt.status}
-                                                        onChange={(s) => handleStatusChange(index, s)}
-                                                    />
+                                                    <StatusDropdown status={appt.status} onChange={() => {}} />
                                                 </td>
                                                 <td>{appt.payment}</td>
                                                 <td className="admin_table__actions-cell">
@@ -381,7 +351,7 @@ export default function Dashboard() {
                                                 </td>
                                             </tr>
                                             {isOpen && (
-                                                <tr key={`${appt.id}-expand`} className="admin_table__expand-row">
+                                                <tr key={`${rowId}-expand`} className="admin_table__expand-row">
                                                     <td colSpan={8}>
                                                         <ExpandPanel appt={appt} onClose={() => setExpandedId(null)} />
                                                     </td>
@@ -393,7 +363,6 @@ export default function Dashboard() {
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
 

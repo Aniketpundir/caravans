@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomers } from "../../../store/slices/customersSlice";
+import { downloadCsv } from "../../../utils/exportCsv";
 import "./ManageCustomers.css";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -189,10 +190,23 @@ export default function ManageCustomers() {
     const [activePage, setActivePage] = useState(1);
     const [perPage, setPerPage] = useState(20);
 
+    const handleExport = () => {
+        downloadCsv(
+            "customers.csv",
+            allCustomers.map((customer) => ({
+                fullName: customer.name,
+                email: customer.email,
+                phone: customer.phone,
+                recentAppointment: customer.date,
+                totalAppointments: customer.appts,
+            }))
+        );
+    };
+
     // ── Fetch on mount ────────────────────────────────────────────────────────
     useEffect(() => {
         dispatch(fetchCustomers());
-    }, []);
+    }, [dispatch]);
 
     // ── Name suggestions from API data ────────────────────────────────────────
     const suggestions = useMemo(() => {
@@ -207,24 +221,12 @@ export default function ManageCustomers() {
     }, [search, allCustomers]);
 
     // ── Filter applied ────────────────────────────────────────────────────────
-    const filtered = useMemo(() => {
-        if (!appliedSearch) return allCustomers;
-        const q = appliedSearch.toLowerCase();
-        return allCustomers.filter((c) =>
-            c.name.toLowerCase().includes(q) ||
-            c.email.toLowerCase().includes(q) ||
-            c.phone.includes(q)
-        );
-    }, [allCustomers, appliedSearch]);
-
-    // ── Pagination ────────────────────────────────────────────────────────────
-    const totalPages = Math.ceil(filtered.length / perPage);
+    const totalPages = Math.ceil(allCustomers.length / perPage);
     const paginated = useMemo(() => {
         const start = (activePage - 1) * perPage;
-        return filtered.slice(start, start + perPage);
-    }, [filtered, activePage, perPage]);
+        return allCustomers.slice(start, start + perPage);
+    }, [allCustomers, activePage, perPage]);
 
-    // ── Checkbox ──────────────────────────────────────────────────────────────
     const toggleAll = (checked) => {
         setAllChecked(checked);
         const s = {};
@@ -241,7 +243,7 @@ export default function ManageCustomers() {
         setAppliedSearch(search);
         setShowSuggestions(false);
         setActivePage(1);
-        console.log("✅ Search Applied:", search);
+        dispatch(fetchCustomers(search.trim() ? { q: search.trim() } : {}));
     }
 
     function resetSearch() {
@@ -249,6 +251,7 @@ export default function ManageCustomers() {
         setAppliedSearch("");
         setShowSuggestions(false);
         setActivePage(1);
+        dispatch(fetchCustomers());
     }
 
     function handleSuggestionClick(name) {
@@ -256,6 +259,7 @@ export default function ManageCustomers() {
         setAppliedSearch(name);
         setShowSuggestions(false);
         setActivePage(1);
+        dispatch(fetchCustomers({ q: name }));
     }
 
     // ── Pagination pages ──────────────────────────────────────────────────────
@@ -357,7 +361,7 @@ export default function ManageCustomers() {
 
                     <button className="btn-reset" onClick={resetSearch}>Reset</button>
                     <button className="btn-apply" onClick={applySearch}>Apply</button>
-                    <button className="btn-export"><IconUpload /> Export</button>
+                    <button className="btn-export" onClick={handleExport}><IconUpload /> Export</button>
                     <button className="btn-import"><IconDownload /> Import</button>
                 </div>
 
@@ -410,7 +414,7 @@ export default function ManageCustomers() {
                 <div className="pagination-row">
                     <div className="pagination-left">
                         <span className="showing-text">
-                            Showing <strong>{paginated.length}</strong> out of <strong>{filtered.length}</strong>
+                            Showing <strong>{paginated.length}</strong> out of <strong>{allCustomers.length}</strong>
                         </span>
                         <div className="per-page">
                             Per Page

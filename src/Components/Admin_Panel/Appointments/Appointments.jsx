@@ -8,6 +8,7 @@ import {
 import "./Appointments.css";
 import AppointmentsHeader from "./AppointmentsHeader/AppointmentsHeader";
 import AppointmentsTable from "./AppointmentsTable/AppointmentsTable";
+import { downloadCsv } from "../../../utils/exportCsv";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const toDateOnlyString = (value) => {
@@ -135,7 +136,19 @@ export default function Appointments() {
     }
 
     function handleExport() {
-        console.log("📤 Exporting:", filteredAppointments);
+        downloadCsv(
+            "appointments.csv",
+            filteredAppointments.map((appt) => ({
+                id: appt.id,
+                date: appt.date,
+                customer: appt.customer,
+                service: appt.service,
+                duration: appt.duration,
+                status: appt.status,
+                payment: appt.payment,
+                createdDate: appt.createdDate,
+            }))
+        );
     }
 
     // ── Frontend filter ───────────────────────────────────────────────────────

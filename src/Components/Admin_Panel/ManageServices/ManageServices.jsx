@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     fetchServices,
     addService,
+    updateService,
     setFilterName,
     setFilterCategory,
     applyFilters,
     resetFilters,
     deleteServiceLocal,
-    updateServiceLocal,
     clearAddError,
     selectFilteredServices,
     selectCategories,
@@ -44,6 +44,16 @@ const EMPTY_FORM = {
     isDisabled: false,
     imageFile: null,       // File object
     imagePreview: "",      // Local preview URL
+};
+
+const sanitizePriceInput = (value) => {
+    if (value === undefined || value === null) return "";
+    const cleaned = String(value).replace(/[^\d.]/g, "");
+    const firstDot = cleaned.indexOf(".");
+    if (firstDot === -1) return cleaned;
+    const integerPart = cleaned.slice(0, firstDot + 1);
+    const decimalPart = cleaned.slice(firstDot + 1).replace(/\./g, "");
+    return `${integerPart}${decimalPart}`;
 };
 
 /* ─── Grip Icon ─── */
@@ -222,30 +232,34 @@ export default function ManageServices() {
         if (!form.serviceName?.trim()) return;
 
         if (isEditMode) {
-            /* Edit: local update only (PUT API not in scope) */
-            dispatch(updateServiceLocal({
-                _id: form._id,
-                serviceName: form.serviceName,
-                category: form.category,
-                unitPrice: form.unitPrice,
-                unitDuration: { value: form.unitDurationValue, unit: form.unitDurationUnit },
-                bufferTimeBefore: form.bufferTimeBefore,
-                bufferTimeAfter: form.bufferTimeAfter,
-                maxCapacity: form.maxCapacity,
-                description: form.description,
-                tax: form.tax,
-                isDisabled: form.isDisabled,
-                availability: {
-                    startDate: form.availabilityStartDate,
-                    expirationDate: form.availabilityExpirationDate,
-                },
-                bookingRules: {
-                    minTimeBeforeBooking: form.minTimeBeforeBooking,
-                    minTimeBeforeReschedule: form.minTimeBeforeReschedule,
-                    minTimeBeforeCancel: form.minTimeBeforeCancel,
-                },
-            }));
-            setShowForm(false);
+            const fd = new FormData();
+            fd.append("serviceName", form.serviceName);
+            fd.append("category", form.category);
+            fd.append("description", form.description);
+            fd.append("bufferTimeBefore", form.bufferTimeBefore);
+            fd.append("bufferTimeAfter", form.bufferTimeAfter);
+            fd.append("maxCapacity", form.maxCapacity);
+            fd.append("unitDurationValue", form.unitDurationValue);
+            fd.append("unitDurationUnit", form.unitDurationUnit);
+            fd.append("unitPrice", form.unitPrice);
+            fd.append("minDuration", form.minDuration);
+            fd.append("maxDuration", form.maxDuration);
+            fd.append("minTimeBeforeBooking", form.minTimeBeforeBooking);
+            fd.append("minTimeBeforeReschedule", form.minTimeBeforeReschedule);
+            fd.append("minTimeBeforeCancel", form.minTimeBeforeCancel);
+            fd.append("availabilityStartDate", form.availabilityStartDate);
+            fd.append("availabilityExpirationDate", form.availabilityExpirationDate);
+            fd.append("isDisabled", form.isDisabled);
+            fd.append("tax", form.tax);
+            if (form.imageFile) {
+                fd.append("image", form.imageFile);
+            }
+
+            const result = await dispatch(updateService({ id: form._id, formData: fd }));
+            if (updateService.fulfilled.match(result)) {
+                setShowForm(false);
+                dispatch(fetchServices());
+            }
             return;
         }
 
@@ -489,9 +503,14 @@ export default function ManageServices() {
                                 </div>
                                 <div className="ms-form-group">
                                     <label className="ms-form-label">Price ($) <span className="req">*</span></label>
-                                    <input className="ms-form-control" type="number" placeholder="0.00"
+                                    <input
+                                        className="ms-form-control"
+                                        type="text"
+                                        inputMode="decimal"
+                                        placeholder="0.00"
                                         value={form.unitPrice}
-                                        onChange={e => f("unitPrice", e.target.value)} />
+                                        onChange={e => f("unitPrice", sanitizePriceInput(e.target.value))}
+                                    />
                                 </div>
                             </div>
 

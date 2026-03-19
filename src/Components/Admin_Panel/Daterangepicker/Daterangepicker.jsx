@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setDateRange, fetchDashboardData } from "../../../store/slices/dashboardSlice.js";
+import { setDateRange, fetchDashboardData, fetchChartsData } from "../../../store/slices/dashboardSlice.js";
 import "./DateRangePicker.css";
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -187,8 +187,8 @@ export default function DateRangePicker({ from, to, onChange }) {
             // Redux mein date range set karo
             dispatch(setDateRange({ from: fromISO, to: toISO }));
 
-            // API call trigger karo
             dispatch(fetchDashboardData({ from: fromISO, to: toISO }));
+            dispatch(fetchChartsData({ from: fromISO, to: toISO }));
 
             onChange({ from: tempFrom, to: tempTo });
             setOpen(false);
