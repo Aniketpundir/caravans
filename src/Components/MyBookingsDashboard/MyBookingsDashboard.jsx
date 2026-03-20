@@ -8,6 +8,7 @@ import {
 } from "../../store/slices/authSlice";
 import "./MyBookingsDashboard.css";
 import { Helmet } from "react-helmet-async";
+import axios from "axios";
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 const Avatar = () => (
@@ -234,10 +235,69 @@ function DateRangePicker({ value, onChange, onClose, allowedNights }) {
 // ─── BookingCard ──────────────────────────────────────────────────────────────
 // FIX 1: "function" keyword missing tha
 function BookingCard({ booking }) {
+    const [newData, setNewData] = useState("")
+    const [newUrl, setNewURl] = useState("")
     const dispatch = useDispatch();
     const { rescheduleLoading, rescheduleSuccess, rescheduleError } = useSelector(s => s.auth);
 
     const [topup, setTopup] = useState("");
+
+    const handleSubmit = async (id) => {
+        const customer_token = localStorage.getItem("token");
+
+        if (!id) {
+            console.error("Booking ID missing");
+            return;
+        }
+
+        if (!topup || topup <= 0) {
+            console.error("Invalid addedDays value");
+            return;
+        }
+
+        try {
+            console.log("Sending request with ID:", id, "Days:", topup);
+
+            const response = await axios.post(
+                `https://16.16.213.67.sslip.io/api/auth/booking/${id}/extend`,
+                { addedDays: topup },
+                {
+                    headers: {
+                        Authorization: `Bearer ${customer_token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            console.log("Success:", response.data);
+
+            setNewData(response.data);
+            setNewURl(response.data.url)
+
+            // if (url) {
+            //     // ✅ redirect to Stripe checkout
+            //     // window.location.replace(url);
+            // } else {
+            //     console.error("No URL received from backend");
+            // }
+
+        } catch (error) {
+            console.error("Error full object:", error);
+
+            if (error.response) {
+                console.error("Server Error:", error.response.data);
+                alert(error.response.data?.message || "Server error");
+            } else if (error.request) {
+                console.error("No Response:", error.request);
+                alert("Server not responding");
+            } else {
+                console.error("Error:", error.message);
+                alert("Something went wrong");
+            }
+        }
+    };
+
+
     const [showCal, setShowCal] = useState(false);
     const [reschedule, setReschedule] = useState(null);
 
@@ -270,6 +330,11 @@ function BookingCard({ booking }) {
             setShowCal(false);
         });
     };
+
+
+    // API FOR TOP UP
+
+
 
     return (
         <div className="bk-card">
@@ -313,12 +378,25 @@ function BookingCard({ booking }) {
             )}
 
             <div className={`bk-topup-row ${isCompleted ? "bk-topup-row--disabled" : ""}`}>
-                <label className="bk-topup-label">➕ Extend Booking (nights)</label>
+                <label className="bk-topup-label">➕ Extend Booking</label>
                 <div className="bk-topup-input-wrap">
-                    <input type="number" min="1" placeholder="e.g. 2"
-                        value={topup} onChange={e => setTopup(e.target.value)}
-                        className="bk-topup-input" disabled={isCompleted} />
-                    <button className="bk-topup-btn" disabled={!topup || isCompleted}>TopUp</button>
+                    {!newData ? <>
+                        <input type="number" min="1" placeholder="e.g. 2"
+                            value={topup} onChange={e => setTopup(e.target.value)}
+                            className="bk-topup-input" disabled={isCompleted} />
+                        <button className="bk-topup-btn" onClick={() => { handleSubmit(booking._id) }} disabled={isCompleted}>TopUp</button>
+                    </> :
+                        <div className="top-up-charges">
+                            <div className="top-up-charges-text">
+                                <p>Subtotal : $ {newData.subtotal}</p>
+                                <p>Tax : $ {newData.tax}</p>
+                                <h4>Total Amount : $ {newData.totalamount}</h4>
+                            </div>
+                            <div className="top-up-pay">
+                                <button className="bk-topup-pay-btn" onClick={() => { window.location.replace(newUrl) }} disabled={isCompleted}>Pay now</button>
+                            </div>
+                        </div>}
+
                 </div>
             </div>
 
@@ -520,11 +598,11 @@ export default function MyBookingsDashboard() {
         } else {
             Navigate("/my-booking-dashboard")
         }
-    })
+    }, [])
     const [active, setActive] = useState("bookings");
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    const dispatch = useDispatch(); // FIX 2: dispatch missing tha
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, token } = useSelector(s => s.auth);
 

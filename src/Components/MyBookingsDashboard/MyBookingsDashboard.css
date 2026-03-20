@@ -717,6 +717,42 @@
     padding: 24px 18px;
 }
 
+/* top up pay */
+
+.top-up-charges {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bk-topup-pay-btn {
+    padding: 8px 35px;
+    background: var(--dark-navy);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.top-up-charges-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.top-up-charges-text p {
+    font-size: 18px;
+}
+
+.top-up-charges-text h4 {
+    font-size: 22px;
+}
+
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
     .bk-info-grid {
