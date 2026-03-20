@@ -510,6 +510,17 @@ const navItems = [
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 export default function MyBookingsDashboard() {
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+
+        if (!token) {
+            Navigate("/my-booking")
+        } else {
+            Navigate("/my-booking-dashboard")
+        }
+    })
     const [active, setActive] = useState("bookings");
     const [mobileOpen, setMobileOpen] = useState(false);
 
