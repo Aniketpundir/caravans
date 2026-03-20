@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomers } from "../../../store/slices/customersSlice";
 import { downloadCsv } from "../../../utils/exportCsv";
 import "./ManageCustomers.css";
+import { useNavigate } from "react-router-dom";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
@@ -172,6 +173,18 @@ function AddCustomerPanel({ open, onClose }) {
 
 /* ── Main Component ──────────────────────────────────────────────────────────*/
 export default function ManageCustomers() {
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard/customers")
+        }
+    }, [])
+
     const dispatch = useDispatch();
     const { data: rawData, loading, error } = useSelector((state) => state.customers);
 
@@ -315,13 +328,13 @@ export default function ManageCustomers() {
             <div className="page-wrapper">
 
                 {/* ── Header ── */}
-                <div className="page-header">
+                {/* <div className="page-header">
                     <h1 className="page-title">Manage Customers</h1>
                     <button className="btn-add" onClick={() => setPanelOpen(true)}>
                         <IconPlus />
                         Add New
                     </button>
-                </div>
+                </div> */}
 
                 {/* ── Filter Bar ── */}
                 <div className="filter-bar">
@@ -362,7 +375,7 @@ export default function ManageCustomers() {
                     <button className="btn-reset" onClick={resetSearch}>Reset</button>
                     <button className="btn-apply" onClick={applySearch}>Apply</button>
                     <button className="btn-export" onClick={handleExport}><IconUpload /> Export</button>
-                    <button className="btn-import"><IconDownload /> Import</button>
+                    {/* <button className="btn-import"><IconDownload /> Import</button> */}
                 </div>
 
                 {/* ── Table ── */}
@@ -447,8 +460,6 @@ export default function ManageCustomers() {
                 </div>
 
             </div>
-
-            <button className="help-btn" title="Help"><IconHelp /></button>
             <AddCustomerPanel open={panelOpen} onClose={() => setPanelOpen(false)} />
         </>
     );

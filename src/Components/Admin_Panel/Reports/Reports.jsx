@@ -6,6 +6,7 @@ import {
 } from "recharts";
 import { fetchServices } from "../../../store/slices/servicesSlice";
 import "./Reports.css";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "https://16.16.213.67.sslip.io/api";
 const SHORTCUTS = ["Today", "Yesterday", "Tomorrow", "This week", "Last week", "This month", "Last month", "This year"];
@@ -123,6 +124,18 @@ function ChartTooltip({ active, payload, label }) {
 }
 
 export default function Reports() {
+
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard/report")
+        }
+    }, [])
     const dispatch = useDispatch();
     const services = useSelector((state) => state.services.list || []);
 

@@ -20,6 +20,7 @@ import {
     selectFilterCategory,
 } from "../../../store/slices/servicesSlice";
 import "./ManageServices.css";
+import { useNavigate } from "react-router-dom";
 
 /* ─── EMPTY FORM ─── */
 const EMPTY_FORM = {
@@ -128,6 +129,18 @@ function LoadingSkeleton() {
    MAIN COMPONENT
 ═══════════════════════════════════════════ */
 export default function ManageServices() {
+
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard/service")
+        }
+    }, [])
     const dispatch = useDispatch();
     const imageRef = useRef(null);
 
@@ -399,10 +412,7 @@ export default function ManageServices() {
                             </div>
                             <div className="ms-cell">${Number(svc.unitPrice ?? 0).toFixed(2)}</div>
                             <div className="ms-row-actions">
-                                <button className="ms-act-btn" title="Staff">&#128100;</button>
                                 <button className="ms-act-btn edit" title="Edit" onClick={() => openEdit(svc)}>&#9998;</button>
-                                <button className="ms-act-btn" title="Clone">&#128203;</button>
-                                <button className="ms-act-btn" title="Schedule">&#128197;</button>
                                 <button className="ms-act-btn delete" title="Delete" onClick={() => handleDel(svc)}>&#128465;</button>
                             </div>
                         </div>

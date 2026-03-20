@@ -50,7 +50,7 @@
     gap: 10px;
     margin-bottom: 24px;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 50 px;
 }
 
 .search-input {
@@ -760,6 +760,7 @@ input[type='checkbox'] {
 
 .search-wrapper .search-input {
     width: 100%;
+    margin-top: 20px;
 }
 
 /* ── Suggestions Dropdown ── */

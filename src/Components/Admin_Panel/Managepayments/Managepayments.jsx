@@ -4,6 +4,7 @@ import { fetchPayments, updatePaymentStatus } from "../../../store/slices/paymen
 import { fetchServices } from "../../../store/slices/servicesSlice";
 import { downloadCsv } from "../../../utils/exportCsv";
 import "./Managepayments.css";
+import { useNavigate } from "react-router-dom";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const STATUS_OPTIONS = ["Paid", "Pending", "Failed"];
@@ -376,6 +377,19 @@ function PaymentRow({ payment, expandedId, setExpandedId, checkedIds, toggleOne,
 }
 
 export default function ManagePayments() {
+
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard/payments")
+        }
+    }, [])
+
     const dispatch = useDispatch();
     const { data: rawPayments, loading, error, updateError } = useSelector((state) => state.payments);
     const services = useSelector((state) => state.services.list);

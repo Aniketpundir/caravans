@@ -154,19 +154,9 @@ export default function AppointmentsTable({
                                     </td>
                                     <td>{appt.payment || "—"}</td>
                                     <td>
-                                        {hoveredRow === appt.id ? (
-                                            <div className="row-actions">
-                                                <button className="action-btn" title="Edit">✏️</button>
-                                                <button className="action-btn" title="Copy">📋</button>
-                                                <button
-                                                    className="action-btn delete"
-                                                    title="Delete"
-                                                    onClick={() => onDelete(appt.id)}
-                                                >🗑️</button>
-                                            </div>
-                                        ) : (
+                                        {
                                             formatTimestamp(appt.createdDate)
-                                        )}
+                                        }
                                     </td>
                                 </tr>
                             ))

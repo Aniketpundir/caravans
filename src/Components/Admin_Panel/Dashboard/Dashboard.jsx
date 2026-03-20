@@ -9,6 +9,7 @@ import {
 import ExpandPanel from "../Expandpanel/Expandpanel";
 import DateRangePicker from "../Daterangepicker/Daterangepicker";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 function startOfDay(d) {
     const x = new Date(d);
@@ -121,6 +122,18 @@ function StatusDropdown({ status, onChange }) {
 }
 
 export default function Dashboard() {
+    const Navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard")
+        }
+    }, [])
+
     const dispatch = useDispatch();
     const {
         data: dashboardApiData,
@@ -194,7 +207,7 @@ export default function Dashboard() {
             minute: "2-digit",
         });
     }
-
+    // console.log(dashboardApiData)
     return (
         <>
             <div className="admin_page__wrapper">
@@ -325,7 +338,7 @@ export default function Dashboard() {
                                     const isOpen = expandedId === rowId;
                                     return (
                                         <>
-                                            <tr key={rowId} className="admin_table__data-row">
+                                            <tr key={index} className="admin_table__data-row">
                                                 <td>
                                                     <div className="admin_table__id-cell">
                                                         <button className={`admin_table__expand-btn${isOpen ? " admin_table__expand-btn--open" : ""}`} onClick={() => toggleExpand(rowId)}>
@@ -339,15 +352,15 @@ export default function Dashboard() {
                                                 <td>{appt.service}</td>
                                                 <td>{appt.duration}</td>
                                                 <td>
-                                                    <StatusDropdown status={appt.status} onChange={() => {}} />
+                                                    <StatusDropdown status={appt.status} onChange={() => { }} />
                                                 </td>
                                                 <td>{appt.payment}</td>
                                                 <td className="admin_table__actions-cell">
                                                     <span className="admin_table__created-date">{formatDateTime(appt.createdAt)}</span>
-                                                    <div className="admin_table__action-icons">
+                                                    {/* <div className="admin_table__action-icons">
                                                         <button className="admin_table__action-btn" title="Edit"><EditIcon /></button>
                                                         <button className="admin_table__action-btn" title="Delete"><DeleteIcon /></button>
-                                                    </div>
+                                                    </div> */}
                                                 </td>
                                             </tr>
                                             {isOpen && (
@@ -364,14 +377,6 @@ export default function Dashboard() {
                         </table>
                     </div>
                 </div>
-            </div>
-
-            <div className="admin_help__fab">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
             </div>
         </>
     );

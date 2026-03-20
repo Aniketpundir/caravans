@@ -4,6 +4,7 @@ import { addCoupon, deleteCoupon, fetchCoupons, updateCoupon } from "../../../st
 import { fetchServices } from "../../../store/slices/servicesSlice";
 import { fetchCustomers } from "../../../store/slices/customersSlice";
 import "./CouponManagement.css";
+import { useNavigate } from "react-router-dom";
 
 const defaultForm = {
     title: "",
@@ -119,6 +120,7 @@ function ServicesDropdown({ selected, options, onToggle }) {
 }
 
 export default function CouponManagement() {
+    const Navigate = useNavigate()
     const dispatch = useDispatch();
     const { data: rawCoupons, loading, error, saving, saveError, deleting, deleteError } = useSelector((state) => state.coupons);
     const services = useSelector((state) => state.services.list || []);
@@ -129,6 +131,16 @@ export default function CouponManagement() {
     const [editId, setEditId] = useState(null);
     const [perPage, setPerPage] = useState(20);
     const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard/coupan")
+        }
+    }, [])
 
     useEffect(() => {
         dispatch(fetchCoupons());

@@ -9,6 +9,7 @@ import "./Appointments.css";
 import AppointmentsHeader from "./AppointmentsHeader/AppointmentsHeader";
 import AppointmentsTable from "./AppointmentsTable/AppointmentsTable";
 import { downloadCsv } from "../../../utils/exportCsv";
+import { useNavigate } from "react-router-dom";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const toDateOnlyString = (value) => {
@@ -50,7 +51,9 @@ function normalizeAppointment(appt) {
 // }, [allAppointments]);
 
 
+
 export default function Appointments() {
+    const Navigate = useNavigate()
     const dispatch = useDispatch();
     const { data: rawData, loading, error } = useSelector(
         (state) => state.appointments
@@ -88,6 +91,18 @@ export default function Appointments() {
     useEffect(() => {
         dispatch(fetchAppointments());
     }, []);
+
+
+
+    useEffect(() => {
+        const token = localStorage.getItem("adminToken")
+
+        if (!token) {
+            Navigate("/admin-login")
+        } else {
+            Navigate("/admin-dashboard/appointments")
+        }
+    }, [])
 
     // ── Customer suggestions ──────────────────────────────────────────────────
     const customerSuggestions = useMemo(() => {
