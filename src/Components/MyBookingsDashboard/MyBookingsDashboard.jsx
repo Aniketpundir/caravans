@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
     logout, fetchProfile, updateProfile, clearUpdateSuccess,
     changePassword, clearPasswordSuccess,
-    rescheduleBooking, clearReschedule,
+    rescheduleBooking, clearReschedule, fetchBookingDetails, clearBookingDetails,
 } from "../../store/slices/authSlice";
 import "./MyBookingsDashboard.css";
 import { Helmet } from "react-helmet-async";
@@ -74,6 +74,22 @@ function formatBookingDate(value) {
     const date = parseDateOnly(value);
     if (!date || Number.isNaN(date.getTime())) return "";
     return BOOKING_DATE_FORMATTER.format(date);
+}
+
+function formatCurrency(amount, currency = "AUD") {
+    return new Intl.NumberFormat("en-AU", {
+        style: "currency",
+        currency: (currency || "AUD").toUpperCase(),
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(Number(amount || 0));
+}
+
+function formatTimestamp(value) {
+    if (!value) return "—";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleString();
 }
 
 function getDaysInMonth(year, month) { return new Date(year, month + 1, 0).getDate(); }
@@ -234,7 +250,153 @@ function DateRangePicker({ value, onChange, onClose, allowedNights }) {
 
 // ─── BookingCard ──────────────────────────────────────────────────────────────
 // FIX 1: "function" keyword missing tha
-function BookingCard({ booking }) {
+function BookingDetailsModal({ details, loading, error, onClose }) {
+    const booking = details?.data?.booking;
+    const service = details?.data?.service;
+    const payments = details?.data?.payments || [];
+    const extensionHistory = details?.data?.extensionHistory || [];
+    const rescheduleHistory = details?.data?.rescheduleHistory || [];
+    const paymentSummary = details?.data?.paymentSummary;
+
+    if (!loading && !error && !booking) return null;
+
+    return (
+        <div className="bk-modal-overlay" onClick={onClose}>
+            <div className="bk-modal-card" onClick={(e) => e.stopPropagation()}>
+                <div className="bk-modal-header">
+                    <div>
+                        <h3 className="bk-modal-title">Booking Details</h3>
+                        <div className="bk-modal-subtitle">
+                            {booking?.serviceName || service?.serviceName || "Booking"} · {booking?._id || ""}
+                        </div>
+                    </div>
+                    <button className="bk-modal-close" onClick={onClose}>×</button>
+                </div>
+
+                {loading && <div className="bk-modal-state">Loading booking details...</div>}
+                {error && <div className="alert alert--error">⚠️ {error}</div>}
+
+                {!loading && !error && booking && (
+                    <div className="bk-modal-body">
+                        <div className="bk-modal-grid">
+                            <div className="bk-modal-section">
+                                <h4>Booking Summary</h4>
+                                <div className="bk-detail-row"><span>Status</span><strong>{booking.bookingStatus || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Service</span><strong>{booking.serviceName || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Start Date</span><strong>{formatBookingDate(booking.startDate)}</strong></div>
+                                <div className="bk-detail-row"><span>End Date</span><strong>{formatBookingDate(booking.endDate)}</strong></div>
+                                <div className="bk-detail-row"><span>Duration</span><strong>{booking.bookingDuration || 0} days</strong></div>
+                                <div className="bk-detail-row"><span>Booked On</span><strong>{formatTimestamp(booking.createdAt)}</strong></div>
+                                <div className="bk-detail-row"><span>Last Updated</span><strong>{formatTimestamp(booking.updatedAt)}</strong></div>
+                                <div className="bk-detail-row"><span>Coupon</span><strong>{booking.coupon || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>How Found Us</span><strong>{booking.howFind || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Note</span><strong>{booking.note || "—"}</strong></div>
+                            </div>
+
+                            <div className="bk-modal-section">
+                                <h4>Vehicle & Service</h4>
+                                <div className="bk-detail-row"><span>Make</span><strong>{booking.vehicle?.make || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Model</span><strong>{booking.vehicle?.model || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Built Year</span><strong>{booking.vehicle?.builtYear || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Registration</span><strong>{booking.vehicle?.registration || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Length</span><strong>{booking.vehicle?.length || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Category</span><strong>{service?.category || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Unit Price</span><strong>{formatCurrency(paymentSummary?.unitPrice, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Tax Rate</span><strong>{Number(paymentSummary?.taxRate || 0)}%</strong></div>
+                            </div>
+
+                            <div className="bk-modal-section">
+                                <h4>Payment Summary</h4>
+                                <div className="bk-detail-row"><span>Booking Subtotal</span><strong>{formatCurrency(paymentSummary?.subtotal, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Booking Tax</span><strong>{formatCurrency(paymentSummary?.taxAmount, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Booking Gross</span><strong>{formatCurrency(paymentSummary?.grossAmount, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Coupon Code</span><strong>{paymentSummary?.couponCode || "—"}</strong></div>
+                                <div className="bk-detail-row"><span>Coupon Discount</span><strong>{formatCurrency(paymentSummary?.couponDiscount, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Booking Total</span><strong>{formatCurrency(paymentSummary?.finalAmount, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Initial Paid</span><strong>{formatCurrency(paymentSummary?.initialPaid, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Extension Paid</span><strong>{formatCurrency(paymentSummary?.extensionTotal, paymentSummary?.currency)}</strong></div>
+                                <div className="bk-detail-row"><span>Total Paid</span><strong>{formatCurrency(paymentSummary?.totalPaid, paymentSummary?.currency)}</strong></div>
+                            </div>
+                        </div>
+
+                        <div className="bk-modal-section">
+                            <h4>Payments</h4>
+                            {payments.length === 0 ? (
+                                <div className="bk-empty-state">No payments found for this booking.</div>
+                            ) : (
+                                <div className="bk-history-list">
+                                    {payments.map((payment) => (
+                                        <div className="bk-history-card" key={payment._id}>
+                                            <div className="bk-history-head">
+                                                <strong>{payment.paymentFor}</strong>
+                                                <span>{formatCurrency(payment.amount, payment.currency)}</span>
+                                            </div>
+                                            <div className="bk-history-meta">
+                                                <span>Status: {payment.paymentStatus}</span>
+                                                <span>Method: {payment.paymentMethod || "Card"}</span>
+                                                <span>Paid At: {formatTimestamp(payment.createdAt)}</span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="bk-modal-grid">
+                            <div className="bk-modal-section">
+                                <h4>Top-up History</h4>
+                                {extensionHistory.length === 0 ? (
+                                    <div className="bk-empty-state">No extensions yet.</div>
+                                ) : (
+                                    <div className="bk-history-list">
+                                        {extensionHistory.map((item, index) => (
+                                            <div className="bk-history-card" key={`${item.paymentId || "ext"}-${index}`}>
+                                                <div className="bk-history-head">
+                                                    <strong>+{item.addedDays} day(s)</strong>
+                                                    <span>{formatCurrency(item.amount, item.currency)}</span>
+                                                </div>
+                                                <div className="bk-history-meta">
+                                                    <span>Subtotal: {formatCurrency(item.subtotal, item.currency)}</span>
+                                                    <span>Tax: {formatCurrency(item.taxAmount, item.currency)}</span>
+                                                    <span>Extended At: {formatTimestamp(item.extendedAt)}</span>
+                                                    <span>Payment Status: {item.paymentStatus}</span>
+                                                    <span>Method: {item.paymentMethod || "—"}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="bk-modal-section">
+                                <h4>Reschedule History</h4>
+                                {rescheduleHistory.length === 0 ? (
+                                    <div className="bk-empty-state">No reschedule history available for this booking.</div>
+                                ) : (
+                                    <div className="bk-history-list">
+                                        {rescheduleHistory.map((item, index) => (
+                                            <div className="bk-history-card" key={`${item.rescheduledAt || "res"}-${index}`}>
+                                                <div className="bk-history-head">
+                                                    <strong>{formatBookingDate(item.fromStartDate)} - {formatBookingDate(item.fromEndDate)}</strong>
+                                                    <span>{formatBookingDate(item.toStartDate)} - {formatBookingDate(item.toEndDate)}</span>
+                                                </div>
+                                                <div className="bk-history-meta">
+                                                    <span>Rescheduled At: {formatTimestamp(item.rescheduledAt)}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function BookingCard({ booking, onViewDetails }) {
     const [newData, setNewData] = useState("")
     const [newUrl, setNewURl] = useState("")
     const dispatch = useDispatch();
@@ -406,6 +568,13 @@ function BookingCard({ booking }) {
                 {rescheduleLoading ? "⏳ Rescheduling..." : "🗓 Reschedule"}
             </button>
 
+            <button
+                className="bk-details-btn"
+                onClick={() => onViewDetails?.(booking?._id)}
+            >
+                View Full Details
+            </button>
+
             {reschedule && !isCompleted && (
                 <div className="bk-rescheduled-note">
                     ✅ Rescheduled: {formatDate(reschedule.start)} – {formatDate(reschedule.end)}
@@ -426,8 +595,15 @@ function BookingCard({ booking }) {
 
 // ─── MyBookingsSection ────────────────────────────────────────────────────────
 function MyBookingsSection() {
-    const { token, profile } = useSelector(s => s.auth);
+    const {
+        token,
+        profile,
+        bookingDetails,
+        bookingDetailsLoading,
+        bookingDetailsError
+    } = useSelector(s => s.auth);
     const dispatch = useDispatch();
+    const [selectedBookingId, setSelectedBookingId] = useState(null);
 
     useEffect(() => {
         if (!token) return;
@@ -440,12 +616,37 @@ function MyBookingsSection() {
             ? profile.data.bookings
             : [];
 
+    const handleViewDetails = (bookingId) => {
+        if (!bookingId) return;
+        setSelectedBookingId(bookingId);
+        dispatch(fetchBookingDetails(bookingId));
+    };
+
+    const handleCloseDetails = () => {
+        setSelectedBookingId(null);
+        dispatch(clearBookingDetails());
+    };
+
     return (
         <div>
             <h2 className="section-heading">My Bookings</h2>
             <div className="bk-grid">
-                {bookings.map(b => <BookingCard key={b._id} booking={b} />)}
+                {bookings.map(b => (
+                    <BookingCard
+                        key={b._id}
+                        booking={b}
+                        onViewDetails={handleViewDetails}
+                    />
+                ))}
             </div>
+            {selectedBookingId && (
+                <BookingDetailsModal
+                    details={bookingDetails}
+                    loading={bookingDetailsLoading}
+                    error={bookingDetailsError}
+                    onClose={handleCloseDetails}
+                />
+            )}
         </div>
     );
 }

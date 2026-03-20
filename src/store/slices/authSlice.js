@@ -93,6 +93,22 @@ export const rescheduleBooking = createAsyncThunk(
     }
 );
 
+export const fetchBookingDetails = createAsyncThunk(
+    "auth/fetchBookingDetails",
+    async (bookingId, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get(
+                `${BASE_URL}/auth/booking/${bookingId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error?.response?.data?.message || "Failed to fetch booking details.");
+        }
+    }
+);
+
 // ─── Auth Slice ───────────────────────────────────────────────────────────────
 const authSlice = createSlice({
     name: "auth",
@@ -112,6 +128,9 @@ const authSlice = createSlice({
         rescheduleLoading: false,
         rescheduleSuccess: false,
         rescheduleError: null,
+        bookingDetails: null,
+        bookingDetailsLoading: false,
+        bookingDetailsError: null,
         credentials: null,
         credLoading: false,
         credError: null,
@@ -128,6 +147,11 @@ const authSlice = createSlice({
         clearUpdateSuccess(state) { state.updateSuccess = false; state.updateError = null; },
         clearPasswordSuccess(state) { state.passwordSuccess = false; state.passwordError = null; },
         clearReschedule(state) { state.rescheduleSuccess = false; state.rescheduleError = null; },
+        clearBookingDetails(state) {
+            state.bookingDetails = null;
+            state.bookingDetailsLoading = false;
+            state.bookingDetailsError = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -207,9 +231,24 @@ const authSlice = createSlice({
             .addCase(rescheduleBooking.rejected, (state, action) => {
                 state.rescheduleLoading = false;
                 state.rescheduleError = action.payload || "Reschedule failed.";
+            })
+
+            // â”€â”€ Booking Details â”€â”€
+            .addCase(fetchBookingDetails.pending, (state) => {
+                state.bookingDetailsLoading = true;
+                state.bookingDetailsError = null;
+                state.bookingDetails = null;
+            })
+            .addCase(fetchBookingDetails.fulfilled, (state, action) => {
+                state.bookingDetailsLoading = false;
+                state.bookingDetails = action.payload;
+            })
+            .addCase(fetchBookingDetails.rejected, (state, action) => {
+                state.bookingDetailsLoading = false;
+                state.bookingDetailsError = action.payload || "Failed to load booking details.";
             });
     },
 });
 
-export const { logout, clearError, clearUpdateSuccess, clearPasswordSuccess, clearReschedule } = authSlice.actions;
+export const { logout, clearError, clearUpdateSuccess, clearPasswordSuccess, clearReschedule, clearBookingDetails } = authSlice.actions;
 export default authSlice.reducer;
