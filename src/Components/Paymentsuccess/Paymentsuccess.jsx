@@ -40,6 +40,9 @@ export default function PaymentSuccess() {
                     Your booking has been confirmed.<br />
                     A confirmation email has been sent to you.
                 </p>
+                <p className="ps-subtitle">
+                    your booking credential sent on your email
+                </p>
 
                 {/* Buttons */}
                 <div className="ps-actions">
