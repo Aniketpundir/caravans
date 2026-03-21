@@ -34,13 +34,15 @@ const AdminLogin = () => {
         e.preventDefault();
         if (!email.trim() || !password.trim()) return;
 
-        dispatch(adminLoginUser({ email, password })).then((result) => {
-            // Remember me nahi checked toh sessionStorage use karo
-            if (!remember && result.type === "admin/loginUser/fulfilled") {
-                sessionStorage.setItem("adminToken", result.payload.token);
-                localStorage.removeItem("adminToken");
-            }
-        });
+        dispatch(adminLoginUser({ email, password }))
+        // .then((result) => {
+        // Remember me nahi checked toh sessionStorage use karo
+        // if (!remember && result.type === "admin/loginUser/fulfilled") {
+        //     sessionStorage.setItem("adminToken", result.payload.token);
+        //     localStorage.removeItem("adminToken");
+        // }
+        // }
+        // );
     };
 
     return (
