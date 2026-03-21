@@ -79,7 +79,7 @@ const AdminLogin = () => {
                 </div>
 
                 <div className="remember-row">
-                    <input
+                    <input required
                         type="checkbox"
                         id="remember"
                         checked={remember}
