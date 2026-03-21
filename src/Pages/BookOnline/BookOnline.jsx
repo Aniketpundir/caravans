@@ -523,20 +523,20 @@ const Step3 = ({ next, back, data, setData }) => {
 
             <div className="cd-field">
                 <label>First Name <span>*</span></label>
-                <input required placeholder="Enter your first name" value={data.first}
+                <input type="text" required placeholder="Enter your first name" value={data.first}
                     onChange={(e) => setData({ ...data, first: e.target.value })} />
                 {error && <div className="cd-error"><span className="dot">!</span> {error}</div>}
             </div>
 
             <div className="cd-field">
                 <label>Last Name <span>*</span></label>
-                <input required placeholder="Enter your last name" value={data.last}
+                <input type="text" required placeholder="Enter your last name" value={data.last}
                     onChange={(e) => setData({ ...data, last: e.target.value })} />
             </div>
 
             <div className="cd-field">
                 <label>Email Address <span>*</span></label>
-                <input required placeholder="Enter your email address" value={data.email}
+                <input type="email" required placeholder="Enter your email address" value={data.email}
                     onChange={(e) => setData({ ...data, email: e.target.value })} />
             </div>
 
@@ -551,6 +551,7 @@ const Step3 = ({ next, back, data, setData }) => {
                         <span className="flag-arrow">▾</span>
                     </div>
                     <input required
+                        type="number"
                         placeholder="0412 345 678"
                         value={data.phone}
                         onChange={(e) => setData({ ...data, phone: e.target.value })}
@@ -617,7 +618,7 @@ const Step3 = ({ next, back, data, setData }) => {
 
             <div className="cd-field">
                 <label>Vehicle Built Year <span>*</span></label>
-                <input required placeholder="Enter Vehicle Built Year" value={data.vehicleYear || ""}
+                <input type="number" required placeholder="Enter Vehicle Built Year" value={data.vehicleYear || ""}
                     onChange={(e) => setData({ ...data, vehicleYear: e.target.value })} />
             </div>
 
@@ -629,7 +630,7 @@ const Step3 = ({ next, back, data, setData }) => {
 
             <div className="cd-field">
                 <label>Vehicle Length <span>*</span></label>
-                <input required placeholder="Enter Vehicle Length Including Drawbar" value={data.vehicleLength || ""}
+                <input type="number" required placeholder="Enter Vehicle Length Including Drawbar" value={data.vehicleLength || ""}
                     onChange={(e) => setData({ ...data, vehicleLength: e.target.value })} />
             </div>
 

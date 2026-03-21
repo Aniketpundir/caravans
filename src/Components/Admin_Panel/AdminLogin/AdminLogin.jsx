@@ -45,7 +45,7 @@ const AdminLogin = () => {
 
     return (
         <div className="my-bookings-page">
-            <h2 className="bookings-title">My Bookings</h2>
+            <h2 className="bookings-title">Admin Panel</h2>
             <div className="login-card">
                 <h3 className="login-heading">Please Login</h3>
 
