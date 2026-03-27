@@ -10,6 +10,10 @@
     z-index: 1000;
 }
 
+.log-out-button {
+    margin-top: -2%;
+}
+
 /* ===== LOGO ===== */
 
 .admin_navbar__logo {

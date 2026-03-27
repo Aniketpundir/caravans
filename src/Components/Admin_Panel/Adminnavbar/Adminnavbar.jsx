@@ -9,10 +9,11 @@ import {
 } from "react-icons/fa";
 
 import { MdEventNote } from "react-icons/md";
-import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function AdminNavbar() {
+    const navigate = useNavigate()
     const [menuOpen, setMenuOpen] = useState(false);
 
     const closeMenu = () => setMenuOpen(false);
@@ -26,6 +27,14 @@ export default function AdminNavbar() {
         { to: "/admin-dashboard/coupan", icon: <FaTag />, label: "Discounts" },
         { to: "/admin-dashboard/report", icon: <FaChartBar />, label: "Reports" },
     ];
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            navigate("/admin-login")
+        }
+    }, [])
 
     return (
         <nav className="admin_navbar">
@@ -58,6 +67,8 @@ export default function AdminNavbar() {
                     </NavLink>
                 ))}
             </div>
+
+
         </nav>
     );
 }

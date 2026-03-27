@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://16.16.213.67.sslip.io/api";
+// const BASE_URL = "https://16.16.213.67.sslip.io/api";
+const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/"
 
 const getAuthHeader = () => {
     const token = localStorage.getItem("adminToken");
