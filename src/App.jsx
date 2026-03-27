@@ -20,6 +20,7 @@ import MyBookingsDashboard from './Components/MyBookingsDashboard/MyBookingsDash
 import PaymentFailed from './Components/Paymentfailed/Paymentfailed';
 import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
 import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
+import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
 
 const App = () => {
   useEffect(() => {
@@ -58,6 +59,7 @@ const App = () => {
               <Route path='/book-online' element={<BookOnline />} />
               <Route path='/payment-failed' element={<PaymentFailed />} />
               <Route path='/payment-success' element={<PaymentSuccess />} />
+              <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
             </Route>
 
           </Routes>

@@ -11,6 +11,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import StepLoader from "../../Components/Steploader/Steploader";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 
 // const API_BASE = "https://16.16.213.67.sslip.io/api";
 
@@ -603,7 +604,9 @@ const Step3 = ({ next, back, data, setData }) => {
                 <div className={`cd-checkbox ${termsChecked ? "active" : ""}`}>
                     {termsChecked && <span>✓</span>}
                 </div>
-                <p>I agree with the <span className="terms-link">terms & conditions</span></p>
+                <p>I agree with the <span className="terms-link">
+                    <Link to="/terms-and-conditions">terms & conditions</Link>
+                </span></p>
             </div>
 
             <div className="cd-field">
