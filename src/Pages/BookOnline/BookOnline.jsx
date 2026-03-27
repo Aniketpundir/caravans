@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet-async";
 
 // const API_BASE = "https://16.16.213.67.sslip.io/api";
 
-const API_BASE = "https://api.caravanstoragecentralcoast.com.au/"
+const API_BASE = "https://api.caravanstoragecentralcoast.com.au/api"
 
 /* ==== PRICING HELPERS ==== */
 const calcSubtotal = (unitPrice, days) => (unitPrice || 0) * (days || 0);

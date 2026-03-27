@@ -3,7 +3,7 @@ import axios from "axios";
 
 // const BASE_URL = "https://16.16.213.67.sslip.io/api";
 
-const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/"
+const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
 
 // ─── Admin Login ──────────────────────────────────────────────────────────────
 export const adminLoginUser = createAsyncThunk(
