@@ -21,6 +21,7 @@ import PaymentFailed from './Components/Paymentfailed/Paymentfailed';
 import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
 import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
+import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 
 const App = () => {
   useEffect(() => {
@@ -60,6 +61,7 @@ const App = () => {
               <Route path='/payment-failed' element={<PaymentFailed />} />
               <Route path='/payment-success' element={<PaymentSuccess />} />
               <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
+              <Route path='/forgot-password' element={<ForgotPassword />} />
             </Route>
 
           </Routes>

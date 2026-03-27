@@ -7,6 +7,9 @@ import paymentsReducer from "../store/slices/paymentsSlice";
 import servicesReducer from "../store/slices/servicesSlice.js";
 import authReducer from "../store/slices/authSlice.js"
 import adminReducer from "./slices/adminSlice";
+import passwordReducer from "./slices/PasswordSlice.js";
+import contactReducer from "./slices/contactSlice.js"
+
 
 const store = configureStore({
     reducer: {
@@ -18,6 +21,8 @@ const store = configureStore({
         services: servicesReducer,
         auth: authReducer,
         admin: adminReducer,
+        password: passwordReducer,
+        contact: contactReducer,
     },
 });
 

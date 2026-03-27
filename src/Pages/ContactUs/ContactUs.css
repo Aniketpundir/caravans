@@ -167,7 +167,43 @@ button:hover {
     background: #5fa0d6;
 }
 
-/* TABLET */
+.form-error {
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin: -4px 0 8px 0;
+    padding: 8px 12px;
+    background: #fff5f5;
+    border-left: 3px solid #e53e3e;
+    border-radius: 4px;
+}
+
+.form-success {
+    color: #276749;
+    font-size: 0.875rem;
+    margin: -4px 0 8px 0;
+    padding: 8px 12px;
+    background: #f0fff4;
+    border-left: 3px solid #38a169;
+    border-radius: 4px;
+}
+
+.btn-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: btn-spin 0.7s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes btn-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 @media(max-width:1024px) {
 
@@ -188,8 +224,6 @@ button:hover {
 
 }
 
-/* MOBILE */
-
 @media(max-width:768px) {
 
     .contact-hero {
@@ -200,8 +234,6 @@ button:hover {
         padding: 0;
     }
 
-    /* TEXT WHITE BACKGROUND */
-
     .contact-hero-overlay {
         display: flex;
         flex-direction: column;
@@ -211,8 +243,6 @@ button:hover {
         text-align: center;
         width: 100%;
     }
-
-    /* IMAGE */
 
     .mobile-hero-img {
         display: block;
@@ -237,8 +267,6 @@ button:hover {
     }
 
 }
-
-/* SMALL MOBILE */
 
 @media(max-width:480px) {
 
