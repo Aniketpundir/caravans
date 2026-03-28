@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./MyBooking.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, clearError } from "../../store/slices/authSlice";
 import { Helmet } from "react-helmet-async";
@@ -97,7 +97,7 @@ const MyBooking = () => {
                     )}
                 </button>
 
-                <p className="lost-password">Lost Your Password</p>
+                <Link to="/forgot-password"><p className="lost-password">Lost Your Password</p></Link>
             </div>
         </div>
     );
