@@ -62,7 +62,7 @@ const AdminLogin = () => {
                     <label>Username <span className="required">*</span></label>
                     <input
                         type="email"
-                        placeholder="Enter your email address"
+                        placeholder="Enter your username"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={loading}
