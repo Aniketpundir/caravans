@@ -373,7 +373,7 @@ export default function ForgotPassword() {
                             </p>
                             <button
                                 className="fp-main-btn"
-                                onClick={() => window.location.href = "/login"}
+                                onClick={() => window.location.href = "/my-booking"}
                             >
                                 Back to Login
                             </button>
