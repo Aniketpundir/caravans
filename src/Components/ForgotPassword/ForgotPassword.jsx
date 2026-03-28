@@ -13,6 +13,7 @@ import {
     resetPassword,
 } from "../../store/slices/PasswordSlice";
 import "./ForgotPassword.css";
+import { Link } from "react-router-dom";
 
 const OTP_LENGTH = 6;
 
@@ -236,7 +237,7 @@ export default function ForgotPassword() {
                             </button>
 
                             <p className="fp-back">
-                                Remember your password? <a href="/login">Login</a>
+                                Remember your password? <Link to="/my-booking">Login</Link>
                             </p>
                         </div>
                     )}
