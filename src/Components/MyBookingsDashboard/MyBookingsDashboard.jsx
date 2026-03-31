@@ -421,7 +421,7 @@ function BookingCard({ booking, onViewDetails }) {
             console.log("Sending request with ID:", id, "Days:", topup);
 
             const response = await axios.post(
-                `https://16.16.213.67.sslip.io/api/auth/booking/${id}/extend`,
+                `https://api.caravanstoragecentralcoast.com.au/api/auth/booking/${id}/extend`,
                 { addedDays: topup },
                 {
                     headers: {
