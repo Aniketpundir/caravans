@@ -20,7 +20,7 @@ export default function FindUs() {
                         </div>
                         <div className="findus__address-item">
                             <span className="findus__icon" aria-hidden="true">📞</span>
-                            <a href="tel:0254301324">(02) 5430 1324</a>
+                            <a href="tel:0412260525">0412 260 525</a>
                         </div>
                     </address>
 
