@@ -54,7 +54,7 @@ export default function Footer() {
                 <address className="footer__contact" aria-label="Contact details">
                     <h3 className="footer__heading">Contact</h3>
                     <p>
-                        <a href="mailto:info@caravanstorage.com.au">info@caravanstorage.com.au</a>
+                        <a href="mailto:info@caravanstoragecentralcoast.com.au">info@caravanstoragecentralcoast.com.au</a>
                     </p>
                     <p>77 Lakes Rd, Tuggerah NSW</p>
                     <p><a href="tel:0412260525">0412 260 525 - Jimmy</a></p>
