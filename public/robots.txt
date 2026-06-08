@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /my-booking
 
-Sitemap: https://playful-custard-95a74a.netlify.app/sitemap.xml
+Sitemap: https://caravanstoragecentralcoast.com.au/sitemap.xml
