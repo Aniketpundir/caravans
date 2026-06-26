@@ -85,8 +85,7 @@ export default function ContactUs() {
                         <div className="card-icon"><FaEnvelope /></div>
                         <h4>Email Support</h4>
                         <span>
-                            <a href="mailto:info@caravanstorage.com.au">
-                                info@caravanstorage.com.au
+                            <a href="mailto:info@caravanstoragecentralcoast.com.au">info@caravanstoragecentralcoast.com.au
                             </a>
                         </span>
                     </div>
