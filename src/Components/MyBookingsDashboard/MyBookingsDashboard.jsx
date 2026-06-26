@@ -117,6 +117,15 @@ function toAPIDate(date) {
     return `${y}-${m}-${d}`;
 }
 
+function getOverdueDays(endDateValue) {
+    const endDate = parseDateOnly(endDateValue);
+    if (!endDate || Number.isNaN(endDate.getTime())) return 0;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (today <= endDate) return 0;
+    return Math.floor((today.getTime() - endDate.getTime()) / 86400000);
+}
+
 // ─── CalendarMonth ────────────────────────────────────────────────────────────
 function CalendarMonth({ year, month, rangeStart, rangeEnd, onSelect, allowedNights }) {
     const daysInMonth = getDaysInMonth(year, month);
@@ -397,32 +406,37 @@ function BookingDetailsModal({ details, loading, error, onClose }) {
 }
 
 function BookingCard({ booking, onViewDetails }) {
-    const [newData, setNewData] = useState("")
-    const [newUrl, setNewURl] = useState("")
+    const [newData, setNewData] = useState(null);
+    const [newUrl, setNewURl] = useState("");
     const dispatch = useDispatch();
     const { rescheduleLoading, rescheduleSuccess, rescheduleError } = useSelector(s => s.auth);
 
     const [topup, setTopup] = useState("");
+    const [showOverdueClear, setShowOverdueClear] = useState(false);
+    const [overdueConfirm, setOverdueConfirm] = useState(null);
+    const [completeLoading, setCompleteLoading] = useState(false);
+    const [completeError, setCompleteError] = useState("");
 
-    const handleSubmit = async (id) => {
+    const handleSubmit = async (id, overrideDays = null) => {
         const customer_token = localStorage.getItem("token");
+        const daysToAdd = overrideDays ?? Number(topup);
 
         if (!id) {
             console.error("Booking ID missing");
             return;
         }
 
-        if (!topup || topup <= 0) {
+        if (!daysToAdd || daysToAdd <= 0) {
             console.error("Invalid addedDays value");
             return;
         }
 
         try {
-            console.log("Sending request with ID:", id, "Days:", topup);
+            console.log("Sending request with ID:", id, "Days:", daysToAdd);
 
             const response = await axios.post(
                 `https://api.caravanstoragecentralcoast.com.au/api/auth/booking/${id}/extend`,
-                { addedDays: topup },
+                { addedDays: daysToAdd },
                 {
                     headers: {
                         Authorization: `Bearer ${customer_token}`,
@@ -459,12 +473,45 @@ function BookingCard({ booking, onViewDetails }) {
         }
     };
 
+    const handleMarkCompleted = async () => {
+        const customer_token = localStorage.getItem("token");
+        setCompleteError("");
+        if (!booking?._id) return;
+
+        try {
+            setCompleteLoading(true);
+            await axios.patch(
+                `https://api.caravanstoragecentralcoast.com.au/api/auth/booking/${booking._id}/complete`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${customer_token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setShowOverdueClear(false);
+            setOverdueConfirm(null);
+            setNewData(null);
+            setNewURl("");
+            dispatch(fetchProfile());
+        } catch (error) {
+            const message = error?.response?.data?.message || "Unable to mark booking as completed";
+            setCompleteError(message);
+        } finally {
+            setCompleteLoading(false);
+        }
+    };
+
 
     const [showCal, setShowCal] = useState(false);
     const [reschedule, setReschedule] = useState(null);
 
     const allowedNights = booking?.bookingDuration || booking?.minDuration || 1;
     const isCompleted = booking?.bookingStatus === "Completed";
+    const isOverdue = !isCompleted && getOverdueDays(booking?.endDate) > 0;
+    const overdueDays = getOverdueDays(booking?.endDate);
+    const todayDateLabel = formatBookingDate(toAPIDate(new Date()));
 
     const statusClass = {
         Active: "badge--active",
@@ -539,28 +586,125 @@ function BookingCard({ booking, onViewDetails }) {
                 <div className="alert alert--error">⚠️ {rescheduleError}</div>
             )}
 
-            <div className={`bk-topup-row ${isCompleted ? "bk-topup-row--disabled" : ""}`}>
-                <label className="bk-topup-label">➕ Extend Booking</label>
-                <div className="bk-topup-input-wrap">
-                    {!newData ? <>
-                        <input type="number" min="1" placeholder="e.g. 2"
-                            value={topup} onChange={e => setTopup(e.target.value)}
-                            className="bk-topup-input" disabled={isCompleted} />
-                        <button className="bk-topup-btn" onClick={() => { handleSubmit(booking._id) }} disabled={isCompleted}>TopUp</button>
-                    </> :
+            {isOverdue && (
+                <div className="bk-overdue-card">
+                    <div className="bk-overdue-title">Have you moved on your caravan?</div>
+                    <div className="bk-overdue-subtitle">
+                        Your booking ended on {formatBookingDate(booking?.endDate)} and today is {todayDateLabel || "today"}.
+                    </div>
+
+                    {!showOverdueClear && !overdueConfirm ? (
+                        <div className="bk-overdue-actions">
+                            <button
+                                className="bk-overdue-btn bk-overdue-btn--primary"
+                                onClick={() => setShowOverdueClear(true)}
+                                disabled={completeLoading}
+                            >
+                                No, clear dues
+                            </button>
+                            <button
+                                className="bk-overdue-btn bk-overdue-btn--secondary"
+                                onClick={() => setOverdueConfirm("complete")}
+                                disabled={completeLoading}
+                            >
+                                Yes, moved on
+                            </button>
+                        </div>
+                    ) : overdueConfirm === "complete" ? (
+                        <div className="bk-overdue-confirm">
+                            <div className="bk-overdue-confirm-text">
+                                Are you sure you want to mark this booking as completed?
+                            </div>
+                            <div className="bk-overdue-actions">
+                                <button
+                                    className="bk-overdue-btn bk-overdue-btn--primary"
+                                    onClick={handleMarkCompleted}
+                                    disabled={completeLoading}
+                                >
+                                    {completeLoading ? "Marking..." : "Yes"}
+                                </button>
+                                <button
+                                    className="bk-overdue-btn bk-overdue-btn--secondary"
+                                    onClick={() => setOverdueConfirm(null)}
+                                    disabled={completeLoading}
+                                >
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="bk-overdue-clear">
+                            <div className="bk-overdue-clear-text">
+                                You have {overdueDays} overdue day{overdueDays === 1 ? "" : "s"} to clear.
+                            </div>
+                            {!newData ? (
+                                <div className="bk-overdue-clear-actions">
+                                    
+                                    <button
+                                        className="bk-overdue-clear-btn"
+                                        onClick={() => handleSubmit(booking._id, overdueDays)}
+                                    >
+                                        Clear dues to today
+                                    </button>
+                                    <button
+                                        className="bk-overdue-clear-btn bk-overdue-clear-btn--back"
+                                        onClick={() => {
+                                            setShowOverdueClear(false);
+                                            setNewData(null);
+                                            setNewURl("");
+                                        }}
+                                    >
+                                        Go Back
+                                    </button>
+                                </div>
+                            ) : (
                         <div className="top-up-charges">
                             <div className="top-up-charges-text">
                                 <p>Subtotal : $ {newData.subtotal}</p>
                                 <p>Tax : $ {newData.tax}</p>
                                 <h4>Total Amount : $ {newData.totalamount}</h4>
-                            </div>
-                            <div className="top-up-pay">
-                                <button className="bk-topup-pay-btn" onClick={() => { window.location.replace(newUrl) }} disabled={isCompleted}>Pay now</button>
-                            </div>
-                        </div>}
+                                    </div>
+                                    <div className="top-up-pay">
+                                        <button
+                                            className="bk-topup-pay-btn"
+                                            onClick={() => { window.location.replace(newUrl) }}
+                                        >
+                                            Pay now
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
+                    {completeError && <div className="alert alert--error">⚠️ {completeError}</div>}
                 </div>
-            </div>
+            )}
+
+            {!isOverdue && (
+                <div className={`bk-topup-row ${isCompleted ? "bk-topup-row--disabled" : ""}`}>
+                    <label className="bk-topup-label">➕ Extend Booking</label>
+                    <div className="bk-topup-input-wrap">
+                        {!newData ? <>
+                            <input type="number" min="1" placeholder="e.g. 2"
+                                value={topup} onChange={e => setTopup(e.target.value)}
+                                className="bk-topup-input" disabled={isCompleted} />
+                            <button className="bk-topup-btn" onClick={() => { handleSubmit(booking._id) }} disabled={isCompleted}>TopUp</button>
+                        </> :
+                            <div className="top-up-charges">
+                                <div className="top-up-charges-text">
+                                    <p>Subtotal : $ {newData.subtotal}</p>
+                                    <p>Tax : $ {newData.tax}</p>
+                                    <h4>Total Amount : $ {newData.totalamount}</h4>
+                                </div>
+                                <div className="top-up-pay">
+                                    <button className="bk-topup-pay-btn" onClick={() => { window.location.replace(newUrl) }} disabled={isCompleted}>Pay now</button>
+                                </div>
+                            </div>}
+
+                    </div>
+                </div>
+            )}
 
             <button className="bk-reschedule-btn"
                 onClick={() => setShowCal(true)}

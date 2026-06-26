@@ -1057,3 +1057,100 @@
     border-radius: 0 !important;
     color: #065f46;
 }
+
+.bk-overdue-card {
+    margin: 18px 0 0;
+    padding: 18px 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(30, 64, 175, 0.16);
+    background: linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
+    box-shadow: 0 14px 35px rgba(21, 32, 51, 0.06);
+}
+
+.bk-overdue-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #123c73;
+}
+
+.bk-overdue-subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #4b5d73;
+    line-height: 1.6;
+}
+
+.bk-overdue-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.bk-overdue-btn,
+.bk-overdue-clear-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.bk-overdue-btn:hover,
+.bk-overdue-clear-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(18, 60, 115, 0.14);
+}
+
+.bk-overdue-btn--yes {
+    background: #1f8f5f;
+    color: #fff;
+}
+
+.bk-overdue-btn--primary {
+    background: #1f8f5f;
+    color: #fff;
+}
+
+.bk-overdue-btn--secondary {
+    background: #f3f6fb;
+    color: #123c73;
+    border: 1px solid #cbd5e1;
+}
+
+.bk-overdue-btn--no {
+    background: #f3f6fb;
+    color: #123c73;
+    border: 1px solid #cbd5e1;
+}
+
+.bk-overdue-clear {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed #cbd5e1;
+}
+
+.bk-overdue-clear-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.bk-overdue-clear-text {
+    font-size: 14px;
+    color: #123c73;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.bk-overdue-clear-btn {
+    background: #123c73;
+    color: #fff;
+}
+
+.bk-overdue-clear-btn--back {
+    background: #f3f6fb;
+    color: #123c73;
+    border: 1px solid #cbd5e1;
+}
