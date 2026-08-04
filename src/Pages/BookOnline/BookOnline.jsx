@@ -12,6 +12,7 @@ import "react-calendar/dist/Calendar.css";
 import StepLoader from "../../Components/Steploader/Steploader";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import ParkingConfirmPopup from "../../Components/Parkingconfirmpopup/ParkingConfirmPopup";
 
 // const API_BASE = "https://16.16.213.67.sslip.io/api";
 
@@ -942,6 +943,9 @@ export default function BookOnline() {
             <Helmet>
                 <title>Book Online</title>
             </Helmet>
+
+            <ParkingConfirmPopup/>
+
             <div className="sidebar">
                 <div className={`step ${step === 1 ? "active" : ""}`}>
                     <span className="icon-box"><RectangleStackIcon /></span>
