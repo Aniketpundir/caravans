@@ -22,8 +22,20 @@ import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
 import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
+import { checkTokenExpiry } from "./store/slices/authSlice"
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(checkTokenExpiry());
+    }, 10 * 1000); // har 10 second check karega
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
+
   useEffect(() => {
     AOS.init({
       offset: 100,
@@ -33,6 +45,8 @@ const App = () => {
     });
     AOS.refresh();
   }, []);
+
+
 
   return (
     <>
