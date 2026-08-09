@@ -27,7 +27,7 @@ import { useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
+  // const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,11 +37,11 @@ const App = () => {
     return () => clearInterval(interval);
   }, [dispatch]);
 
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchProfile());
-    }
-  }, [token, dispatch]);
+  // useEffect(() => {
+  //   if (token) {
+  //     dispatch(fetchProfile());
+  //   }
+  // }, [token, dispatch]);
 
   useEffect(() => {
     AOS.init({
