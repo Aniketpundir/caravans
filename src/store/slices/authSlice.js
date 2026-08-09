@@ -8,7 +8,7 @@ const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
 
 
 // ─── Token Expiry Config ───────────────────────────────────────────────────
-const TOKEN_EXPIRY_MS = 2 * 60 * 1000; // 👈 time yahan se change karo (abhi 1 hour hai)
+const TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000; // 👈 time yahan se change karo (abhi 1 hour hai)
 
 const setTokenWithExpiry = (token) => {
     const expiryTime = Date.now() + TOKEN_EXPIRY_MS;
@@ -215,10 +215,9 @@ const authSlice = createSlice({
             //     state.profileLoading = false;
             //     state.profile = action.payload;
             // })
-             .addCase(fetchProfile.fulfilled, (state, action) => {
+            .addCase(fetchProfile.fulfilled, (state, action) => {
                 state.profileLoading = false;
                 state.profile = action.payload;
-                // 👇 ye line add karo — user bhi sync rahega
                 state.user = action.payload?.data?.user || action.payload?.user || state.user;
             })
             .addCase(fetchProfile.rejected, (state, action) => {
@@ -295,7 +294,6 @@ const authSlice = createSlice({
                 state.bookingDetailsLoading = false;
                 state.bookingDetailsError = action.payload || "Failed to load booking details.";
             })
-           
     },
 });
 
