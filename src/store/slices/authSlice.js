@@ -211,9 +211,15 @@ const authSlice = createSlice({
 
             // ── Fetch Profile ──
             .addCase(fetchProfile.pending, (state) => { state.profileLoading = true; })
-            .addCase(fetchProfile.fulfilled, (state, action) => {
+            // .addCase(fetchProfile.fulfilled, (state, action) => {
+            //     state.profileLoading = false;
+            //     state.profile = action.payload;
+            // })
+             .addCase(fetchProfile.fulfilled, (state, action) => {
                 state.profileLoading = false;
                 state.profile = action.payload;
+                // 👇 ye line add karo — user bhi sync rahega
+                state.user = action.payload?.data?.user || action.payload?.user || state.user;
             })
             .addCase(fetchProfile.rejected, (state, action) => {
                 state.profileLoading = false;
@@ -289,12 +295,7 @@ const authSlice = createSlice({
                 state.bookingDetailsLoading = false;
                 state.bookingDetailsError = action.payload || "Failed to load booking details.";
             })
-            // .addCase(fetchProfile.fulfilled, (state, action) => {
-            //     state.profileLoading = false;
-            //     state.profile = action.payload;
-            //     // 👇 ye line add karo — user bhi sync rahega
-            //     state.user = action.payload?.data?.user || action.payload?.user || state.user;
-            // })
+           
     },
 });
 
