@@ -23,7 +23,7 @@ import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import { checkTokenExpiry, fetchProfile } from "./store/slices/authSlice"
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
