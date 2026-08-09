@@ -22,11 +22,12 @@ import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
 import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
-import { checkTokenExpiry } from "./store/slices/authSlice"
+import { checkTokenExpiry, fetchProfile } from "./store/slices/authSlice"
 import { useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,6 +36,12 @@ const App = () => {
 
     return () => clearInterval(interval);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchProfile());
+    }
+  }, [token, dispatch]);
 
   useEffect(() => {
     AOS.init({
