@@ -6,6 +6,35 @@ import axios from "axios";
 // const BASE_URL = "https://16.16.213.67.sslip.io/api"
 const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
 
+
+// ─── Token Expiry Config ───────────────────────────────────────────────────
+const TOKEN_EXPIRY_MS = 2 * 60 * 1000; // 👈 time yahan se change karo (abhi 1 hour hai)
+
+const setTokenWithExpiry = (token) => {
+    const expiryTime = Date.now() + TOKEN_EXPIRY_MS;
+    localStorage.setItem("token", token);
+    localStorage.setItem("tokenExpiry", expiryTime.toString());
+};
+
+const clearTokenData = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiry");
+};
+
+const getValidToken = () => {
+    const token = localStorage.getItem("token");
+    const expiry = localStorage.getItem("tokenExpiry");
+
+    if (!token || !expiry) return null;
+
+    if (Date.now() > Number(expiry)) {
+        clearTokenData(); // time khatam, isliye clean kar do
+        return null;
+    }
+
+    return token;
+};
+
 // ─── Login ────────────────────────────────────────────────────────────────────
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
@@ -16,11 +45,23 @@ export const loginUser = createAsyncThunk(
                 password,
             });
             const data = response.data;
-            if (data?.token) localStorage.setItem("token", data.token);
+            if (data?.token) setTokenWithExpiry(data.token); // 👈 yahan expiry ke sath save hoga
             return data;
         } catch (error) {
             return rejectWithValue(error?.response?.data?.message || "Invalid email or password.");
         }
+    }
+);
+
+// ─── Check Token Expiry (auto logout ke liye) ─────────────────────────────
+export const checkTokenExpiry = createAsyncThunk(
+    "auth/checkTokenExpiry",
+    async (_, { dispatch }) => {
+        const token = getValidToken();
+        if (!token) {
+            dispatch(logout());
+        }
+        return null;
     }
 );
 
