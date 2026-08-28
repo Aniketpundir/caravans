@@ -736,3 +736,138 @@
     font-size: 22px;
     z-index: 999;
 }
+
+@media (max-width: 1024px) {
+    .rp-page {
+        padding: 24px 20px;
+    }
+
+    .rp-layout,
+    .cs-row {
+        flex-direction: column;
+    }
+
+    .rp-sidebar,
+    .stats-card {
+        width: 100%;
+    }
+
+    .rp-sidebar {
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .sb-btn {
+        min-width: max-content;
+    }
+
+    .tbl-card {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-tbl {
+        min-width: 780px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rp-page {
+        padding: 18px 14px;
+    }
+
+    .filters-row {
+        align-items: stretch;
+    }
+
+    .dd-wrap,
+    .dr-wrap,
+    .dr-btn {
+        width: 100%;
+    }
+
+    .dr-btn {
+        justify-content: flex-start;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .cal-popup {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        top: 86px;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+    }
+
+    .cal-two {
+        gap: 0;
+    }
+
+    .cal-two .cal-month:nth-child(2) {
+        display: none;
+    }
+
+    .cal-month {
+        width: min(230px, calc(100vw - 88px));
+    }
+
+    .legend-row,
+    .pg-row,
+    .pg-btns {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .rp-page {
+        padding: 14px 10px;
+    }
+
+    .rp-h1,
+    .rp-h2 {
+        font-size: 18px;
+    }
+
+    .chart-card,
+    .stats-card,
+    .tbl-card {
+        padding: 16px 14px;
+        border-radius: 10px;
+    }
+
+    .cal-popup {
+        flex-direction: column;
+        top: 78px;
+    }
+
+    .cal-shortcuts {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid #f0f0f0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cal-right {
+        padding: 12px;
+    }
+
+    .cal-day {
+        padding: 7px 2px;
+    }
+
+    .pg-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .support-bubble {
+        width: 44px;
+        height: 44px;
+        right: 16px;
+        bottom: 16px;
+    }
+}

@@ -957,6 +957,8 @@ input[type="checkbox"].mp-checkbox {
         left: 0;
         right: 0;
         padding: 14px;
+        max-width: calc(100vw - 28px);
+        overflow-x: auto;
     }
 
     .mp-pagination {
@@ -1064,7 +1066,9 @@ input[type="checkbox"].mp-checkbox {
         position: fixed;
         left: 8px;
         right: 8px;
-        top: auto;
+        top: 78px;
+        max-height: calc(100vh - 92px);
+        overflow: auto;
         padding: 12px;
     }
 

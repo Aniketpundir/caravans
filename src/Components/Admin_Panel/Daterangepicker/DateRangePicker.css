@@ -269,3 +269,86 @@
     background: #bbf7d0;
     cursor: not-allowed;
 }
+
+@media (max-width: 900px) {
+    .drp__wrapper,
+    .drp__trigger {
+        width: 100%;
+    }
+
+    .drp__trigger {
+        justify-content: flex-start;
+        overflow: hidden;
+    }
+
+    .drp__trigger span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .drp__dropdown {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        top: 86px;
+        min-width: 0;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .drp__dropdown {
+        flex-direction: column;
+        top: 78px;
+    }
+
+    .drp__shortcuts {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1.5px solid #f1f5f9;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 8px 0;
+    }
+
+    .drp__shortcut {
+        padding: 9px 14px;
+    }
+
+    .drp__calendars {
+        padding: 14px 12px;
+    }
+
+    .drp__cal-nav {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .drp__cal-nav .drp__cal-header:last-child,
+    .drp__cal-body .drp__cal-divider,
+    .drp__cal-body .drp__month:last-child {
+        display: none;
+    }
+
+    .drp__cal-body {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .drp__day {
+        height: 32px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .drp__dropdown {
+        left: 8px;
+        right: 8px;
+    }
+
+    .drp__day {
+        height: 28px;
+    }
+}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import AOS from "aos";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from './Components/Layout/Layout'
 import Home from './Pages/Home/Home'
@@ -23,7 +23,25 @@ import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import { checkTokenExpiry, fetchProfile } from "./store/slices/authSlice"
+import { adminLogout, getValidAdminToken } from "./store/slices/adminSlice"
 import { useDispatch,useSelector } from "react-redux";
+
+const AdminProtectedRoute = ({ children }) => {
+  const dispatch = useDispatch();
+  const isAuthenticated = Boolean(getValidAdminToken());
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(adminLogout());
+    }
+  }, [dispatch, isAuthenticated]);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/admin-login" replace />;
+  }
+
+  return children;
+};
 
 const App = () => {
   const dispatch = useDispatch();
@@ -61,7 +79,14 @@ const App = () => {
         <Router>
           <Routes>
             <Route path='/admin-login' element={<AdminLogin />} />
-            <Route path='/admin-dashboard' element={<AdminLayout />}>
+            <Route path='/admin' element={<AdminProtectedRoute><Navigate to="/admin-dashboard" replace /></AdminProtectedRoute>} />
+            <Route path='/admin/dashboard' element={<AdminProtectedRoute><Navigate to="/admin-dashboard" replace /></AdminProtectedRoute>} />
+            <Route path='/admin/appointments' element={<AdminProtectedRoute><Navigate to="/admin-dashboard/appointments" replace /></AdminProtectedRoute>} />
+            <Route path='/admin/payments' element={<AdminProtectedRoute><Navigate to="/admin-dashboard/payments" replace /></AdminProtectedRoute>} />
+            <Route path='/admin/customers' element={<AdminProtectedRoute><Navigate to="/admin-dashboard/customers" replace /></AdminProtectedRoute>} />
+            <Route path='/admin/services' element={<AdminProtectedRoute><Navigate to="/admin-dashboard/service" replace /></AdminProtectedRoute>} />
+            <Route path='/admin/reports' element={<AdminProtectedRoute><Navigate to="/admin-dashboard/report" replace /></AdminProtectedRoute>} />
+            <Route path='/admin-dashboard' element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
               <Route index element={<Dashboard />} />
               <Route path='/admin-dashboard/appointments' element={<Appointments />} />
               <Route path='/admin-dashboard/payments' element={<ManagePayments />} />

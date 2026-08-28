@@ -527,6 +527,8 @@
         left: 0;
         right: 0;
         width: 100%;
+        max-width: calc(100vw - 28px);
+        overflow-x: auto;
         padding: 16px;
     }
 
@@ -598,6 +600,16 @@
 
 /* Very small — 400px */
 @media (max-width: 400px) {
+    .drp-popover {
+        position: fixed;
+        left: 8px;
+        right: 8px;
+        top: 78px;
+        width: auto;
+        max-height: calc(100vh - 92px);
+        overflow: auto;
+    }
+
     .header-actions {
         width: 100%;
     }

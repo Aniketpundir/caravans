@@ -11,6 +11,7 @@ import {
 import { MdEventNote } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getValidAdminToken } from "../../../store/slices/adminSlice";
 
 export default function AdminNavbar() {
     const navigate = useNavigate()
@@ -29,12 +30,12 @@ export default function AdminNavbar() {
     ];
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = getValidAdminToken();
 
         if (!token) {
             navigate("/admin-login")
         }
-    }, [])
+    }, [navigate])
 
     return (
         <nav className="admin_navbar">

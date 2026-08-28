@@ -8,7 +8,7 @@ import { fetchServices } from "../../../store/slices/servicesSlice";
 import "./Reports.css";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "https://16.16.213.67.sslip.io/api";
+const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api";
 const SHORTCUTS = ["Today", "Yesterday", "Tomorrow", "This week", "Last week", "This month", "Last month", "This year"];
 const PER_PAGE_OPTS = [10, 20, 50, 100];
 const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -35,9 +35,9 @@ const toYMD = (d) => {
 };
 
 function getDefaultRange() {
-    const start = sod(new Date());
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6);
+    const end = sod(new Date());
+    const start = new Date(end);
+    start.setMonth(end.getMonth() - 1);
     return { s: start, e: end };
 }
 
