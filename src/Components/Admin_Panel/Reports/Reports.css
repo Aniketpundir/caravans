@@ -1,4 +1,3 @@
-/* ── Page ────────────────────────────────────────────────────── */
 .rp-page {
     padding: 32px 40px;
     min-height: 100vh;
@@ -14,8 +13,9 @@
 
 .rp-layout {
     display: flex;
+    flex-direction: column;
     gap: 24px;
-    align-items: flex-start;
+    align-items: stretch;
 }
 
 .rp-main {
@@ -24,6 +24,7 @@
     flex-direction: column;
     gap: 20px;
     min-width: 0;
+    width: 100%;
 }
 
 .rp-h2 {
@@ -32,22 +33,30 @@
     color: #1a1a2e;
 }
 
-/* ── Sidebar ─────────────────────────────────────────────────── */
 .rp-sidebar {
-    width: 196px;
+    width: 100%;
     flex-shrink: 0;
-    background: #fff;
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 14px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     gap: 10px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
 
+.rp-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+
 .sb-btn {
-    width: 100%;
-    padding: 10px 14px;
+    flex-shrink: 0;
+    width: auto;
+    padding: 10px 20px;
     border-radius: 8px;
     border: 1.5px solid #e0e4ef;
     background: #fff;
@@ -55,7 +64,7 @@
     font-weight: 500;
     color: #555;
     cursor: pointer;
-    text-align: left;
+    white-space: nowrap;
     transition: all .15s;
 }
 
@@ -72,7 +81,6 @@
     box-shadow: 0 2px 10px rgba(61, 214, 163, .3);
 }
 
-/* ── Filters Row ─────────────────────────────────────────────── */
 .filters-row {
     display: flex;
     align-items: center;
@@ -81,7 +89,6 @@
     flex-wrap: wrap;
 }
 
-/* Service Dropdown */
 .dd-wrap {
     position: relative;
     width: 220px;
@@ -124,6 +131,8 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, .1);
     z-index: 200;
     overflow: hidden;
+    max-height: 260px;
+    overflow-y: auto;
 }
 
 .dd-grp-lbl {
@@ -153,7 +162,6 @@
     font-weight: 600;
 }
 
-/* Date Range */
 .dr-wrap {
     position: relative;
 }
@@ -178,10 +186,53 @@
 }
 
 .dr-icon {
-    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #3dd6a3;
 }
 
-/* Calendar Popup */
+.dr-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.pdf-btn {
+    width: 15%;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(135deg, #6ee7c0, #3dd6a3);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(61, 214, 163, .3);
+    transition: all .15s;
+}
+
+.pdf-btn:hover:not(:disabled) {
+    filter: brightness(1.05);
+}
+
+.pdf-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.rp-h2-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .cal-popup {
     position: absolute;
     top: calc(100% + 6px);
@@ -201,6 +252,7 @@
     padding: 10px 0;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .cal-sc {
@@ -218,6 +270,7 @@
 
 .cal-right {
     padding: 14px 18px;
+    min-width: 0;
 }
 
 .cal-nav-row {
@@ -246,9 +299,9 @@
     gap: 24px;
 }
 
-/* Calendar Month */
 .cal-month {
     width: 230px;
+    max-width: 100%;
 }
 
 .cal-title {
@@ -312,7 +365,6 @@
     color: #1a7a5a;
 }
 
-/* ── Chart + Stats Row ───────────────────────────────────────── */
 .cs-row {
     display: flex;
     gap: 20px;
@@ -342,6 +394,7 @@
     gap: 8px;
     justify-content: center;
     margin-bottom: 12px;
+    flex-wrap: wrap;
 }
 
 .legend-box {
@@ -351,6 +404,7 @@
     background: linear-gradient(135deg, #6ee7c0, #3dd6a3);
     border: 1px solid #3dd6a3;
     display: inline-block;
+    flex-shrink: 0;
 }
 
 .legend-lbl {
@@ -358,7 +412,6 @@
     color: #666;
 }
 
-/* Custom Tooltip */
 .chart-tt {
     background: #fff;
     border: 1px solid #e0e4ef;
@@ -374,7 +427,6 @@
     margin-bottom: 4px;
 }
 
-/* Stats Card */
 .stats-card {
     width: 226px;
     flex-shrink: 0;
@@ -441,14 +493,16 @@
     font-size: 28px;
     font-weight: 700;
     color: #3dd6a3;
+    word-break: break-word;
 }
 
-/* ── Table Card ──────────────────────────────────────────────── */
 .tbl-card {
     background: #fff;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tbl-heading {
@@ -461,10 +515,17 @@
 .data-tbl {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
+    min-width: 900px;
 }
 
 .data-tbl thead tr {
     border-bottom: 2px solid #f0f2f8;
+}
+
+.data-tbl th:last-child,
+.data-tbl td:last-child {
+    width: 90px;
 }
 
 .data-tbl th {
@@ -513,7 +574,6 @@
     font-size: 14px;
 }
 
-/* Customer name cell */
 .cust-cell {
     display: flex;
     align-items: center;
@@ -537,7 +597,6 @@
     color: #9fa8da;
 }
 
-/* Status Badges */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -578,7 +637,6 @@
     color: #92400e;
 }
 
-/* Payment Badge */
 .pay-badge {
     font-size: 12px;
     font-weight: 600;
@@ -586,6 +644,7 @@
     border: 1.5px solid #e0e4ef;
     border-radius: 6px;
     padding: 3px 10px;
+    white-space: nowrap;
 }
 
 .pay-badge.paid {
@@ -594,7 +653,40 @@
     background: #f0fdf4;
 }
 
-/* ── Pagination ──────────────────────────────────────────────── */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    min-height: 34px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1.5px solid #3dd6a3;
+    background: transparent;
+    color: #3dd6a3;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s;
+}
+
+.action-btn:hover:not(:disabled) {
+    background: #3dd6a3;
+    color: #fff;
+}
+
+.action-btn:active:not(:disabled) {
+    transform: scale(.97);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #d5d9e5;
+    color: #aaa;
+}
+
 .pg-row {
     display: flex;
     align-items: center;
@@ -684,6 +776,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    flex-wrap: wrap;
 }
 
 .pg-btn {
@@ -718,23 +811,83 @@
     font-weight: 700;
 }
 
-/* ── Support Bubble ──────────────────────────────────────────── */
-.support-bubble {
+.reminder-modal-overlay {
     position: fixed;
-    bottom: 26px;
-    right: 26px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3dd6a3, #1fa87d);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(61, 214, 163, .4);
+    z-index: 1000;
+}
+
+.reminder-modal {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 32px;
+    width: 340px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.reminder-modal-icon {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #22c55e;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.reminder-modal-title {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #111;
+}
+
+.reminder-modal-msg {
+    margin: 0 0 16px;
+    color: #666;
+    font-size: 13px;
+}
+
+.reminder-modal-details {
+    text-align: left;
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+    margin-bottom: 16px;
+}
+
+.reminder-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #444;
+}
+
+.reminder-detail-row strong {
+    color: #111;
+    text-align: right;
+    word-break: break-all;
+}
+
+.reminder-modal-close {
+    background: #3dd6a3;
     color: #fff;
-    font-size: 22px;
-    z-index: 999;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.reminder-modal-close:hover {
+    background: #2fc294;
 }
 
 @media (max-width: 1024px) {
@@ -742,24 +895,33 @@
         padding: 24px 20px;
     }
 
-    .rp-layout,
+    .rp-layout {
+        flex-direction: column;
+    }
+
+    .rp-sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .rp-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sb-btn {
+        flex-shrink: 0;
+        width: auto;
+    }
+
     .cs-row {
         flex-direction: column;
     }
 
-    .rp-sidebar,
     .stats-card {
         width: 100%;
-    }
-
-    .rp-sidebar {
-        flex-direction: row;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .sb-btn {
-        min-width: max-content;
     }
 
     .tbl-card {
@@ -772,58 +934,41 @@
     }
 }
 
-@media (max-width: 768px) {
-    .rp-page {
-        padding: 18px 14px;
-    }
-
-    .filters-row {
-        align-items: stretch;
-    }
-
-    .dd-wrap,
-    .dr-wrap,
-    .dr-btn {
-        width: 100%;
-    }
-
-    .dr-btn {
-        justify-content: flex-start;
-        white-space: normal;
-        text-align: left;
-    }
-
-    .cal-popup {
-        position: fixed;
-        left: 12px;
-        right: 12px;
-        top: 86px;
-        max-height: calc(100vh - 100px);
-        overflow: auto;
-    }
-
-    .cal-two {
-        gap: 0;
-    }
-
-    .cal-two .cal-month:nth-child(2) {
-        display: none;
-    }
-
-    .cal-month {
-        width: min(230px, calc(100vw - 88px));
-    }
-
-    .legend-row,
-    .pg-row,
-    .pg-btns {
-        justify-content: center;
-    }
+.id-cell {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #444;
+    transition: color .15s;
 }
 
-@media (max-width: 480px) {
+.id-cell:hover {
+    color: #3dd6a3;
+}
+
+.id-expanded {
+    max-width: none;
+    white-space: normal;
+    word-break: break-all;
+    color: #1a7a5a;
+    font-weight: 600;
+}
+
+.action-btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.reminder-modal-icon-warn {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+@media (max-width: 640px) {
     .rp-page {
-        padding: 14px 10px;
+        padding: 16px 12px;
     }
 
     .rp-h1,
@@ -831,43 +976,174 @@
         font-size: 18px;
     }
 
-    .chart-card,
-    .stats-card,
-    .tbl-card {
-        padding: 16px 14px;
-        border-radius: 10px;
+    .rp-h1 {
+        margin-bottom: 18px;
+    }
+
+    .rp-h2-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pdf-btn {
+        width: 20%;
+        justify-content: center;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .rp-sidebar {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .sb-btn {
+        padding: 9px 12px;
+        font-size: 12.5px;
+    }
+
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dd-wrap,
+    .dr-wrap {
+        width: 100%;
+    }
+
+    .dr-btn {
+        width: 100%;
+        justify-content: flex-start;
+        white-space: normal;
+        text-align: left;
+        gap: 8px;
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+
+    .dd-trigger {
+        padding: 9px 34px 9px 14px;
+        font-size: 13px;
     }
 
     .cal-popup {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
         flex-direction: column;
-        top: 78px;
     }
 
     .cal-shortcuts {
         width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
         border-right: 0;
         border-bottom: 1px solid #f0f0f0;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        padding: 8px;
+    }
+
+    .cal-sc {
+        flex: 1 1 45%;
+        text-align: center;
+        border-radius: 6px;
     }
 
     .cal-right {
         padding: 12px;
     }
 
+    .cal-two {
+        gap: 12px;
+    }
+
+    .cal-two .cal-month:nth-child(2) {
+        display: none;
+    }
+
+    .cal-month {
+        width: 100%;
+    }
+
     .cal-day {
-        padding: 7px 2px;
+        padding: 8px 2px;
+    }
+
+    .chart-card,
+    .stats-card {
+        padding: 14px 12px;
+        border-radius: 10px;
+    }
+
+    .legend-row {
+        justify-content: flex-start;
+        gap: 6px;
+    }
+
+    .legend-lbl {
+        font-size: 12px;
+    }
+
+    .stat-rev-val {
+        font-size: 22px;
+    }
+
+    .stat-name,
+    .stat-num {
+        font-size: 13px;
+    }
+
+    .tbl-card {
+        padding: 14px 10px;
+        border-radius: 10px;
+    }
+
+    .tbl-heading {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+
+    .data-tbl {
+        min-width: 680px;
+    }
+
+    .data-tbl th,
+    .data-tbl td {
+        padding: 10px 8px;
+        font-size: 12.5px;
+    }
+
+    .badge,
+    .pay-badge {
+        font-size: 11px;
+        padding: 3px 9px;
+    }
+
+    .action-btn {
+        min-width: 60px;
+        min-height: 40px;
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .pg-row {
+        justify-content: center;
+        text-align: center;
     }
 
     .pg-btn {
-        width: 30px;
-        height: 30px;
+        width: 34px;
+        height: 34px;
     }
 
-    .support-bubble {
-        width: 44px;
-        height: 44px;
-        right: 16px;
-        bottom: 16px;
+    .pg-info,
+    .pg-pp-lbl,
+    .pg-pp-btn,
+    .pg-pp-item {
+        font-size: 12px;
     }
 }

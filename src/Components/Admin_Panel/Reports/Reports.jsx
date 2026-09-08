@@ -7,6 +7,8 @@ import {
 import { fetchServices } from "../../../store/slices/servicesSlice";
 import "./Reports.css";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api";
 const SHORTCUTS = ["Today", "Yesterday", "Tomorrow", "This week", "Last week", "This month", "Last month", "This year"];
@@ -15,6 +17,10 @@ const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const STATUS_LIST = ["pending", "approved", "cancelled", "rejected", "completed", "no-show"];
 const STATUS_COLOR = { pending: "#f59e0b", approved: "#3b82f6", cancelled: "#9ca3af", rejected: "#ef4444", completed: "#22c55e", "no-show": "#92400e" };
+
+// Cooldown + reminder-window constants
+const REMINDER_COOLDOWN_MS = 10 * 60 * 1000; // 1 minute
+const EXPIRY_WINDOW_DAYS = 10; // reminder button is only enabled when 0 <= daysRemaining <= 10
 
 const getAuthHeader = () => {
     const token = localStorage.getItem("adminToken");
@@ -32,6 +38,21 @@ const fmtShort = (d) => d.toLocaleDateString("en-AU", { month: "short", day: "2-
 const toYMD = (d) => {
     const date = new Date(d);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+};
+
+// Helper - how many days remain between today and the booking's endDate
+const daysUntilExpiry = (endDate) => {
+    if (!endDate) return null;
+    const end = sod(new Date(endDate));
+    const today = sod(new Date());
+    return Math.round((end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+};
+
+// Helper - true only when endDate is today or within the next EXPIRY_WINDOW_DAYS days.
+// A negative value (endDate already in the past) and a value greater than the window both return false.
+const isWithinReminderWindow = (endDate) => {
+    const days = daysUntilExpiry(endDate);
+    return days !== null && days >= 0 && days <= EXPIRY_WINDOW_DAYS;
 };
 
 function getDefaultRange() {
@@ -123,9 +144,178 @@ function ChartTooltip({ active, payload, label }) {
     );
 }
 
+// Popup shown after a reminder email is successfully sent
+function ReminderPopup({ data, onClose }) {
+    if (!data) return null;
+    return (
+        <div className="reminder-modal-overlay" onClick={onClose}>
+            <div className="reminder-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="reminder-modal-icon">✓</div>
+                <h3 className="reminder-modal-title">Reminder Sent</h3>
+                <p className="reminder-modal-msg">{data.message}</p>
+                <div className="reminder-modal-details">
+                    <div className="reminder-detail-row">
+                        <span>Customer Email</span>
+                        <strong>{data.customerEmail || "-"}</strong>
+                    </div>
+                    <div className="reminder-detail-row">
+                        <span>Booking ID</span>
+                        <strong>{data.bookingId || "-"}</strong>
+                    </div>
+                    <div className="reminder-detail-row">
+                        <span>End Date</span>
+                        <strong>{data.endDate || "-"}</strong>
+                    </div>
+                    <div className="reminder-detail-row">
+                        <span>Days Remaining</span>
+                        <strong>{data.daysRemaining ?? "-"}</strong>
+                    </div>
+                </div>
+                <button className="reminder-modal-close" onClick={onClose}>Close</button>
+            </div>
+        </div>
+    );
+}
+
 export default function Reports() {
+    const [expandedId, setExpandedId] = useState(null);
 
     const Navigate = useNavigate();
+
+
+    const handleDownloadPDF = () => {
+        const rows = tab === "customers" ? customers : filtered;
+        if (rows.length === 0) {
+            alert("No data available to download for the selected range");
+            return;
+        }
+
+        const doc = new jsPDF();
+        const title = tab === "appointment" ? "Appointment Report"
+            : tab === "revenue" ? "Revenue Report"
+                : "Customers Report";
+
+        doc.setFontSize(16);
+        doc.text(title, 14, 16);
+        doc.setFontSize(10);
+        doc.setTextColor(120);
+        doc.text(`${fmtFull(rS)} - ${fmtFull(rE)}`, 14, 23);
+        if (selSvc?.name) doc.text(`Service: ${selSvc.name}`, 14, 29);
+
+        let head, body;
+
+        if (tab === "customers") {
+            head = [["Full Name", "Email", "Phone", "Last Appointment", "Total Appointments"]];
+            body = rows.map((c) => [
+                c.name,
+                c.email,
+                c.phone,
+                c.lastDate.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" }),
+                c.count,
+            ]);
+        } else {
+            head = [["ID", "Date", "Customer", "Service", "Duration", "Status", "Amount", "Payment"]];
+            body = rows.map((a) => [
+                a.id,
+                a.dateObj.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" }),
+                a.customer,
+                a.service,
+                a.duration,
+                a.status,
+                `$${a.revenue}`,
+                a.payment,
+            ]);
+        }
+
+        autoTable(doc, {
+            head,
+            body,
+            startY: selSvc?.name ? 34 : 28,
+            styles: { fontSize: 8, cellPadding: 3 },
+            headStyles: { fillColor: [61, 214, 163], textColor: 255, fontStyle: "bold" },
+            alternateRowStyles: { fillColor: [249, 250, 252] },
+        });
+
+        if (tab === "revenue") {
+            const finalY = doc.lastAutoTable.finalY || 34;
+            doc.setFontSize(12);
+            doc.setTextColor(30);
+            doc.text(`Total Revenue: $${totalRev.toLocaleString()}`, 14, finalY + 10);
+        }
+
+        doc.save(`${tab}-report_${toYMD(rS)}_to_${toYMD(rE)}.pdf`);
+    };
+
+
+
+    const [actionLoadingId, setActionLoadingId] = useState(null);
+    const [reminderPopup, setReminderPopup] = useState(null); // success popup data
+
+    // Last reminder-sent timestamp per appointment id (drives the 1-minute cooldown)
+    const [lastSentMap, setLastSentMap] = useState({});
+    // Ticks every second so cooldown countdowns update in the UI
+    const [nowTick, setNowTick] = useState(Date.now());
+
+    useEffect(() => {
+        const t = setInterval(() => setNowTick(Date.now()), 1000);
+        return () => clearInterval(t);
+    }, []);
+
+    const isOnCooldown = (id) => {
+        const last = lastSentMap[id];
+        if (!last) return false;
+        return nowTick - last < REMINDER_COOLDOWN_MS;
+    };
+
+    const cooldownSecondsLeft = (id) => {
+        const last = lastSentMap[id];
+        if (!last) return 0;
+        return Math.max(0, Math.ceil((REMINDER_COOLDOWN_MS - (nowTick - last)) / 1000));
+    };
+
+    // Calls the expiry-reminder API for a single booking
+    const handleAction = async (appointmentId) => {
+        if (isOnCooldown(appointmentId)) return;
+        setActionLoadingId(appointmentId);
+        try {
+            const response = await fetch(`${BASE_URL}/admin/bookings/${appointmentId}/expiry-reminder/send`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...getAuthHeader(),
+                },
+            });
+
+            const contentType = response.headers.get("content-type") || "";
+            if (!contentType.includes("application/json")) {
+                throw new Error(`Expiry reminder API returned non-JSON response (${response.status})`);
+            }
+
+            const json = await response.json();
+            if (!response.ok || !json.success) {
+                throw new Error(json.message || "Failed to send reminder");
+            }
+
+            setLastSentMap((prev) => ({ ...prev, [appointmentId]: Date.now() }));
+            setReminderPopup({
+                message: json.message,
+                customerEmail: json.data?.customerEmail,
+                bookingId: json.data?.bookingId,
+                endDate: json.data?.endDate,
+                daysRemaining: json.data?.daysRemaining,
+            });
+        } catch (err) {
+            console.error("Reminder error:", err);
+            alert(err.message || "Something went wrong while sending reminder");
+        } finally {
+            setActionLoadingId(null);
+        }
+    };
+
+
+
+
+
 
     useEffect(() => {
         const token = localStorage.getItem("adminToken")
@@ -333,7 +523,14 @@ export default function Reports() {
                 </aside>
 
                 <main className="rp-main">
-                    <h2 className="rp-h2">{tab === "appointment" ? "Appointment Report" : tab === "revenue" ? "Revenue Report" : "Customers Report"}</h2>
+                    <div className="rp-h2-row">
+                        <h2 className="rp-h2">
+                            {tab === "appointment" ? "Appointment Report" : tab === "revenue" ? "Revenue Report" : "Customers Report"}
+                        </h2>
+                        <button className="pdf-btn" onClick={handleDownloadPDF} disabled={loading}>
+                            ⬇ Download PDF
+                        </button>
+                    </div>
 
                     <div className="filters-row">
                         {tab !== "customers" && (
@@ -360,7 +557,14 @@ export default function Reports() {
 
                         <div className="dr-wrap" ref={calRef}>
                             <button className="dr-btn" onClick={() => setCalO((v) => !v)}>
-                                <span className="dr-icon">Cal</span>
+                                <span className="dr-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <rect x="3" y="4" width="18" height="18" rx="3" />
+                                        <line x1="16" y1="2" x2="16" y2="6" />
+                                        <line x1="8" y1="2" x2="8" y2="6" />
+                                        <line x1="3" y1="10" x2="21" y2="10" />
+                                    </svg>
+                                </span>
                                 <span>{dateLbl}</span>
                             </button>
                             {calO && (
@@ -500,21 +704,58 @@ export default function Reports() {
                                     <th>Service <span className="sort-ico">&lt;&gt;</span></th>
                                     <th>Duration <span className="sort-ico">&lt;&gt;</span></th>
                                     <th>Status</th>
+                                    <th>Amount</th>
+                                    <th>UPTO Date</th>
+                                    <th>Action</th>
                                     <th>Payment <span className="sort-ico">&lt;&gt;</span></th>
                                 </tr></thead>
                                 <tbody>
                                     {pageRows.length === 0 && <tr><td colSpan={7} className="no-data">No appointments for selected range</td></tr>}
-                                    {pageRows.map((appointment) => (
-                                        <tr key={appointment.id}>
-                                            <td>{appointment.id}</td>
-                                            <td>{appointment.dateObj.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" })} {appointment.dateObj.toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true })}</td>
-                                            <td>{appointment.customer}</td>
-                                            <td>{appointment.service}</td>
-                                            <td>{appointment.duration}</td>
-                                            <td><span className={`badge badge-${String(appointment.status || "").replace(" ", "-").toLowerCase()}`}>{appointment.status}</span></td>
-                                            <td><span className={`pay-badge${appointment.payment === "Paid" ? " paid" : ""}`}>{appointment.payment}</span></td>
-                                        </tr>
-                                    ))}
+                                    {pageRows.map((appointment) => {
+                                        // Both "too far in the future" (>10 days) and "already in the past"
+                                        // (negative days) return false here, and the button stays visible but disabled.
+                                        const withinWindow = isWithinReminderWindow(appointment.endDate);
+                                        const onCooldown = isOnCooldown(appointment.id);
+                                        const isSendingThis = actionLoadingId === appointment.id;
+                                        const isDisabledLook = !withinWindow || onCooldown || isSendingThis;
+
+                                        return (
+                                            <tr key={appointment.id}>
+                                                <td
+                                                    className={`id-cell${expandedId === appointment.id ? " id-expanded" : ""}`}
+                                                    title={appointment.id}
+                                                    onClick={() => setExpandedId((prev) => (prev === appointment.id ? null : appointment.id))}
+                                                >
+                                                    {appointment.id}
+                                                </td>
+                                                <td>{appointment.dateObj.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" })} {appointment.dateObj.toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true })}</td>
+                                                <td>{appointment.customer}</td>
+                                                <td>{appointment.service}</td>
+                                                <td>{appointment.duration}</td>
+                                                <td><span className={`badge badge-${String(appointment.status || "").replace(" ", "-").toLowerCase()}`}>{appointment.status}</span></td>
+                                                <td>${appointment.revenue}</td>
+                                                <td>{appointment.endDate || "NULL"}</td>
+                                                <td>
+                                                    {withinWindow ? (
+                                                        <button
+                                                            className={`action-btn${isDisabledLook ? " action-btn-disabled" : ""}`}
+                                                            disabled={onCooldown || isSendingThis}
+                                                            onClick={() => handleAction(appointment.id)}
+                                                        >
+                                                            {isSendingThis
+                                                                ? "..."
+                                                                : onCooldown
+                                                                    ? `Wait ${cooldownSecondsLeft(appointment.id)}s`
+                                                                    : "Send Reminder"}
+                                                        </button>
+                                                    ) : (
+                                                        <span className="no-data">-</span>
+                                                    )}
+                                                </td>
+                                                <td><span className={`pay-badge${appointment.payment === "Paid" ? " paid" : ""}`}>{appointment.payment}</span></td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         )}
@@ -550,7 +791,7 @@ export default function Reports() {
                 </main>
             </div>
 
-            <div className="support-bubble">+</div>
+            <ReminderPopup data={reminderPopup} onClose={() => setReminderPopup(null)} />
         </div>
     );
 }
