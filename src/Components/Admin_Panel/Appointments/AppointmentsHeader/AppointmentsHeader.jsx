@@ -37,7 +37,7 @@ function isToday(d) { return isSameDay(d, new Date()); }
 function isWeekend(d) { const day = d.getDay(); return day === 0 || day === 6; }
 function fmtDate(d) {
     if (!d) return "";
-    return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    return d.toLocaleDateString("en-AU", { month: "long", day: "numeric", year: "numeric" });
 }
 
 function MonthPanel({ year, month, startDate, endDate, hoverDate, onDayClick, onDayHover }) {

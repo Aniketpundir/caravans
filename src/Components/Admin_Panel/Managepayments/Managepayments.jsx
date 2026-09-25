@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPayments, updatePaymentStatus } from "../../../store/slices/paymentsSlice";
 import { fetchServices } from "../../../store/slices/servicesSlice";
@@ -12,10 +12,11 @@ const PER_PAGE_OPTIONS = [10, 20, 50];
 const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MONTHS_FULL = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-AU", {
     month: "long",
     day: "numeric",
     year: "numeric",
+    timeZone: "Australia/Sydney",
 });
 
 const toUiPaymentStatus = (value) => {
@@ -68,14 +69,16 @@ const formatTimestamp = (value) => {
     if (!value) return "-";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
-    return `${date.toLocaleDateString("en-US", {
+    return `${date.toLocaleDateString("en-AU", {
         month: "long",
         day: "numeric",
         year: "numeric",
-    })} ${date.toLocaleTimeString("en-US", {
+        timeZone: "Australia/Sydney",
+    })} ${date.toLocaleTimeString("en-AU", {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
+        timeZone: "Australia/Sydney",
     })}`;
 };
 
@@ -86,9 +89,12 @@ const normalizePayment = (payment) => ({
     service: payment.service ?? "-",
     serviceId: payment.serviceId ?? "",
     method: payment.method ?? "Card",
+    paymentFor: payment.paymentFor ?? "Booking",
     status: toUiPaymentStatus(payment.status ?? payment.paymentStatus ?? "Pending"),
     amount: Number(payment.amount) || 0,
     appointmentOn: payment.appointmentOn ?? payment.startDate ?? "",
+    bookingStartDate: payment.bookingStartDate ?? payment.appointmentOn ?? payment.startDate ?? "",
+    bookingEndDate: payment.bookingEndDate ?? payment.endDate ?? "",
     currency: payment.currency ?? "AUD",
     transactionId: payment.stripePaymentIntentId ?? payment.transactionId ?? "-",
 });
@@ -344,6 +350,7 @@ function PaymentRow({ payment, expandedId, setExpandedId, checkedIds, toggleOne,
                 <td className="mp-td">{formatTimestamp(payment.date)}</td>
                 <td className="mp-td">{payment.customer}</td>
                 <td className="mp-td">{payment.service}</td>
+                <td className="mp-td">{payment.paymentFor}</td>
                 <td className="mp-td">{payment.method}</td>
                 <td className="mp-td-status">
                     <StatusBadge value={payment.status} onChange={(status) => onStatusChange(payment.id, status)} disabled={savingStatusId === payment.id} />
@@ -354,12 +361,15 @@ function PaymentRow({ payment, expandedId, setExpandedId, checkedIds, toggleOne,
 
             {expandedId === payment.id && (
                 <tr className="mp-tr-expanded">
-                    <td colSpan={9}>
+                    <td colSpan={10}>
                         <div className="mp-expanded-inner">
                             {[
                                 ["Transaction ID", payment.transactionId],
                                 ["Customer", payment.customer],
                                 ["Service", payment.service],
+                                ["Payment For", payment.paymentFor],
+                                ["Booking Start Date", formatBookingDate(payment.bookingStartDate)],
+                                ["Booking End Date", formatBookingDate(payment.bookingEndDate)],
                                 ["Payment Method", payment.method],
                                 ["Amount", fmtAmt(payment.amount, payment.currency)],
                                 ["Status", payment.status],
@@ -508,14 +518,17 @@ export default function ManagePayments() {
         downloadCsv(
             "payments.csv",
             payments.map((payment) => ({
-                transactionDate: payment.date,
+                transactionDate: formatTimestamp(payment.date),
                 customer: payment.customer,
                 service: payment.service,
+                paymentFor: payment.paymentFor,
                 method: payment.method,
                 status: payment.status,
                 amount: payment.amount,
                 currency: payment.currency,
-                appointmentOn: payment.appointmentOn,
+                appointmentOn: formatBookingDate(payment.appointmentOn),
+                bookingStartDate: formatBookingDate(payment.bookingStartDate),
+                bookingEndDate: formatBookingDate(payment.bookingEndDate),
                 transactionId: payment.transactionId,
             }))
         );
@@ -594,7 +607,7 @@ export default function ManagePayments() {
                                 <th className="mp-th-check">
                                     <input type="checkbox" className="mp-checkbox" checked={allOnPageChecked} onChange={toggleAll} />
                                 </th>
-                                {[["Date", true], ["Customer", true], ["Service", true], ["Method", false], ["Status", false], ["Amount", false], ["Appointment On", true]].map(([col, sortable]) => (
+                                {[["Date", true], ["Customer", true], ["Service", true], ["Type", false], ["Method", false], ["Status", false], ["Amount", false], ["Appointment On", true]].map(([col, sortable]) => (
                                     <th key={col} className="mp-th">
                                         {col}
                                         {sortable && <span className="mp-th-sort-icon">^v</span>}
@@ -605,7 +618,7 @@ export default function ManagePayments() {
                         <tbody>
                             {pageData.length === 0 ? (
                                 <tr>
-                                    <td colSpan={9} className="mp-td" style={{ textAlign: "center", padding: "36px", color: "#94a3b8" }}>
+                                    <td colSpan={10} className="mp-td" style={{ textAlign: "center", padding: "36px", color: "#94a3b8" }}>
                                         No payments found
                                     </td>
                                 </tr>

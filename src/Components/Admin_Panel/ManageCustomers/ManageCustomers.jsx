@@ -6,7 +6,7 @@ import "./ManageCustomers.css";
 import { useNavigate } from "react-router-dom";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
-const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-AU", {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -292,9 +292,9 @@ export default function ManageCustomers() {
         }
         const d = new Date(dateStr);
         if (isNaN(d)) return dateStr;
-        return d.toLocaleDateString("en-US", {
+        return d.toLocaleDateString("en-AU", {
             month: "long", day: "numeric", year: "numeric",
-        }) + " " + d.toLocaleTimeString("en-US", {
+        }) + " " + d.toLocaleTimeString("en-AU", {
             hour: "2-digit", minute: "2-digit", hour12: true,
         });
     }

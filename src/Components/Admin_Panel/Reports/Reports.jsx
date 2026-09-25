@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api";
+const BASE_URL = "http://localhost:4000/api";
 const SHORTCUTS = ["Today", "Yesterday", "Tomorrow", "This week", "Last week", "This month", "Last month", "This year"];
 const PER_PAGE_OPTS = [10, 20, 50, 100];
 const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -213,6 +213,18 @@ export default function Reports() {
                 c.lastDate.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" }),
                 c.count,
             ]);
+        } else if (tab === "revenue") {
+            head = [["Payment ID", "Date", "Customer", "Service", "Payment For", "Status", "Amount", "Booking End"]];
+            body = rows.map((a) => [
+                a.id,
+                a.dateObj.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" }),
+                a.customer,
+                a.service,
+                a.paymentFor || "-",
+                a.status,
+                `$${a.revenue}`,
+                a.endDate || "-",
+            ]);
         } else {
             head = [["ID", "Date", "Customer", "Service", "Duration", "Status", "Amount", "Payment"]];
             body = rows.map((a) => [
@@ -365,6 +377,7 @@ export default function Reports() {
                 const params = new URLSearchParams({
                     startDate: toYMD(rS),
                     endDate: toYMD(rE),
+                    type: tab,
                 });
                 if (selSvc?.id) params.set("serviceId", selSvc.id);
                 const response = await fetch(`${BASE_URL}/admin/reports?${params.toString()}`, {
@@ -390,7 +403,7 @@ export default function Reports() {
             }
         };
         fetchReports();
-    }, [rS, rE, selSvc]);
+    }, [rS, rE, selSvc, tab]);
 
     const filtered = useMemo(() => reports.map((item) => ({
         ...item,
@@ -702,15 +715,19 @@ export default function Reports() {
                                     <th>Date <span className="sort-ico">&lt;&gt;</span></th>
                                     <th>Customer <span className="sort-ico">&lt;&gt;</span></th>
                                     <th>Service <span className="sort-ico">&lt;&gt;</span></th>
-                                    <th>Duration <span className="sort-ico">&lt;&gt;</span></th>
+                                    {tab === "revenue" ? (
+                                        <th>Payment For <span className="sort-ico">&lt;&gt;</span></th>
+                                    ) : (
+                                        <th>Duration <span className="sort-ico">&lt;&gt;</span></th>
+                                    )}
                                     <th>Status</th>
                                     <th>Amount</th>
-                                    <th>UPTO Date</th>
-                                    <th>Action</th>
+                                    <th>{tab === "revenue" ? "Booking End" : "UPTO Date"}</th>
+                                    {tab !== "revenue" && <th>Action</th>}
                                     <th>Payment <span className="sort-ico">&lt;&gt;</span></th>
                                 </tr></thead>
                                 <tbody>
-                                    {pageRows.length === 0 && <tr><td colSpan={7} className="no-data">No appointments for selected range</td></tr>}
+                                    {pageRows.length === 0 && <tr><td colSpan={tab === "revenue" ? 9 : 10} className="no-data">No data for selected range</td></tr>}
                                     {pageRows.map((appointment) => {
                                         // Both "too far in the future" (>10 days) and "already in the past"
                                         // (negative days) return false here, and the button stays visible but disabled.
@@ -731,27 +748,29 @@ export default function Reports() {
                                                 <td>{appointment.dateObj.toLocaleDateString("en-AU", { month: "short", day: "numeric", year: "numeric" })} {appointment.dateObj.toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true })}</td>
                                                 <td>{appointment.customer}</td>
                                                 <td>{appointment.service}</td>
-                                                <td>{appointment.duration}</td>
+                                                <td>{tab === "revenue" ? (appointment.paymentFor || "-") : appointment.duration}</td>
                                                 <td><span className={`badge badge-${String(appointment.status || "").replace(" ", "-").toLowerCase()}`}>{appointment.status}</span></td>
                                                 <td>${appointment.revenue}</td>
                                                 <td>{appointment.endDate || "NULL"}</td>
-                                                <td>
-                                                    {withinWindow ? (
-                                                        <button
-                                                            className={`action-btn${isDisabledLook ? " action-btn-disabled" : ""}`}
-                                                            disabled={onCooldown || isSendingThis}
-                                                            onClick={() => handleAction(appointment.id)}
-                                                        >
-                                                            {isSendingThis
-                                                                ? "..."
-                                                                : onCooldown
-                                                                    ? `Wait ${cooldownSecondsLeft(appointment.id)}s`
-                                                                    : "Send Reminder"}
-                                                        </button>
-                                                    ) : (
-                                                        <span className="no-data">-</span>
-                                                    )}
-                                                </td>
+                                                {tab !== "revenue" && (
+                                                    <td>
+                                                        {withinWindow ? (
+                                                            <button
+                                                                className={`action-btn${isDisabledLook ? " action-btn-disabled" : ""}`}
+                                                                disabled={onCooldown || isSendingThis}
+                                                                onClick={() => handleAction(appointment.id)}
+                                                            >
+                                                                {isSendingThis
+                                                                    ? "..."
+                                                                    : onCooldown
+                                                                        ? `Wait ${cooldownSecondsLeft(appointment.id)}s`
+                                                                        : "Send Reminder"}
+                                                            </button>
+                                                        ) : (
+                                                            <span className="no-data">-</span>
+                                                        )}
+                                                    </td>
+                                                )}
                                                 <td><span className={`pay-badge${appointment.payment === "Paid" ? " paid" : ""}`}>{appointment.payment}</span></td>
                                             </tr>
                                         );

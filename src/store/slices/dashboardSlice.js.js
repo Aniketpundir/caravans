@@ -28,8 +28,9 @@ function getDefaultRange() {
 
 const defaultRange = getDefaultRange();
 
-function toYMD(isoString) {
-    return isoString.split("T")[0];
+function toYMD(value) {
+    const date = new Date(value);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
 // ─── Fetch Dashboard Summary ──────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDashboardData, fetchChartsData, fetchUpcomingAppointments } from "../../../store/slices/dashboardSlice.js";
 import {
@@ -21,7 +21,7 @@ function buildDateRange(from, to) {
     const days = [];
     const cur = new Date(from);
     while (cur <= to) {
-        days.push(cur.toLocaleDateString("en-US", { month: "short", day: "2-digit" }));
+        days.push(cur.toLocaleDateString("en-AU", { month: "short", day: "2-digit" }));
         cur.setDate(cur.getDate() + 1);
     }
     return days;
@@ -36,7 +36,7 @@ function getDefaultRange() {
 
 function toChartLabel(dateStr) {
     if (!dateStr) return null;
-    return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-US", {
+    return new Date(`${dateStr}T00:00:00`).toLocaleDateString("en-AU", {
         month: "short",
         day: "2-digit",
     });
@@ -191,7 +191,7 @@ export default function Dashboard() {
     function formatDateTime(dateString) {
         if (!dateString) return "-";
         if (typeof dateString === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
-            return new Date(`${dateString}T00:00:00`).toLocaleDateString("en-US", {
+            return new Date(`${dateString}T00:00:00`).toLocaleDateString("en-AU", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -199,7 +199,7 @@ export default function Dashboard() {
         }
         const date = new Date(dateString);
         if (Number.isNaN(date.getTime())) return String(dateString);
-        return date.toLocaleString("en-US", {
+        return date.toLocaleString("en-AU", {
             year: "numeric",
             month: "long",
             day: "numeric",

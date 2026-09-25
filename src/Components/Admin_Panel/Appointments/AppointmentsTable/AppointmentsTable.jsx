@@ -3,7 +3,7 @@ import "./AppointmentsTable.css";
 
 const STATUS_OPTIONS = ["Approved", "Pending", "Cancelled", "Rejected", "No-Show", "Completed"];
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
-const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+const BOOKING_DATE_FORMATTER = new Intl.DateTimeFormat("en-AU", {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -67,9 +67,9 @@ function formatTimestamp(dateStr) {
     if (!dateStr) return "?";
     const d = new Date(dateStr);
     if (Number.isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("en-US", {
+    return d.toLocaleDateString("en-AU", {
         month: "long", day: "numeric", year: "numeric",
-    }) + " " + d.toLocaleTimeString("en-US", {
+    }) + " " + d.toLocaleTimeString("en-AU", {
         hour: "2-digit", minute: "2-digit", hour12: true,
     });
 }

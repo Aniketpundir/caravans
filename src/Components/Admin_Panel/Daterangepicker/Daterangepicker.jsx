@@ -19,7 +19,7 @@ function isBetween(d, a, b) {
     return d > lo && d < hi;
 }
 function formatLabel(d) {
-    return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    return d.toLocaleDateString("en-AU", { month: "long", day: "numeric", year: "numeric" });
 }
 function getDaysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();

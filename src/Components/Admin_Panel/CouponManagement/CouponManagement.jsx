@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCoupon, deleteCoupon, fetchCoupons, updateCoupon } from "../../../store/slices/couponsSlice";
 import { fetchServices } from "../../../store/slices/servicesSlice";
@@ -33,7 +33,7 @@ function formatDateOnly(value) {
     if (!value) return "-";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("en-AU", {
         month: "long",
         day: "numeric",
         year: "numeric",
@@ -108,7 +108,7 @@ function ServicesDropdown({ selected, options, onToggle }) {
                         const checked = selected.includes(svc.label);
                         return (
                             <div key={svc.value} className={`cm-svc-option ${checked ? "selected" : ""}`} onClick={() => onToggle(svc)}>
-                                {checked && <span className="cm-svc-check">√</span>}
+                                {checked && <span className="cm-svc-check">v</span>}
                                 <span>{svc.label}</span>
                             </div>
                         );
@@ -475,7 +475,7 @@ export default function CouponManagement() {
                     <div className="cm-field-group">
                         <label className="cm-label">No. Of times uses allowed</label>
                         <div className="cm-counter">
-                            <button className="cm-counter-btn" onClick={() => changeMaxUsages(-1)}>−</button>
+                            <button className="cm-counter-btn" onClick={() => changeMaxUsages(-1)}>-</button>
                             <span className="cm-counter-val">{form.maxUsages}</span>
                             <button className="cm-counter-btn" onClick={() => changeMaxUsages(1)}>+</button>
                         </div>
