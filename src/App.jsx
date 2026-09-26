@@ -22,9 +22,10 @@ import PaymentSuccess from './Components/Paymentsuccess/Paymentsuccess';
 import AdminLogin from './Components/Admin_Panel/AdminLogin/AdminLogin';
 import TermsAndConditions from './Components/TermsAndConditions/TermsAndConditions';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
+import CreatePost from './Components/Admin_Panel/CreatePost/CreatePost';
 import { checkTokenExpiry, fetchProfile } from "./store/slices/authSlice"
 import { adminLogout, getValidAdminToken } from "./store/slices/adminSlice"
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdminProtectedRoute = ({ children }) => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const App = () => {
               <Route path='/admin-dashboard/service' element={<ManageServices />} />
               <Route path='/admin-dashboard/coupan' element={<CouponManagement />} />
               <Route path='/admin-dashboard/report' element={<Reports />} />
+              <Route path="create-post" element={<CreatePost />} />
             </Route>
 
 

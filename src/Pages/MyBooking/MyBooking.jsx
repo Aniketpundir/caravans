@@ -5,8 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, clearError } from "../../store/slices/authSlice";
 import { Helmet } from "react-helmet-async";
 
+// 👇 value = backend ka accepted identifierType, label = UI par dikhne wala text
+const IDENTIFIER_OPTIONS = [
+    { value: "loginId", label: "Username" },
+    { value: "phone", label: "Mobile Number" },
+    { value: "email", label: "Email" },
+    { value: "vehicleNumber", label: "Vehicle Registration Number" },
+];
+
 const MyBooking = () => {
-    const [email, setEmail] = useState("");
+    const [identifierType, setIdentifierType] = useState("loginId");
+    const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
 
@@ -29,10 +38,25 @@ const MyBooking = () => {
         };
     }, [dispatch]);
 
+    // Radio change hote hi input field clear kar do (taaki galat type ka data na chala jaye)
+    const handleIdentifierTypeChange = (value) => {
+        setIdentifierType(value);
+        setIdentifier("");
+    };
+
     const handleLogin = (e) => {
         e.preventDefault();
-        if (!email.trim() || !password.trim()) return;
-        dispatch(loginUser({ email, password }));
+        if (!identifier.trim() || !password.trim()) return;
+        dispatch(loginUser({ identifierType, identifier, password }));
+    };
+
+    // Selected type ke hisaab se label/placeholder/input-type set karo
+    const activeOption = IDENTIFIER_OPTIONS.find((opt) => opt.value === identifierType);
+
+    const getInputType = () => {
+        if (identifierType === "email") return "email";
+        if (identifierType === "phone") return "tel";
+        return "text";
     };
 
     return (
@@ -49,13 +73,30 @@ const MyBooking = () => {
                     </div>
                 )}
 
+                {/* 👇 Login type radio buttons */}
+                <div className="identifier-type-row">
+                    {IDENTIFIER_OPTIONS.map((opt) => (
+                        <label key={opt.value} className="identifier-type-option">
+                            <input
+                                type="radio"
+                                name="identifierType"
+                                value={opt.value}
+                                checked={identifierType === opt.value}
+                                onChange={() => handleIdentifierTypeChange(opt.value)}
+                                disabled={loading}
+                            />
+                            <span>{opt.label}</span>
+                        </label>
+                    ))}
+                </div>
+
                 <div className="login-field">
-                    <label>Username <span className="required">*</span></label>
+                    <label>{activeOption.label} <span className="required">*</span></label>
                     <input
-                        type="email"
-                        placeholder="Enter your username"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type={getInputType()}
+                        placeholder={`Enter your ${activeOption.label.toLowerCase()}`}
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
                         disabled={loading}
                     />
                 </div>
@@ -85,7 +126,7 @@ const MyBooking = () => {
                 <button
                     className="login-btn"
                     onClick={handleLogin}
-                    disabled={loading || !email || !password}
+                    disabled={loading || !identifier || !password}
                 >
                     {loading ? (
                         <span className="login-spinner">
@@ -96,7 +137,6 @@ const MyBooking = () => {
                         "LOGIN"
                     )}
                 </button>
-
                 <Link to="/forgot-password"><p className="lost-password">Lost Your Password</p></Link>
             </div>
         </div>

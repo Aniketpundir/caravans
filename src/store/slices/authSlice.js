@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
+// const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
+const BASE_URL = "http://localhost:4000/api"
 
 
 // ─── Token Expiry Config ───────────────────────────────────────────────────
@@ -33,19 +34,21 @@ const getValidToken = () => {
 };
 
 // ─── Login ────────────────────────────────────────────────────────────────────
+// 👇 Ab yeh identifierType aur identifier accept karega (email ki jagah)
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
-    async ({ email, password }, { rejectWithValue }) => {
+    async ({ identifierType, identifier, password }, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${BASE_URL}/auth/login`, {
-                loginId: email,
+                identifierType,
+                identifier,
                 password,
             });
             const data = response.data;
             if (data?.token) setTokenWithExpiry(data.token); // 👈 yahan expiry ke sath save hoga
             return data;
         } catch (error) {
-            return rejectWithValue(error?.response?.data?.message || "Invalid email or password.");
+            return rejectWithValue(error?.response?.data?.message || "Invalid credentials.");
         }
     }
 );
@@ -208,10 +211,6 @@ const authSlice = createSlice({
 
             // ── Fetch Profile ──
             .addCase(fetchProfile.pending, (state) => { state.profileLoading = true; })
-            // .addCase(fetchProfile.fulfilled, (state, action) => {
-            //     state.profileLoading = false;
-            //     state.profile = action.payload;
-            // })
             .addCase(fetchProfile.fulfilled, (state, action) => {
                 state.profileLoading = false;
                 state.profile = action.payload;
@@ -231,7 +230,6 @@ const authSlice = createSlice({
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.updateLoading = false;
                 state.updateSuccess = true;
-                // Profile update ke baad naya data save karo
                 if (action.payload?.data?.user) {
                     state.profile = {
                         ...state.profile,
@@ -277,7 +275,7 @@ const authSlice = createSlice({
                 state.rescheduleError = action.payload || "Reschedule failed.";
             })
 
-            // â”€â”€ Booking Details â”€â”€
+            // ── Booking Details ──
             .addCase(fetchBookingDetails.pending, (state) => {
                 state.bookingDetailsLoading = true;
                 state.bookingDetailsError = null;

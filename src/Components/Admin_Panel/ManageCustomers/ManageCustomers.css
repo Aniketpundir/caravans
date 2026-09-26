@@ -866,6 +866,215 @@ input[type='checkbox'] {
     cursor: pointer;
 }
 
+/* ── Clickable Row ── */
+.cust-row-clickable {
+    cursor: pointer;
+}
+
+/* ── Customer Details Modal ── */
+.cust-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+.cust-modal {
+    margin-top: 70px;
+    background: #fff;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.cust-modal-header {
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 18px 22px;
+    border-bottom: 1.5px solid #e8edf5;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 5;
+}
+
+.cust-modal-header h3 {
+    width: 100%;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.cust-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    text-align: end;
+}
+
+.cust-modal-close:hover {
+    color: #334155;
+    background: #f1f5f9;
+}
+
+.cust-modal-body {
+    padding: 22px;
+}
+
+.cust-modal-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 40px 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.cust-modal-error {
+    text-align: center;
+    color: #ef4444;
+    padding: 30px 0;
+    font-size: 14px;
+}
+
+.cust-detail-section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #94a3b8;
+    margin: 20px 0 8px;
+}
+
+.cust-detail-section-title:first-child {
+    margin-top: 0;
+}
+
+.cust-detail-empty {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-style: italic;
+    padding: 8px 4px;
+}
+
+.cust-detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cust-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 4px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.cust-detail-row:last-child {
+    border-bottom: none;
+}
+
+.cust-detail-lbl {
+    font-size: 0.83rem;
+    color: #94a3b8;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.cust-detail-val {
+    font-size: 0.88rem;
+    color: #1e293b;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+}
+
+/* ── Booking Card (inside modal) ── */
+.cust-booking-card {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+}
+
+.cust-booking-card:last-child {
+    margin-bottom: 0;
+}
+
+.cust-booking-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.cust-booking-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #dcfce7;
+    color: #16a34a;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .cust-modal-body {
+        padding: 16px;
+    }
+
+    .cust-detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+    }
+
+    .cust-detail-val {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .cust-modal-body {
+        padding: 16px;
+    }
+
+    .cust-detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+    }
+
+    .cust-detail-val {
+        text-align: left;
+    }
+}
+
 /* ════════════════════════════════════════════════════════════
    RESPONSIVE BREAKPOINTS
    ════════════════════════════════════════════════════════════ */

@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCustomers } from "../../../store/slices/customersSlice";
+import { fetchCustomers, fetchCustomerDetails, clearCustomerDetails } from "../../../store/slices/customersSlice";
 import { downloadCsv } from "../../../utils/exportCsv";
 import "./ManageCustomers.css";
 import { useNavigate } from "react-router-dom";
@@ -87,6 +87,241 @@ function highlightMatch(text, query) {
             <strong className="sugg-highlight">{text.slice(idx, idx + query.length)}</strong>
             {text.slice(idx + query.length)}
         </>
+    );
+}
+
+/* ── Format helpers for the details popup ────────────────────────────────────*/
+function formatDetailDate(dateStr) {
+    if (!dateStr) return "—";
+    if (typeof dateStr === "string" && DATE_ONLY_RE.test(dateStr)) {
+        const [year, month, day] = dateStr.split("-").map(Number);
+        return BOOKING_DATE_FORMATTER.format(new Date(year, month - 1, day));
+    }
+    const d = new Date(dateStr);
+    if (isNaN(d)) return String(dateStr);
+    return d.toLocaleDateString("en-AU", {
+        month: "long", day: "numeric", year: "numeric",
+    });
+}
+
+function formatMoney(value) {
+    if (value === null || value === undefined || value === "") return "—";
+    const num = Number(value);
+    if (isNaN(num)) return "—";
+    return `$${num.toFixed(2)}`;
+}
+
+/* ── Customer Details Popup ──────────────────────────────────────────────────*/
+function CustomerDetailsModal({ open, onClose, loading, error, details }) {
+    if (!open) return null;
+
+    // Response shape: { success, data: { bookings: [...], customer: {...}, summary: {...} } }
+    const customer = details?.data?.customer ?? details?.customer ?? null;
+    const bookings = details?.data?.bookings ?? details?.bookings ?? [];
+    const summary = details?.data?.summary ?? details?.summary ?? null;
+
+    return (
+        <div className="cust-modal-overlay" onClick={onClose}>
+            <div className="cust-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="cust-modal-header">
+                    <h3>Customer Details</h3>
+                    <button className="cust-modal-close" onClick={onClose}>✕</button>
+                </div>
+
+                <div className="cust-modal-body">
+                    {loading && (
+                        <div className="cust-modal-loading">
+                            <div className="cust-spinner" />
+                            <span>Loading details...</span>
+                        </div>
+                    )}
+
+                    {!loading && error && (
+                        <div className="cust-modal-error">❌ {error}</div>
+                    )}
+
+                    {!loading && !error && customer && (
+                        <>
+                            {/* ── Personal Info ── */}
+                            <div className="cust-detail-section-title">Personal Info</div>
+                            <div className="cust-detail-grid">
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Full Name</span>
+                                    <span className="cust-detail-val">
+                                        {`${customer.firstName ?? ""} ${customer.lastName ?? ""}`.trim() || "—"}
+                                    </span>
+                                </div>
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Email</span>
+                                    <span className="cust-detail-val">{customer.email || "—"}</span>
+                                </div>
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Phone</span>
+                                    <span className="cust-detail-val">
+                                        {(customer.countryCode ? customer.countryCode + " " : "")}{customer.phone || "—"}
+                                    </span>
+                                </div>
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Login ID</span>
+                                    <span className="cust-detail-val">{customer.loginId || "—"}</span>
+                                </div>
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Role</span>
+                                    <span className="cust-detail-val">{customer.role || "—"}</span>
+                                </div>
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Status</span>
+                                    <span className="cust-detail-val">{customer.status || "—"}</span>
+                                </div>
+                                <div className="cust-detail-row">
+                                    <span className="cust-detail-lbl">Customer Since</span>
+                                    <span className="cust-detail-val">{formatDetailDate(customer.createdAt)}</span>
+                                </div>
+                            </div>
+
+                            {/* ── Overall Summary (ek hi jagah, booking ke andar repeat nahi hota) ── */}
+                            {summary && (
+                                <>
+                                    <div className="cust-detail-section-title">Overall Summary</div>
+                                    <div className="cust-detail-grid">
+                                        <div className="cust-detail-row">
+                                            <span className="cust-detail-lbl">Total Bookings</span>
+                                            <span className="cust-detail-val">{summary.totalBookings ?? "—"}</span>
+                                        </div>
+                                        <div className="cust-detail-row">
+                                            <span className="cust-detail-lbl">Total Payments</span>
+                                            <span className="cust-detail-val">{summary.totalPayments ?? "—"}</span>
+                                        </div>
+                                        <div className="cust-detail-row">
+                                            <span className="cust-detail-lbl">Successful Payments</span>
+                                            <span className="cust-detail-val">{summary.successfulPayments ?? "—"}</span>
+                                        </div>
+                                        <div className="cust-detail-row">
+                                            <span className="cust-detail-lbl">Total Payment Received</span>
+                                            <span className="cust-detail-val">{formatMoney(summary.totalPaymentReceived)}</span>
+                                        </div>
+                                        <div className="cust-detail-row">
+                                            <span className="cust-detail-lbl">Total Extension Payments</span>
+                                            <span className="cust-detail-val">{summary.totalExtensionPayments ?? "—"}</span>
+                                        </div>
+                                        <div className="cust-detail-row">
+                                            <span className="cust-detail-lbl">Total Extension Amount</span>
+                                            <span className="cust-detail-val">{formatMoney(summary.totalExtensionAmount)}</span>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* ── Bookings (customer.payments yahin baar-baar aata, isliye alag se nahi dikhaya) ── */}
+                            <div className="cust-detail-section-title">
+                                Bookings {bookings.length ? `(${bookings.length})` : ""}
+                            </div>
+
+                            {bookings.length === 0 && (
+                                <div className="cust-detail-empty">No bookings found.</div>
+                            )}
+
+                            {bookings.map((booking, idx) => {
+                                const payment = booking.paymentSummary?.initialPayment;
+                                const pricing = booking.pricingSnapshot;
+                                const vehicle = booking.vehicle;
+                                return (
+                                    <div className="cust-booking-card" key={booking._id || idx}>
+                                        <div className="cust-booking-card-header">
+                                            <span>{booking.serviceName || "—"}</span>
+                                            <span className="cust-booking-badge">{booking.bookingStatus || "—"}</span>
+                                        </div>
+                                        <div className="cust-detail-grid">
+                                            <div className="cust-detail-row">
+                                                <span className="cust-detail-lbl">Start Date</span>
+                                                <span className="cust-detail-val">{formatDetailDate(booking.startDate)}</span>
+                                            </div>
+                                            <div className="cust-detail-row">
+                                                <span className="cust-detail-lbl">End Date</span>
+                                                <span className="cust-detail-val">{formatDetailDate(booking.endDate)}</span>
+                                            </div>
+                                            <div className="cust-detail-row">
+                                                <span className="cust-detail-lbl">Duration</span>
+                                                <span className="cust-detail-val">
+                                                    {booking.bookingDuration ? `${booking.bookingDuration} days` : "—"}
+                                                </span>
+                                            </div>
+                                            <div className="cust-detail-row">
+                                                <span className="cust-detail-lbl">How Did They Find Us</span>
+                                                <span className="cust-detail-val">{booking.howFind || "—"}</span>
+                                            </div>
+                                            {booking.note && (
+                                                <div className="cust-detail-row">
+                                                    <span className="cust-detail-lbl">Note</span>
+                                                    <span className="cust-detail-val">{booking.note}</span>
+                                                </div>
+                                            )}
+
+                                            {vehicle && (
+                                                <>
+                                                    <div className="cust-detail-row">
+                                                        <span className="cust-detail-lbl">Vehicle</span>
+                                                        <span className="cust-detail-val">
+                                                            {`${vehicle.make ?? ""} ${vehicle.model ?? ""}`.trim() || "—"} ({vehicle.builtYear || "—"})
+                                                        </span>
+                                                    </div>
+                                                    <div className="cust-detail-row">
+                                                        <span className="cust-detail-lbl">Registration</span>
+                                                        <span className="cust-detail-val">{vehicle.registration || "—"}</span>
+                                                    </div>
+                                                    <div className="cust-detail-row">
+                                                        <span className="cust-detail-lbl">Vehicle Length</span>
+                                                        <span className="cust-detail-val">{vehicle.length ? `${vehicle.length} m` : "—"}</span>
+                                                    </div>
+                                                </>
+                                            )}
+
+                                            {payment && (
+                                                <div className="cust-detail-row">
+                                                    <span className="cust-detail-lbl">Payment</span>
+                                                    <span className="cust-detail-val">
+                                                        {formatMoney(payment.amount)} · {payment.paymentMethod || "—"} · {payment.paymentStatus || "—"}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            {pricing && (
+                                                <>
+                                                    <div className="cust-detail-row">
+                                                        <span className="cust-detail-lbl">Subtotal</span>
+                                                        <span className="cust-detail-val">{formatMoney(pricing.subtotal)}</span>
+                                                    </div>
+                                                    <div className="cust-detail-row">
+                                                        <span className="cust-detail-lbl">Tax ({pricing.taxRate ?? 0}%)</span>
+                                                        <span className="cust-detail-val">{formatMoney(pricing.taxAmount)}</span>
+                                                    </div>
+                                                    {pricing.discountAmount > 0 && (
+                                                        <div className="cust-detail-row">
+                                                            <span className="cust-detail-lbl">
+                                                                Discount {pricing.couponCode ? `(${pricing.couponCode})` : ""}
+                                                            </span>
+                                                            <span className="cust-detail-val">-{formatMoney(pricing.discountAmount)}</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="cust-detail-row">
+                                                        <span className="cust-detail-lbl">Final Amount</span>
+                                                        <span className="cust-detail-val">{formatMoney(pricing.finalAmount)}</span>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </>
+                    )}
+
+                    {!loading && !error && !customer && (
+                        <div className="cust-modal-error">No details found for this customer.</div>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 }
 
@@ -186,7 +421,7 @@ export default function ManageCustomers() {
     }, [])
 
     const dispatch = useDispatch();
-    const { data: rawData, loading, error } = useSelector((state) => state.customers);
+    const { data: rawData, loading, error, details, detailsLoading, detailsError } = useSelector((state) => state.customers);
 
     // Normalize API data
     const allCustomers = useMemo(
@@ -202,6 +437,9 @@ export default function ManageCustomers() {
     const [panelOpen, setPanelOpen] = useState(false);
     const [activePage, setActivePage] = useState(1);
     const [perPage, setPerPage] = useState(20);
+
+    // 👇 Details popup open/close state
+    const [detailsOpen, setDetailsOpen] = useState(false);
 
     const handleExport = () => {
         downloadCsv(
@@ -249,6 +487,18 @@ export default function ManageCustomers() {
     const toggleRow = (id, checked) => {
         setSelected((prev) => ({ ...prev, [id]: checked }));
         if (!checked) setAllChecked(false);
+    };
+
+    // ── Row click → open details popup ────────────────────────────────────────
+    const handleRowClick = (customerId) => {
+        if (!customerId) return;
+        setDetailsOpen(true);
+        dispatch(fetchCustomerDetails(customerId));
+    };
+
+    const handleCloseDetails = () => {
+        setDetailsOpen(false);
+        dispatch(clearCustomerDetails());
     };
 
     // ── Search handlers ───────────────────────────────────────────────────────
@@ -391,6 +641,7 @@ export default function ManageCustomers() {
                                 <th>Email <span className="sort-icon">▲▼</span></th>
                                 <th>Phone</th>
                                 <th>Recent Appointment <span className="sort-icon">▲▼</span></th>
+                                <th>Total Payment</th>
                                 <th style={{ textAlign: "right" }}>Total Appointments</th>
                             </tr>
                         </thead>
@@ -402,8 +653,12 @@ export default function ManageCustomers() {
                                     </td>
                                 </tr>
                             ) : paginated.map((c) => (
-                                <tr key={c.id}>
-                                    <td className="cb-cell">
+                                <tr
+                                    key={c.id}
+                                    className="cust-row-clickable"
+                                    onClick={() => handleRowClick(c.id)}
+                                >
+                                    <td className="cb-cell" onClick={(e) => e.stopPropagation()}>
                                         <input type="checkbox" checked={!!selected[c.id]}
                                             onChange={(e) => toggleRow(c.id, e.target.checked)} />
                                     </td>
@@ -416,7 +671,8 @@ export default function ManageCustomers() {
                                     <td>{c.email || "—"}</td>
                                     <td>{c.phone || "—"}</td>
                                     <td>{formatDate(c.date)}</td>
-                                    <td style={{ textAlign: "right" }}>{c.appts}</td>
+                                    <td style={{ textAlign: "center" }}>{c?._raw?.totalPaymentReceived}</td>
+                                    <td style={{ textAlign: "center" }}>{c.appts}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -461,6 +717,13 @@ export default function ManageCustomers() {
 
             </div>
             <AddCustomerPanel open={panelOpen} onClose={() => setPanelOpen(false)} />
+            <CustomerDetailsModal
+                open={detailsOpen}
+                onClose={handleCloseDetails}
+                loading={detailsLoading}
+                error={detailsError}
+                details={details}
+            />
         </>
     );
 }

@@ -6,6 +6,7 @@ import {
     FaThLarge,
     FaTag,
     FaChartBar,
+    FaPlusSquare,
 } from "react-icons/fa";
 
 import { MdEventNote } from "react-icons/md";
@@ -27,6 +28,7 @@ export default function AdminNavbar() {
         { to: "/admin-dashboard/service", icon: <FaThLarge />, label: "Services" },
         { to: "/admin-dashboard/coupan", icon: <FaTag />, label: "Discounts" },
         { to: "/admin-dashboard/report", icon: <FaChartBar />, label: "Reports" },
+        { to: "/admin-dashboard/create-post", icon: <FaPlusSquare />, label: "Create Post" },
     ];
 
     useEffect(() => {
