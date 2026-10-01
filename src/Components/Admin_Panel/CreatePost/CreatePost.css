@@ -104,6 +104,82 @@
     background: #16a34a;
 }
 
+.cp-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cp-message {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cp-success { color: #15803d; }
+.cp-error { color: #b91c1c; }
+
+.cp-recipient-options {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.cp-recipient-options label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.cp-customer-search {
+    position: relative;
+}
+
+.cp-customer-search input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.cp-search-status {
+    display: block;
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+.cp-customer-results {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #dbe4ef;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+}
+
+.cp-customer-results button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid #edf2f7;
+    background: #fff;
+    color: #334155;
+    cursor: pointer;
+}
+
+.cp-customer-results button:hover { background: #f0fdf4; }
+.cp-customer-results button span { font-size: 0.82rem; color: #64748b; }
+.cp-customer-results p { margin: 0; padding: 12px; color: #64748b; font-size: 0.88rem; }
+
 /* ── Rich Text Editor (React Quill) ── */
 .cp-quill {
     background: #fff;
