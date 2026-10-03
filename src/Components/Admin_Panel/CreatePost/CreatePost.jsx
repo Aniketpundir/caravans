@@ -93,7 +93,7 @@ export default function CreatePost() {
         const formData = new FormData();
         formData.append("heading", heading);
         formData.append("description", description);
-        if (file) formData.append("attachment", file);
+        if (file) formData.append("image", file);
         if (recipientMode === "single") formData.append("recipientUserId", selectedCustomer._id);
 
         try {
@@ -101,10 +101,10 @@ export default function CreatePost() {
             const token = getValidAdminToken();
             if (!token) throw new Error("Your admin session has expired. Please log in again.");
 
-            const response = await axios.post(`${API_BASE}/admin/broadcast-email`, formData, {
+            const response = await axios.post(`${API_BASE}/admin/marketing/broadcast`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setMessage(`${response.data?.message || "Email queued"}. ${response.data?.recipientCount || 0} recipient${response.data?.recipientCount === 1 ? "" : "s"}.`);
+            setMessage(`${response.data?.message || "Marketing email broadcast sent"}. ${response.data?.recipientCount || 0} recipient${response.data?.recipientCount === 1 ? "" : "s"}.`);
             setHeading("");
             setDescription("");
             setFile(null);
@@ -212,11 +212,11 @@ export default function CreatePost() {
                 </div>
 
                 <div className="cp-field">
-                    <label htmlFor="attachment">Image / Video / File</label>
+                    <label htmlFor="attachment">Marketing Image</label>
                     <input
                         id="attachment"
                         type="file"
-                        accept="image/*,video/*,.pdf,.doc,.docx"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
                         onChange={handleFileChange}
                     />
                     {file && <span className="cp-file-name">📎 {file.name}</span>}
