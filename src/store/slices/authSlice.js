@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
-const BASE_URL = "http://localhost:4000/api"
+const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api"
+// const BASE_URL = "http://localhost:4000/api"
 
 
 // ─── Token Expiry Config ───────────────────────────────────────────────────
