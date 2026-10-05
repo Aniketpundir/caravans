@@ -5,7 +5,8 @@ import "react-quill-new/dist/quill.snow.css";
 import "./CreatePost.css";
 import { getValidAdminToken } from "../../../store/slices/adminSlice";
 
-const API_BASE = "http://localhost:4000/api";
+// const API_BASE = "http://localhost:4000/api";
+const API_BASE = "https://api.caravanstoragecentralcoast.com.au/api";
 
 // 👇 Toolbar options — Word jaisa formatting
 const QUILL_MODULES = {

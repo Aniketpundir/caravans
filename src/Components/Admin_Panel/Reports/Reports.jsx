@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const BASE_URL = "http://localhost:4000/api";
+// const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = "https://api.caravanstoragecentralcoast.com.au/api";
+
 const SHORTCUTS = ["Today", "Yesterday", "Tomorrow", "This week", "Last week", "This month", "Last month", "This year"];
 const PER_PAGE_OPTS = [10, 20, 50, 100];
 const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
